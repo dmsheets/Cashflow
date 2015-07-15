@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -114,6 +115,20 @@ namespace CashCard.Controllers
             db.Branches.Remove(branch);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+
+
+        public JsonResult CheckName(string name)
+        {
+            var count =
+                db.Branches.Count(p =>  p.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+
+            if (count == 0)
+                return Json(true, JsonRequestBehavior.AllowGet);
+
+
+            return Json(string.Format("{0} is already exist",name), JsonRequestBehavior.AllowGet);
         }
 
         protected override void Dispose(bool disposing)
