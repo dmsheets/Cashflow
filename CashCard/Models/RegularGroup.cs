@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace CashCard.Models
 {
@@ -6,6 +7,7 @@ namespace CashCard.Models
     {
         public int Id { get; set; }
         [Required]
+        [Remote("CheckName", "RegularGroup")]
         public string AccountNo { get; set; }
         [Required]
         public string AccountDesription { get; set; }

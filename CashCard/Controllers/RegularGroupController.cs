@@ -129,5 +129,16 @@ namespace CashCard.Controllers
             }
             base.Dispose(disposing);
         }
+        public JsonResult CheckName(string accountNo)
+        {
+            var count =
+                db.RegularGroup.Count(p => p.AccountNo.Equals(accountNo, StringComparison.InvariantCultureIgnoreCase));
+
+            if (count == 0)
+                return Json(true, JsonRequestBehavior.AllowGet);
+
+
+            return Json(string.Format("{0} is already exist", accountNo), JsonRequestBehavior.AllowGet);
+        }
     }
 }
