@@ -17,7 +17,7 @@ namespace CashCard.Controllers
         // GET: /RegularQuiz/
         public ActionResult Index()
         {
-            return View(db.RegularDetailQuizs.ToList());
+            return View(db.RegularQuizs.ToList());
         }
 
         // GET: /RegularQuiz/Details/5
@@ -27,12 +27,12 @@ namespace CashCard.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RegularDetailQuiz regulardetailquiz = db.RegularDetailQuizs.Find(id);
-            if (regulardetailquiz == null)
+            RegularQuiz RegularQuiz = db.RegularQuizs.Find(id);
+            if (RegularQuiz == null)
             {
                 return HttpNotFound();
             }
-            return View(regulardetailquiz);
+            return View(RegularQuiz);
         }
 
         // GET: /RegularQuiz/Create
@@ -46,16 +46,16 @@ namespace CashCard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,SapCode,ConterName,Quiz,Active")] RegularDetailQuiz regulardetailquiz)
+        public ActionResult Create([Bind(Include="Id,SapCode,ConterName,Quiz,Active")] RegularQuiz RegularQuiz)
         {
             if (ModelState.IsValid)
             {
-                db.RegularDetailQuizs.Add(regulardetailquiz);
+                db.RegularQuizs.Add(RegularQuiz);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(regulardetailquiz);
+            return View(RegularQuiz);
         }
 
         // GET: /RegularQuiz/Edit/5
@@ -65,12 +65,12 @@ namespace CashCard.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RegularDetailQuiz regulardetailquiz = db.RegularDetailQuizs.Find(id);
-            if (regulardetailquiz == null)
+            RegularQuiz RegularQuiz = db.RegularQuizs.Find(id);
+            if (RegularQuiz == null)
             {
                 return HttpNotFound();
             }
-            return View(regulardetailquiz);
+            return View(RegularQuiz);
         }
 
         // POST: /RegularQuiz/Edit/5
@@ -78,15 +78,15 @@ namespace CashCard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,SapCode,ConterName,Quiz,Active")] RegularDetailQuiz regulardetailquiz)
+        public ActionResult Edit([Bind(Include="Id,SapCode,ConterName,Quiz,Active")] RegularQuiz RegularQuiz)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(regulardetailquiz).State = EntityState.Modified;
+                db.Entry(RegularQuiz).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(regulardetailquiz);
+            return View(RegularQuiz);
         }
 
         // GET: /RegularQuiz/Delete/5
@@ -96,12 +96,12 @@ namespace CashCard.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RegularDetailQuiz regulardetailquiz = db.RegularDetailQuizs.Find(id);
-            if (regulardetailquiz == null)
+            RegularQuiz RegularQuiz = db.RegularQuizs.Find(id);
+            if (RegularQuiz == null)
             {
                 return HttpNotFound();
             }
-            return View(regulardetailquiz);
+            return View(RegularQuiz);
         }
 
         // POST: /RegularQuiz/Delete/5
@@ -109,8 +109,8 @@ namespace CashCard.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            RegularDetailQuiz regulardetailquiz = db.RegularDetailQuizs.Find(id);
-            db.RegularDetailQuizs.Remove(regulardetailquiz);
+            RegularQuiz RegularQuiz = db.RegularQuizs.Find(id);
+            db.RegularQuizs.Remove(RegularQuiz);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

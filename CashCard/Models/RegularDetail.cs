@@ -5,9 +5,9 @@ namespace CashCard.Models
     public class RegularDetail
     {
         public int Id { get; set; }
-        [ForeignKey("RegularDetailQuizId")]
-        public virtual RegularDetailQuiz RegularDetailQuiz { get; set; }
-        public int RegularDetailQuizId { get; set; }
+        [ForeignKey("RegularQuizId")]
+        public virtual RegularQuiz RegularDetailQuiz { get; set; }
+        public int RegularQuizId { get; set; }
         public string Note1 { get; set; }
         public string Note2 { get; set; }
         public int Amount { get; set; }

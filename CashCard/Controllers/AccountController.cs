@@ -79,7 +79,7 @@ namespace CashCard.Controllers
 
             user.BranchId = branchId;
             user.Roles.Clear();
-            UserManager.UpdateAsync(user);
+            UserManager.Update(user);
 
             foreach (string s in roles)
             {

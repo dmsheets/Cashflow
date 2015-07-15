@@ -1,4 +1,4 @@
-﻿@model CashCard.Models.RegularDetailQuiz
+﻿@model CashCard.Models.RegularGroup
 
 @{
     ViewBag.Title = "Delete";
@@ -9,39 +9,31 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>RegularDetailQuiz</h4>
+    <h4>RegularGroup</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.SapCode)
+            @Html.DisplayNameFor(model => model.AccountNo)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.SapCode)
+            @Html.DisplayFor(model => model.AccountNo)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.ConterName)
+            @Html.DisplayNameFor(model => model.AccountDesription)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ConterName)
+            @Html.DisplayFor(model => model.AccountDesription)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Quiz)
+            @Html.DisplayNameFor(model => model.GroupType)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Quiz)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Active)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Active)
+            @Html.DisplayFor(model => model.GroupType)
         </dd>
 
     </dl>

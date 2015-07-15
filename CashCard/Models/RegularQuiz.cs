@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace CashCard.Models
 {
-    public class RegularDetailQuiz
+    public class RegularQuiz
     {
         public int Id { get; set; }
         [Required]

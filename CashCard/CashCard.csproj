@@ -165,7 +165,7 @@
     <Compile Include="Controllers\CashflowController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PushLoginController.cs" />
-    <Compile Include="Controllers\RegularDetailQuizController.cs" />
+    <Compile Include="Controllers\RegularGroupController.cs" />
     <Compile Include="Controllers\RegularQuizController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Global.asax.cs">
@@ -183,7 +183,7 @@
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\GroupType.cs" />
     <Compile Include="Models\RegularDetail.cs" />
-    <Compile Include="Models\RegularDetailQuiz.cs" />
+    <Compile Include="Models\RegularQuiz.cs" />
     <Compile Include="Models\RegularGroup.cs" />
     <Compile Include="Models\RegularType.cs" />
     <Compile Include="Models\StateCashFlow.cs" />
@@ -417,11 +417,6 @@
     <Content Include="Views\Branch\Edit.cshtml" />
     <Content Include="Views\Branch\Index.cshtml" />
     <Content Include="Views\PushLogin\Index.cshtml" />
-    <Content Include="Views\RegularDetailQuiz\Create.cshtml" />
-    <Content Include="Views\RegularDetailQuiz\Delete.cshtml" />
-    <Content Include="Views\RegularDetailQuiz\Details.cshtml" />
-    <Content Include="Views\RegularDetailQuiz\Edit.cshtml" />
-    <Content Include="Views\RegularDetailQuiz\Index.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Cashflow\CreateCashoutRegular.cshtml" />
@@ -438,6 +433,11 @@
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\Shared\_LoginPartialBootstrap.cshtml" />
+    <Content Include="Views\RegularGroup\Create.cshtml" />
+    <Content Include="Views\RegularGroup\Delete.cshtml" />
+    <Content Include="Views\RegularGroup\Details.cshtml" />
+    <Content Include="Views\RegularGroup\Edit.cshtml" />
+    <Content Include="Views\RegularGroup\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

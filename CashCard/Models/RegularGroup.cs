@@ -10,5 +10,6 @@ namespace CashCard.Models
         [Required]
         public string AccountDesription { get; set; }
         public GroupType GroupType { get; set; }
+        public string Info { get; set; }
     }
 }

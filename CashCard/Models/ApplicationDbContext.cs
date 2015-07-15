@@ -22,7 +22,7 @@ namespace CashCard.Models
         }
         public DbSet<CashFlow> CashFlows { get; set; }
         public DbSet<Branch> Branches { get; set; }
-        public DbSet<RegularDetailQuiz> RegularDetailQuizs { get; set; }
+        public DbSet<RegularQuiz> RegularQuizs { get; set; }
         public DbSet<RegularDetail> RegularDetails { get; set; }
         public DbSet<CutOff> CutOffs { get; set; }
         public DbSet<RegularGroup> RegularGroup { get; set; }

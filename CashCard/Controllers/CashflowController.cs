@@ -41,7 +41,7 @@ namespace CashCard.Controllers
         public ActionResult CreateCashoutRegular()
         {
          
-            ViewBag.RegularQuiz = new SelectList(db.RegularDetailQuizs, "Id", "Quiz");
+            ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
             return View();
         }
 
@@ -60,7 +60,7 @@ namespace CashCard.Controllers
             }
 
           
-            ViewBag.RegularQuiz = new SelectList(db.RegularDetailQuizs, "Id", "Quiz");
+            ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
             return View(cashflow);
         }
 
