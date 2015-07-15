@@ -181,8 +181,10 @@
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\CutOff.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\GroupType.cs" />
     <Compile Include="Models\RegularDetail.cs" />
     <Compile Include="Models\RegularDetailQuiz.cs" />
+    <Compile Include="Models\RegularGroup.cs" />
     <Compile Include="Models\RegularType.cs" />
     <Compile Include="Models\StateCashFlow.cs" />
     <Compile Include="Models\StateCutOff.cs" />

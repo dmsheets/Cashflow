@@ -36,15 +36,15 @@ namespace CashCard.Models
         [ForeignKey("UserId")]
         public ApplicationUser User { get; set; }
         public string UserId { get; set; }
-        public int TotalAmount { get; protected set; }
+        public int Total { get; protected set; }
 
-        public abstract void SetTotalAmount();
+        public abstract void SetTotal();
 
     }
 
     public class CashIn:CashFlow
     {
-        public override void SetTotalAmount()
+        public override void SetTotal()
         {
             throw new NotImplementedException();
         }
@@ -54,21 +54,23 @@ namespace CashCard.Models
     {
         public RegularType RegularType { get; set; }
         public ICollection<RegularDetail> RegularDetails { get; set; }
-        public override void SetTotalAmount()
+
+        public override void SetTotal()
         {
-            int totalAmount = 0;
+            int total = 0;
             foreach (var x in RegularDetails)
             {
-                totalAmount += x.Amount;
-            }
-            base.TotalAmount = totalAmount;
+                total += x.SubTotal;
 
+
+            }
+            base.Total = total;
         }
     }
 
     public class CashOutIregular : CashFlow
     {
-        public override void SetTotalAmount()
+        public override void SetTotal()
         {
             throw new NotImplementedException();
         }
