@@ -72,7 +72,7 @@ namespace CashCard.Models
     public class UserViewModel
     {
         public string Name { get; set; }
-        public int BranchId { get; set; }
+        public int? BranchId { get; set; }
         public List<string> Roles { get; set; }
         public IEnumerable<IdentityRole> AvailableRoles { get; set; }
     }
@@ -80,7 +80,6 @@ namespace CashCard.Models
     public class RoleViewModel
     { 
         [Required]
-       
         public string Name { get; set; }
         
     }

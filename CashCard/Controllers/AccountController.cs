@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -37,10 +38,17 @@ namespace CashCard.Controllers
        
 
         [AllowAnonymous]
-        public ActionResult UpdateUser(string id)
+        public ActionResult Edit(string id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             var user = UserManager.FindById(id);
-        
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
         
             var db = new ApplicationDbContext();
 
@@ -48,12 +56,15 @@ namespace CashCard.Controllers
             {
                 BranchId = user.BranchId,
                 Name = user.UserName,
-                Roles = user.Roles.Select(p => p.Role.Id).ToList(),
+                Roles = user.Roles.Select(p => p.Role.Name).ToList(),
                 AvailableRoles =  db.Roles.ToList()
             };
 
-            var m = new MultiSelectList(db.Roles.ToList(), "Id", "Name");
-            ViewBag.multi = m;
+            var m = new MultiSelectList(db.Roles.ToList(), "Name", "Name");
+            ViewBag.Roles = m;
+
+            var x = new SelectList(db.Branches.ToList(), "Id", "Name");
+            ViewBag.Branches = x;
             return View(userx);
             
 
@@ -62,18 +73,21 @@ namespace CashCard.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult UpdateUser(string[] roles, string id)
+        public ActionResult Edit(string[] roles, string name, int branchId)
         {
-            var user = UserManager.FindById(id);
-          
+            var user = UserManager.FindByName(name);
 
-            string temp = "";
-            foreach (var role in roles)
+            user.BranchId = branchId;
+            user.Roles.Clear();
+            UserManager.UpdateAsync(user);
+
+            foreach (string s in roles)
             {
-                temp += role;
-
+              var x =  UserManager.AddToRole(user.Id, s);
             }
-            return Content(temp);
+            return RedirectToAction("Index");
+            
+
 
 
 
@@ -140,12 +154,6 @@ namespace CashCard.Controllers
             {
                 var user = new ApplicationUser() {UserName = model.UserName, BranchId = model.BranchId};
                 var result = await UserManager.CreateAsync(user, model.Password);
-
-                //var roleStore = new RoleStore<IdentityRole>(context);
-                //var roleManager = new RoleManager<IdentityRole>(roleStore);
-
-                //var userStore = new UserStore<ApplicationUser>(context);
-                //var userManager = new UserManager<ApplicationUser>(userStore);
 
                 foreach (var s in model.Roles)
                 {

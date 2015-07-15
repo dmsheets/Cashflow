@@ -422,7 +422,7 @@
     <Content Include="Views\RegularDetailQuiz\Details.cshtml" />
     <Content Include="Views\RegularDetailQuiz\Edit.cshtml" />
     <Content Include="Views\RegularDetailQuiz\Index.cshtml" />
-    <Content Include="Views\Account\UpdateUser.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Cashflow\CreateCashoutRegular.cshtml" />
     <Content Include="Views\Cashflow\Delete.cshtml" />

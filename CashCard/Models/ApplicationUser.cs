@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -10,8 +11,10 @@ namespace CashCard.Models
     {
         
         [ForeignKey("BranchId")]
+       
         public virtual Branch Branch { get; set; }
-        public int BranchId { get; set; }
+        
+        public int? BranchId { get; set; }
       
     }
 }

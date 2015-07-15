@@ -111,10 +111,21 @@ namespace CashCard.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Branch branch = db.Branches.Find(id);
-            db.Branches.Remove(branch);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                Branch branch = db.Branches.Find(id);
+                db.Branches.Remove(branch);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+
+                return View("Error");
+            }
+
+
+
         }
 
 
@@ -139,5 +150,6 @@ namespace CashCard.Controllers
             }
             base.Dispose(disposing);
         }
+       
     }
 }

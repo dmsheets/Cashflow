@@ -7,13 +7,15 @@
 
 <h2>@ViewBag.Title.</h2>
 
-@using (Html.BeginForm("UpdateUser", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Edit", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
+    <h4>Edit User</h4>
     <hr />
     
     @Html.ValidationSummary()
+     @Html.ValidationSummary(true)
+     @Html.HiddenFor(model => model.Name)
     <div class="form-group">
         @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
@@ -23,7 +25,7 @@
     <div class="form-group">
         @Html.LabelFor(m => m.BranchId, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.TextBoxFor(m => m.BranchId, new { @class = "form-control" })
+            @Html.DropDownList("BranchId", (SelectList)ViewBag.Branches, new { @class = "form-control" })
         </div>
 
     </div>
@@ -46,7 +48,7 @@
     <script type="text/javascript">
         var temp =@Html.Raw(Json.Encode(Model.Roles));
         $("#Roles").val(temp);
-        alert(temp);
+        //alert(temp);
 
     </script>
    
