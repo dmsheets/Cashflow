@@ -1,0 +1,51 @@
+﻿@model CashCard.Models.RegularDetailQuiz
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>RegularDetailQuiz</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SapCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SapCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ConterName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ConterName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Quiz)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quiz)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Active)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Active)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
