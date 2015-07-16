@@ -10,7 +10,7 @@ namespace CashCard.Models
     public class Branch
     {
         public int Id { get; set; }
-          [Required]
+        [Required]
         [Remote("CheckName", "Branch")]
         public string Name { get; set; }
         public int PengeluaranRegular { get; set; }

@@ -13,6 +13,6 @@ namespace CashCard.Models
         public RegularGroup RegularGroup { get; set; }
         public int RegularGroupId { get; set; }
         public RegularType RegularType { get; set; }
-        public bool Active { get; set; }
+        
     }
 }

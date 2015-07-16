@@ -20,15 +20,15 @@
         <div class="form-group">
             @Html.LabelFor(model => model.AccountNo, new { @class = "control-label col-md-2"})
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.AccountNo,new{ @readonly="readonly"} )
-                @Html.ValidationMessageFor(model => model.AccountNo)
+                @Html.TextBoxFor(model => model.AccountNo,new{ @readonly="readonly", @data_val = "false",  @class = "form-control" } )
+                @*@Html.ValidationMessageFor(model => model.AccountNo)*@
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.AccountDesription, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AccountDesription)
+                @Html.TextBoxFor(model => model.AccountDesription, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.AccountDesription)
             </div>
         </div>
@@ -38,6 +38,13 @@
             <div class="col-md-10">
                 @Html.DropDownList("GroupType", (SelectList)ViewBag.GroupTypes, new { @class = "form-control col-md-2" })
                 @Html.ValidationMessageFor(model => model.GroupType)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Info, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Info, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Info)
             </div>
         </div>
 
