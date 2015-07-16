@@ -264,6 +264,42 @@ namespace CashCard.Controllers
             return View(model);
         }
 
+
+        // GET: /Account/Manage
+        public ActionResult ResetPassword(ManageMessageId? message, string userId)
+        {
+            ViewBag.StatusMessage =
+                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : "";
+            ViewBag.UserName = UserManager.FindById(userId).UserName;
+            ViewBag.ReturnUrl = Url.Action("ResetPassword");
+            return View();
+        }
+
+        //
+        // POST: /Account/Manage
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(string userId, string newPass)
+        {
+            IdentityResult result = await UserManager.RemovePasswordAsync(userId);
+            result = await UserManager.AddPasswordAsync(userId, newPass);
+             if (result.Succeeded)
+             {
+                 return RedirectToAction("ResetPassword", new { Message = ManageMessageId.ChangePasswordSuccess, userId });
+             }
+             else
+             {
+                 AddErrors(result);
+             }
+         
+
+            // If we got this far, something failed, redisplay form
+            return View(userId);
+        }
         #region Belom Kepake
 
         //
@@ -435,6 +471,15 @@ namespace CashCard.Controllers
         private bool HasPassword()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null)
+            {
+                return user.PasswordHash != null;
+            }
+            return false;
+        }
+        private bool HasPassword(string userId)
+        {
+            var user = UserManager.FindById(userId);
             if (user != null)
             {
                 return user.PasswordHash != null;

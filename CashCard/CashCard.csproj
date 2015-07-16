@@ -438,6 +438,7 @@
     <Content Include="Views\RegularGroup\Details.cshtml" />
     <Content Include="Views\RegularGroup\Edit.cshtml" />
     <Content Include="Views\RegularGroup\Index.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
