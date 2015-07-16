@@ -10,7 +10,7 @@ namespace CashCard.Models
         [Required]
         public string Quiz { get; set; }
         [ForeignKey("RegularGroupId")]
-        public RegularGroup RegularGroup { get; set; }
+        public virtual RegularGroup RegularGroup { get; set; }
         public int RegularGroupId { get; set; }
         public RegularType RegularType { get; set; }
         

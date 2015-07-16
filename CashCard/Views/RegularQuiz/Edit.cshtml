@@ -17,21 +17,6 @@
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Id)
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.SapCode, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.SapCode)
-                @Html.ValidationMessageFor(model => model.SapCode)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ConterName, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ConterName)
-                @Html.ValidationMessageFor(model => model.ConterName)
-            </div>
-        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.Quiz, new { @class = "control-label col-md-2" })
@@ -42,12 +27,21 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Active, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.RegularGroup, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Active)
-                @Html.ValidationMessageFor(model => model.Active)
+                @Html.DropDownList("RegularGroupId", (SelectList)ViewBag.RegularGroups, new { @class = "form-control", data_live_search = "true" })
+                @Html.ValidationMessageFor(model => model.RegularGroupId)
             </div>
         </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RegularType, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RegularType", (SelectList)ViewBag.RegularTypes, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Quiz)
+            </div>
+        </div>
+
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -60,3 +54,12 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+
+@section Scripts {
+    <script type="text/javascript">
+
+
+        $("#RegularGroupId").selectpicker();
+    </script>
+
+}

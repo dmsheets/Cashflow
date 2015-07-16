@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
 using System.Web;
 using System.Web.Mvc;
 using CashCard.Models;
@@ -38,6 +39,12 @@ namespace CashCard.Controllers
         // GET: /RegularQuiz/Create
         public ActionResult Create()
         {
+            var dt = db.RegularGroup.Select(oo => new {aaa = oo.Id, bbb = oo.AccountNo + "-" + oo.AccountDesription}).ToList();
+
+            var x = new SelectList(dt,"aaa", "bbb");
+            ViewBag.RegularGroups = x;
+            var y = new SelectList(Enum.GetValues(typeof (RegularType)));
+            ViewBag.RegularType = y;
             return View();
         }
 
@@ -46,7 +53,7 @@ namespace CashCard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,SapCode,ConterName,Quiz,Active")] RegularQuiz RegularQuiz)
+        public ActionResult Create(RegularQuiz RegularQuiz)
         {
             if (ModelState.IsValid)
             {
@@ -70,6 +77,14 @@ namespace CashCard.Controllers
             {
                 return HttpNotFound();
             }
+
+            var dt = db.RegularGroup.Select(oo => new { aaa = oo.Id, bbb = oo.AccountNo + "-" + oo.AccountDesription }).ToList();
+
+            var x = new SelectList(dt, "aaa", "bbb");
+            ViewBag.RegularGroups = x;
+            var y = new SelectList(Enum.GetValues(typeof(RegularType)));
+            ViewBag.RegularType = y;
+
             return View(RegularQuiz);
         }
 
@@ -78,7 +93,7 @@ namespace CashCard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,SapCode,ConterName,Quiz,Active")] RegularQuiz RegularQuiz)
+        public ActionResult Edit(RegularQuiz RegularQuiz)
         {
             if (ModelState.IsValid)
             {

@@ -50,7 +50,7 @@ namespace CashCard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,AccountNo,AccountDesription,GroupType")] RegularGroup regulargroup)
+        public ActionResult Create([Bind(Include="Id,AccountNo,AccountDesription,GroupType,Info")] RegularGroup regulargroup)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@ namespace CashCard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,AccountNo,AccountDesription,GroupType")] RegularGroup regulargroup)
+        public ActionResult Edit([Bind(Include="Id,AccountNo,AccountDesription,GroupType,Info")] RegularGroup regulargroup)
         {
             if (ModelState.IsValid)
             {

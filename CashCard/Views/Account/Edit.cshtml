@@ -32,7 +32,7 @@
     <div class="form-group">
         @Html.Label("Roles",new {@class="col-md-2 control-label"})
         <div class="col-md-10">
-            @Html.DropDownList("Roles", (MultiSelectList)ViewBag.multi, new {@class="form-control",multiple="multiple"})
+            @Html.DropDownList("Roles", (MultiSelectList)ViewBag.multi, new { @class = "form-control", multiple = "multiple" })
      
         </div>
     </div>
@@ -49,8 +49,12 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script type="text/javascript">
-        var temp =@Html.Raw(Json.Encode(Model.Roles));
+
+        $(".selectMulti").selectpicker();
+
+        var temp = @Html.Raw(Json.Encode(Model.Roles));
         $("#Roles").val(temp);
+        $("#Roles").selectpicker('refresh');
         //alert(temp);
 
     </script>
