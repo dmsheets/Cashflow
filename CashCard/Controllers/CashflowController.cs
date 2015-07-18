@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Common.CommandTrees;
 using System.Globalization;
 using System.Linq;
 using System.Net;
@@ -42,6 +43,9 @@ namespace CashCard.Controllers
         {
          
             ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
+            ViewBag.RegularQuizInfo = from x in db.RegularQuizs select new {Id = x.Id, Info = x.Info};
+
+
             return View();
         }
 
