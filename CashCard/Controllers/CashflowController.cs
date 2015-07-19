@@ -9,6 +9,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CashCard.Models;
+using Microsoft.AspNet.Identity;
 
 namespace CashCard.Controllers
 {
@@ -68,6 +69,42 @@ namespace CashCard.Controllers
             return View(cashflow);
         }
 
+
+        [HttpPost]
+        public JsonResult CreateCashoutRegular2(CashOutRegular cashoutRegular)
+        {
+            try
+            {
+                var usr = User.Identity.GetUserId();
+                var xx = db.Users.Find(usr);
+
+                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start);
+                if(cutOff == null)
+                {
+                    cutOff = new CutOff();
+                    cutOff.State = StateCutOff.Start;
+                    cutOff.DateStart = DateTime.Now;
+                    cutOff.DateEnd = DateTime.Now;
+                    cutOff.BranchId = xx.BranchId.Value;
+                    db.CutOffs.Add(cutOff);
+                    db.SaveChanges();
+
+                }
+                db.CashFlows.Add(cashoutRegular);
+                cashoutRegular.Date = DateTime.Now;
+                cashoutRegular.CutOffId = cutOff.Id;
+                cashoutRegular.UserId = usr;
+
+                db.SaveChanges();
+                return Json(new { Success = 1, CashOutId = cashoutRegular.Id, ex = "" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = 0, ex = new Exception("Unable to save").Message.ToString() });
+            }
+
+
+        }
         // GET: /Cashflow/Edit/5
         public ActionResult Edit(int? id)
         {

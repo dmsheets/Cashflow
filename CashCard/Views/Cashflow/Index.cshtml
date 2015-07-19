@@ -12,9 +12,7 @@
 </p>
 <table class="table">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.CutOff.Note)
-        </th>
+     
         <th>
             @Html.DisplayNameFor(model => model.User.UserName)
         </th>
@@ -35,9 +33,7 @@
 
 @foreach (var item in Model) {
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CutOff.Note)
-        </td>
+       
         <td>
             @Html.DisplayFor(modelItem => item.User.UserName)
         </td>
