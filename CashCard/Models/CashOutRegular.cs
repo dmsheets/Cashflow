@@ -5,7 +5,7 @@ namespace CashCard.Models
     public class CashOutRegular : CashFlow
     {
         public RegularType RegularType { get; set; }
-        public virtual ICollection<RegularDetail> RegularDetails { get; set; }
+        public virtual IList<RegularDetail> RegularDetails { get; set; }
 
         public override void SetTotal()
         {
