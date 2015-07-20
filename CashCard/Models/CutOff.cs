@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -26,6 +27,7 @@ namespace CashCard.Models
     public abstract class CashFlow
     {
         public int Id { get; set; }
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime Date { get; set; }
         public string Note { get; set; }
         public StateCashFlow State { get; set; }

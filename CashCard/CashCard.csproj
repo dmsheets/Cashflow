@@ -168,6 +168,7 @@
     <Compile Include="Controllers\RegularGroupController.cs" />
     <Compile Include="Controllers\RegularQuizController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\testController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -474,6 +475,7 @@
     <Content Include="Views\RegularGroup\Edit.cshtml" />
     <Content Include="Views\RegularGroup\Index.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\test\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

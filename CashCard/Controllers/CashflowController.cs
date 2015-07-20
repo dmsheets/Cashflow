@@ -91,7 +91,7 @@ namespace CashCard.Controllers
 
                 }
                 db.CashFlows.Add(cashoutRegular);
-                cashoutRegular.Date = DateTime.Now;
+                //cashoutRegular.Date = DateTime.Now;
                 cashoutRegular.CutOffId = cutOff.Id;
                 cashoutRegular.UserId = usr;
 

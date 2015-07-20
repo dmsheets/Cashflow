@@ -15,25 +15,25 @@
         @Html.ValidationSummary(true)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Date, new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.Date, new {@class = "control-label col-md-1"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Date, new {@class = "datepicker"})
+                @Html.TextBoxFor(model => model.Date, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Date)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Note, new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.Note, new {@class = "control-label col-md-1"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Note)
+                @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Note)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Total, new {@class = "control-label col-md-2"})
+            @Html.LabelFor(model => model.Total, new {@class = "control-label col-md-1"})
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Total)
+                @Html.TextBoxFor(model => model.Total, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Total)
             </div>
         </div>
@@ -44,54 +44,57 @@
 
 <button id="test"> test </button>
 
-<div class="row well" >
-    <div class="col-md-4">
+<div class="row well  well-sm">
+    <form id="detail">
 
-        <div class="form-group">
-            <label>Name</label>
-            <div>
-                @Html.DropDownList("RegularQuiz", (SelectList)ViewBag.RegularQuiz, new {@class="form-control", data_live_search = "true" })
-            </div>
-            <p id="info" class="help-block">Example block-level help text here.</p>
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <label>Note1</label>
-            <div>
-                <input id="Note1" class="form-control" />
-            </div>
-        </div>
-    </div>
-    
-    <div class="col-md-2">
-        <div class="form-group">
-            <label>Note2</label>
-            <div>
-                <input id="Note2" class="form-control" />
-            </div>
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <label>Amount</label>
-            <div>
-                <input id="Amount" class="form-control" />
-            </div>
-        </div>
-    </div>
-    <div class="col-md-1">
-        <div class="form-group">
-            <label>Qty</label>
-            <div>
-                <input id="Qty" class="form-control" />
-            </div>
-        </div>
-    </div>
-    <div class="col-md-1">
-        <button id="addToTbl" class="btn btn-default" style="margin-top: 25px;">Add</button>
-    </div>
 
+        <div class="col-md-4">
+
+            <div class="form-group">
+                <label>Name</label>
+                <div>
+                    @Html.DropDownList("RegularQuiz", (SelectList)ViewBag.RegularQuiz, new { @class = "form-control", data_live_search = "true" })
+                </div>
+                <p id="info" class="help-block">Example block-level help text here.</p>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group">
+                <label>Note1</label>
+                <div>
+                    <input id="Note1" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="form-group ">
+                <label>Note2</label>
+                <div>
+                    <input id="Note2" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="form-group ">
+                <label>Amount</label>
+                <div>
+                    <input id="Amount" name="Amount"  type="text" class="form-control" required number="true"  />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"> 
+            <div class="form-group ">
+                <label>Qty</label>
+                <div>
+                    <input id="Qty" name="Qty"  type="text" class="form-control" required number="true"  />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <button id="addToTbl" class="btn btn-default" style="margin-top: 25px;">Add</button>
+        </div>
+    </form>
 
 
 </div>
@@ -156,11 +159,24 @@
             ]
         });
 
-
-        $("#addToTbl").click(function() {
-            tbl.row.add(["0", $("#RegularQuiz").val(), $("#RegularQuiz option:selected").text(), $("#Note1").val(), $("#Note2").val(), $("#Amount").val(), $("#Qty").val()]).draw();
-        });
         $("#RegularQuiz").selectpicker();
+        $("#addToTbl").click(function(e) {
+            e.preventDefault();
+            if ($("#detail").valid()) {
+                tbl.row.add(["0", $("#RegularQuiz").val(), $("#RegularQuiz option:selected").text(), $("#Note1").val(), $("#Note2").val(), $("#Amount").val(), $("#Qty").val()]).draw();
+           
+                $('[data-id="RegularQuiz"]')[0].focus();
+                $("#Note1").val('');
+                $("#Note2").val('');
+                $("#Amount").val('');
+                $("#Qty").val('');
+
+            }
+               
+          
+
+        });
+    
 
         $('#tbl tbody').on('click', 'tr', function() {
             var rowData = tbl.row(this).data();
@@ -181,7 +197,7 @@
             $("#info").html(element[0].Info);
         });
 
-        $("#Date").datepicker();
+        $("#Date").datepicker({dateFormat: "yy-mm-dd"});
 
 
         //Save data
@@ -212,7 +228,7 @@
                 success: function(result) {
 
                     if (result.Success == "1") {
-                        window.location.href = "/Sales/index";
+                        window.location.href = "/Cashflow/index";
                     } else {
                         alert(result.ex);
                     }
@@ -225,7 +241,8 @@
             save();
         });
 
-
+        $("#detail").validate();
+       
     </script>
     <style>
 
