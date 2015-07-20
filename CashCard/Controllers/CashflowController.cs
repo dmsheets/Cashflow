@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace CashCard.Controllers
 {
+    [Authorize(Roles = "User")]
     public class CashflowController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -70,8 +71,46 @@ namespace CashCard.Controllers
         }
 
         */
+
+        private void Subtitution(CashOutRegular cashoutDb, CashOutRegular cashoutView)
+        {
+            cashoutDb.Date = cashoutView.Date;
+            cashoutDb.Note = cashoutView.Note;
+
+            //delete detail
+            for (int i = cashoutDb.RegularDetails.Count - 1; i >= 0; i--)
+            {
+                var idReg = cashoutDb.RegularDetails[i].Id;
+
+                var reg = cashoutView.RegularDetails.FirstOrDefault(p => p.Id == idReg);
+                if (reg == null)
+                {
+                    db.Entry(cashoutDb.RegularDetails[i]).State = EntityState.Deleted;
+                    //cashoutDb.RegularDetails.RemoveAt(i);
+                }
+            }
+            //add or update detail
+            for (int i = 0; i < cashoutView.RegularDetails.Count; i++)
+            {
+                if (cashoutView.RegularDetails[i].Id == 0)
+                {
+                    cashoutDb.RegularDetails.Add(cashoutView.RegularDetails[i]);
+                }
+                else
+                {
+                    var regDetail = cashoutView.RegularDetails[i];
+                    var detail = cashoutDb.RegularDetails.First(p => p.Id == regDetail.Id);
+                    detail.RegularQuizId = regDetail.RegularQuizId;
+                    detail.RegularDetailQuiz = null;
+                    detail.Note1 = regDetail.Note1;
+                    detail.Note2 = regDetail.Note2;
+                    detail.Qty = regDetail.Qty;
+                    detail.Amount = regDetail.Amount;
+                }
+            }
+        }
         [HttpPost]
-        public JsonResult CreateCashoutRegular2(CashOutRegular cashoutRegular)
+        public JsonResult CreateCashoutRegularDraft(CashOutRegular cashoutRegular)
         {
             try
             {
@@ -95,38 +134,8 @@ namespace CashCard.Controllers
                 {
                     var cashoutDb = db.CashFlows.OfType<CashOutRegular>().First(p => p.Id == cashoutRegular.Id);
 
-                    cashoutDb.Date = cashoutRegular.Date;
-                    cashoutDb.Note = cashoutRegular.Note;
-
-                    //delete detail
-                    for (int i = cashoutDb.RegularDetails.Count-1; i >= 0; i--)
-                    {
-                        var idReg = cashoutDb.RegularDetails[i].Id;
-
-                        var reg = cashoutRegular.RegularDetails.FirstOrDefault(p => p.Id == idReg);
-                        if (reg == null)
-                        {
-                            cashoutDb.RegularDetails.RemoveAt(i);
-                        }
-                    }
-                    //add or update detail
-                    for (int i = 0; i < cashoutRegular.RegularDetails.Count; i++)
-                    {
-                        if (cashoutRegular.RegularDetails[i].Id == 0)
-                        {
-                            cashoutDb.RegularDetails.Add(cashoutRegular.RegularDetails[i]);
-                        }
-                        else
-                        {
-                            var regDetail = cashoutRegular.RegularDetails[i];
-                            var detail = cashoutDb.RegularDetails.First(p => p.Id == regDetail.Id);
-                            detail.RegularQuizId = regDetail.RegularQuizId;
-                            detail.Note1 = regDetail.Note1;
-                            detail.Note2 = regDetail.Note2;
-                            detail.Qty = regDetail.Qty;
-                            detail.Amount = regDetail.Amount;
-                        }
-                    }
+                    Subtitution(cashoutDb, cashoutRegular);
+                    cashoutDb.SetToDraft();
                     db.SaveChanges();
 
 
@@ -136,7 +145,8 @@ namespace CashCard.Controllers
                     db.CashFlows.Add(cashoutRegular);
                     //cashoutRegular.Date = DateTime.Now;
                     cashoutRegular.CutOffId = cutOff.Id;
-                    cashoutRegular.UserId = usr;   
+                    cashoutRegular.UserId = usr;
+                    cashoutRegular.SetToDraft();
                     db.SaveChanges();
                 }
 
@@ -146,7 +156,60 @@ namespace CashCard.Controllers
             }
             catch (Exception ex)
             {
-                return Json(new { Success = 0, ex = new Exception("Unable to save").Message.ToString() });
+                return Json(new { Success = 0, ex = ex.Message });
+            }
+
+
+        }
+
+        [HttpPost]
+        public JsonResult CreateCashoutRegularFinal(CashOutRegular cashoutRegular)
+        {
+            try
+            {
+                var usr = User.Identity.GetUserId();
+                var xx = db.Users.Find(usr);
+
+                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start);
+                if (cutOff == null)
+                {
+                    cutOff = new CutOff();
+                    cutOff.State = StateCutOff.Start;
+                    cutOff.DateStart = DateTime.Now;
+                    cutOff.DateEnd = DateTime.Now;
+                    cutOff.BranchId = xx.BranchId.Value;
+                    db.CutOffs.Add(cutOff);
+                    db.SaveChanges();
+
+                }
+
+                if (cashoutRegular.Id != 0)
+                {
+                    var cashoutDb = db.CashFlows.OfType<CashOutRegular>().First(p => p.Id == cashoutRegular.Id);
+
+                    Subtitution(cashoutDb, cashoutRegular);
+                    cashoutDb.SetToFinal();
+                    db.SaveChanges();
+
+
+                }
+                else
+                {
+                    db.CashFlows.Add(cashoutRegular);
+                    //cashoutRegular.Date = DateTime.Now;
+                    cashoutRegular.CutOffId = cutOff.Id;
+                    cashoutRegular.UserId = usr;
+                    cashoutRegular.SetToFinal();
+                    db.SaveChanges();
+                }
+
+
+
+                return Json(new { Success = 1, CashOutId = cashoutRegular.Id, ex = "" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = 0, ex = ex.Message });
             }
 
 

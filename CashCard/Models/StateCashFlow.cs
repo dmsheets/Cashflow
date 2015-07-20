@@ -3,7 +3,8 @@
     public enum StateCashFlow
     {
         Draft,
-        Commit,
+        Final,
+        Revision,
         Reject,
         Approve
     }

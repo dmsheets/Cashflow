@@ -129,7 +129,7 @@ namespace CashCard.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles="Admin")]
         public ActionResult Register()
         {
             var db = new ApplicationDbContext();
@@ -143,7 +143,7 @@ namespace CashCard.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {

@@ -11,6 +11,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CashCard.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

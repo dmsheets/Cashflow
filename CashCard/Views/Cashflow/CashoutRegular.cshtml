@@ -25,11 +25,18 @@
         <h4>CashFlow</h4>
         <hr />
         @Html.ValidationSummary(true)
-        @Html.HiddenFor(p=>p.Id);
-
+        @Html.HiddenFor(p=>p.Id)
+        
+        <div class="form-group">
+            <div class="col-md-offset-9 col-md-3">
+                <input type="submit" value="Save As Draft" id="saveDraft" class="btn btn-success" />
+                <input type="submit" value="Save As Final" id="saveFinal" class="btn btn-warning" />
+            </div>
+           
+        </div>
         <div class="form-group">
             @Html.LabelFor(model => model.Date, new {@class = "control-label col-md-1"})
-            <div class="col-md-10">
+            <div class="col-md-11">
                 @Html.EditorFor(model => model.Date)
                 @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
                 @Html.ValidationMessageFor(model => model.Date)
@@ -38,7 +45,7 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Note, new {@class = "control-label col-md-1"})
-            <div class="col-md-10">
+            <div class="col-md-11">
                 @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Note)
             </div>
@@ -46,24 +53,25 @@
 
         <div class="form-group">
             @Html.LabelFor(model => model.Total, new {@class = "control-label col-md-1"})
-            <div class="col-md-10">
+            <div class="col-md-11">
                 @Html.TextBoxFor(model => model.Total, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Total)
             </div>
         </div>
+     
+    
     </div>
 
 
 }
 
-<button id="test"> test </button>
-<button id="test2"> test 2 </button>
+
 
 
 <div class="row well  well-sm">
     <form id="detail">
 
-
+        <input id="regularDetailId" type="hidden" />
         <div class="col-md-4">
 
             <div class="form-group">
@@ -110,6 +118,7 @@
         <div class="col-md-1">
             <button id="addToTbl" class="btn btn-default" style="margin-top: 25px;">Add</button>
         </div>
+      
     </form>
 
 
@@ -176,7 +185,7 @@
 @section Scripts {
     @Scripts.Render("~/bundle/datatable")
     <script type="text/javascript">
-        
+
         $("#errorInfo").hide();
         var tbl = $("#tbl").DataTable(
         {
@@ -203,26 +212,35 @@
             e.preventDefault();
             if ($("#detail").valid()) {
                 tbl.row.add(["0", $("#RegularQuiz").val(), $("#RegularQuiz option:selected").text(), $("#Note1").val(), $("#Note2").val(), $("#Amount").val(), $("#Qty").val()]).draw();
-           
+
                 $('[data-id="RegularQuiz"]')[0].focus();
                 $("#Note1").val('');
                 $("#Note2").val('');
                 $("#Amount").val('');
                 $("#Qty").val('');
+                $("#regularDetailId").val("0");
 
             }
-               
-          
+
 
         });
-    
+
 
         $('#tbl tbody').on('click', 'tr', function() {
             var rowData = tbl.row(this).data();
-            $("#RegularQuiz").val(rowData[0]);
-            $("#RegularQuiz").selectpicker('refresh');
-            $("#name2").val(rowData[1]);
-            // ... do something with `rowData`
+            $("#RegularQuiz").selectpicker("val", rowData[1]);
+            //$("#RegularQuiz").val(rowData[0]);
+            //$("#RegularQuiz").selectpicker('refresh');
+           
+            $("#Note1").val(rowData[3]);
+            $("#Note2").val(rowData[4]);
+            $("#Amount").val(rowData[5]);
+            $("#Qty").val(rowData[6]);
+            $("#regularDetailId").val(rowData[0]);
+
+            tbl.row(this).remove().draw();
+            rowData.remove();
+
         });
 
         var data = @Html.Raw(Json.Encode(ViewBag.RegularQuizInfo));
@@ -236,13 +254,35 @@
             $("#info").html(element[0].Info);
         });
 
-        $("#Date").datepicker({dateFormat: "yy/mm/dd"});
+        $("#Date").datepicker({ dateFormat: "yy/mm/dd" });
 
 
-        //Save data
+        //get cashflow
+        function getCashFlow() {
+            var cashFlow = { "Id": 0, "Date": "", "Note": "", "RegularDetails": [] };
+            // var regularDetail = { "Id": 0, "RegularQuidId": 0, "Note1": "", "Note2": "", "Amount": 0, "Qty": 0 };
+            cashFlow.Id = $("#Id").val();
+            cashFlow.Date = $("#Date").val();
+            cashFlow.Note = $("#Note").val();
+            var datas = tbl.rows().data();
+            for (var i = 0; i < datas.length; i++) {
+                var dt = datas[i];
+                var regularDetail = { "Id": 0, "RegularQuidId": 0, "Note1": "", "Note2": "", "Amount": 0, "Qty": 0 };
+                regularDetail.Id = dt[0];
+                regularDetail.RegularQuizId = dt[1];
+                regularDetail.Note1 = dt[3];
+                regularDetail.Note2 = dt[4];
+                regularDetail.Amount = dt[5];
+                regularDetail.Qty = dt[6];
+                cashFlow.RegularDetails.push(regularDetail);
+            }
+            return cashFlow;
+        }
+
+//Save data
         function save() {
             var cashFlow = { "Id": 0, "Date": "", "Note": "", "RegularDetails": [] };
-           // var regularDetail = { "Id": 0, "RegularQuidId": 0, "Note1": "", "Note2": "", "Amount": 0, "Qty": 0 };
+            // var regularDetail = { "Id": 0, "RegularQuidId": 0, "Note1": "", "Note2": "", "Amount": 0, "Qty": 0 };
             cashFlow.Id = $("#Id").val();
             cashFlow.Date = $("#Date").val();
             cashFlow.Note = $("#Note").val();
@@ -279,13 +319,53 @@
             });
         }
 
-        $("#test").click(function() {
-            save();
+        $("#saveDraft").click(function(e) {
+            e.preventDefault();
+
+            var cashFlow = getCashFlow();
+            $.ajax({
+                url: '/CashFlow/CreateCashoutRegularDraft',
+                data: JSON.stringify(cashFlow),
+                type: 'POST',
+                contentType: 'application/json;',
+                dataType: 'json',
+                success: function(result) {
+
+                    if (result.Success == "1") {
+                        window.location.href = "/Cashflow/index";
+                    } else {
+                        $("#errorText").text(result.ex);
+                        $("html, body").animate({ scrollTop: 0 }, "slow");
+                        $("#errorInfo").show();
+                    }
+                }
+
+            });
         });
 
-        $("#detail").validate();
+        $("#saveFinal").click(function(e) {
+            e.preventDefault();
+            var cashFlow = getCashFlow();
+            $.ajax({
+                url: '/CashFlow/CreateCashoutRegularFinal',
+                data: JSON.stringify(cashFlow),
+                type: 'POST',
+                contentType: 'application/json;',
+                dataType: 'json',
+                success: function(result) {
 
-       
+                    if (result.Success == "1") {
+                        window.location.href = "/Cashflow/index";
+                    } else {
+                        $("#errorText").text(result.ex);
+                        $("html, body").animate({ scrollTop: 0 }, "slow");
+                        $("#errorInfo").show();
+                    }
+                }
+
+            });
+        });
+        $("#detail").validate();
     </script>
     <style>
 

@@ -10,6 +10,7 @@ using CashCard.Models;
 
 namespace CashCard.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class RegularGroupController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

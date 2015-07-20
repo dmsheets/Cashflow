@@ -15,7 +15,7 @@ namespace CashCard.Models
         public int SubTotal { get; protected set; }
         [ForeignKey("CashFlowId")]
         public CashOutRegular CashOutRegular { get; set; }
-        public int CashFlowId { get; set; }
+        public int? CashFlowId { get; set; }
 
         public void GetSubTotal()
         {

@@ -11,7 +11,7 @@ using CashCard.Models;
 
 namespace CashCard.Controllers
 {
-    [Authorize]
+     [Authorize(Roles = "Admin")]
     public class BranchController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

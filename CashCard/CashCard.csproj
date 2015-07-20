@@ -164,7 +164,6 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\CashflowController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\PushLoginController.cs" />
     <Compile Include="Controllers\RegularGroupController.cs" />
     <Compile Include="Controllers\RegularQuizController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
@@ -456,7 +455,6 @@
     <Content Include="Views\Branch\Details.cshtml" />
     <Content Include="Views\Branch\Edit.cshtml" />
     <Content Include="Views\Branch\Index.cshtml" />
-    <Content Include="Views\PushLogin\Index.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Cashflow\CashoutRegular.cshtml" />
