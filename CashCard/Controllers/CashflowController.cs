@@ -40,7 +40,7 @@ namespace CashCard.Controllers
         }
 
         // GET: /Cashflow/Create
-        public ActionResult CreateCashoutRegular()
+        public ActionResult CashoutRegular()
         {
          
             ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
@@ -53,7 +53,7 @@ namespace CashCard.Controllers
         // POST: /Cashflow/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+      /*  [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateCashoutRegular([Bind(Include="Id,Date,Note,State,LogNote,CutOffId,UserId")] CashOutRegular cashflow)
         {
@@ -69,7 +69,7 @@ namespace CashCard.Controllers
             return View(cashflow);
         }
 
-
+        */
         [HttpPost]
         public JsonResult CreateCashoutRegular2(CashOutRegular cashoutRegular)
         {
@@ -117,9 +117,14 @@ namespace CashCard.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CutOffId = new SelectList(db.CutOffs, "Id", "Note", cashflow.CutOffId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "UserName", cashflow.UserId);
-            return View(cashflow);
+            //ViewBag.CutOffId = new SelectList(db.CutOffs, "Id", "Note", cashflow.CutOffId);
+            //ViewBag.UserId = new SelectList(db.Users, "Id", "UserName", cashflow.UserId);
+
+            ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
+            ViewBag.RegularQuizInfo = from x in db.RegularQuizs select new { Id = x.Id, Info = x.Info };
+
+            return View("CashoutRegular",(CashOutRegular) cashflow);
+            //return View( cashflow);
         }
 
         // POST: /Cashflow/Edit/5

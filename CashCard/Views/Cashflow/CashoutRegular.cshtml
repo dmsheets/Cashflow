@@ -6,18 +6,31 @@
 
 <h2>Create</h2>
 
+<div id="errorInfo" class="row">
+    <div class="col-lg-12">
+        <div class="alert alert-danger" role="alert">
+            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="sr-only">Error:</span>
+            <span id="errorText"> Enter a valid email address</span>
+           
+        </div>
+    </div>
+</div>
+
 @using (Html.BeginForm())
 {
+   
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
         <h4>CashFlow</h4>
         <hr />
         @Html.ValidationSummary(true)
+        @Html.HiddenFor(p=>p.Id);
 
         <div class="form-group">
             @Html.LabelFor(model => model.Date, new {@class = "control-label col-md-1"})
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Date, new { @class = "form-control" })
+                @Html.EditorFor(model => model.Date, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Date)
             </div>
         </div>
@@ -43,6 +56,8 @@
 }
 
 <button id="test"> test </button>
+<button id="test2"> test 2 </button>
+
 
 <div class="row well  well-sm">
     <form id="detail">
@@ -115,14 +130,36 @@
                 </tr>
             </thead>
             <tbody>
-                @*@foreach (var a in Model.RegularDetails)
+                @if (Model != null)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayTextFor(i=>a.Amount)
-                        </td>
-                    </tr>
-                }*@
+                    foreach (var a in Model.RegularDetails)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayTextFor(i => a.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayTextFor(i => a.RegularQuizId)
+                            </td>
+                            <td>
+                                @Html.DisplayTextFor(i => a.RegularDetailQuiz.Quiz)
+                            </td>
+                            <td>
+                                @Html.DisplayTextFor(i => a.Note1)
+                            </td>
+                            <td>
+                                @Html.DisplayTextFor(i => a.Note2)
+                            </td>
+                            <td>
+                                @Html.DisplayTextFor(i => a.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayTextFor(i => a.Qty)
+                            </td>
+                        </tr>
+                    }
+                }
+                
                 
             </tbody>
         </table>
@@ -138,7 +175,8 @@
 @section Scripts {
     @Scripts.Render("~/bundle/datatable")
     <script type="text/javascript">
-
+        
+        $("#errorInfo").hide();
         var tbl = $("#tbl").DataTable(
         {
             "searching": false,
@@ -197,7 +235,7 @@
             $("#info").html(element[0].Info);
         });
 
-        $("#Date").datepicker({dateFormat: "yy-mm-dd"});
+        $("#Date").datepicker({dateFormat: "yy/mm/dd"});
 
 
         //Save data
@@ -230,7 +268,9 @@
                     if (result.Success == "1") {
                         window.location.href = "/Cashflow/index";
                     } else {
-                        alert(result.ex);
+                        $("#errorText").text("Error gw sendiri");
+                        $("html, body").animate({ scrollTop: 0 }, "slow");
+                        $("#errorInfo").show();
                     }
                 }
 
@@ -242,6 +282,7 @@
         });
 
         $("#detail").validate();
+
        
     </script>
     <style>

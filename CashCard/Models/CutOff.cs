@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -22,62 +21,5 @@ namespace CashCard.Models
         public virtual ICollection<CashFlow> CashFlows { get; set; } 
 
 
-    }
-
-    public abstract class CashFlow
-    {
-        public int Id { get; set; }
-        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}")]
-        public DateTime Date { get; set; }
-        public string Note { get; set; }
-        public StateCashFlow State { get; set; }
-        public string LogNote { get; set; }
-        [ForeignKey("CutOffId")]
-        public virtual CutOff CutOff { get; set; }
-        public int CutOffId { get; set; }
-        [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
-        public string UserId { get; set; }
-        [ForeignKey("SuperVisorId")]
-        public ApplicationUser SuperVisor { get; set; }
-        public string SuperVisorId { get; set; }
-        public int Total { get; protected set; }
-
-        public abstract void SetTotal();
-
-    }
-
-    public class CashIn:CashFlow
-    {
-        public override void SetTotal()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class CashOutRegular : CashFlow
-    {
-        public RegularType RegularType { get; set; }
-        public ICollection<RegularDetail> RegularDetails { get; set; }
-
-        public override void SetTotal()
-        {
-            int total = 0;
-            foreach (var x in RegularDetails)
-            {
-                total += x.SubTotal;
-
-
-            }
-            base.Total = total;
-        }
-    }
-
-    public class CashOutIregular : CashFlow
-    {
-        public override void SetTotal()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

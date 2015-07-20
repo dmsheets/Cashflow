@@ -180,6 +180,10 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Branch.cs" />
+    <Compile Include="Models\CashFlow.cs" />
+    <Compile Include="Models\CashIn.cs" />
+    <Compile Include="Models\CashOutIregular.cs" />
+    <Compile Include="Models\CashOutRegular.cs" />
     <Compile Include="Models\CutOff.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\GroupType.cs" />
@@ -455,7 +459,7 @@
     <Content Include="Views\PushLogin\Index.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
-    <Content Include="Views\Cashflow\CreateCashoutRegular.cshtml" />
+    <Content Include="Views\Cashflow\CashoutRegular.cshtml" />
     <Content Include="Views\Cashflow\Delete.cshtml" />
     <Content Include="Views\Cashflow\Details.cshtml" />
     <Content Include="Views\Cashflow\Edit.cshtml" />
