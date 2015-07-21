@@ -6,7 +6,12 @@ namespace CashCard.Models
 {
     public abstract class CashFlow
     {
+        protected CashFlow()
+        {
+            Date = DateTime.Now.Date;
+        }
         public int Id { get; set; }
+        [Required]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime Date { get; set; }
         public string Note { get; set; }

@@ -55,8 +55,9 @@ namespace CashCard.Controllers
             ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
             ViewBag.RegularQuizInfo = from x in db.RegularQuizs select new {Id = x.Id, Info = x.Info};
 
+            var cash = new CashOutRegular();
 
-            return View();
+            return View(cash);
         }
 
         // POST: /Cashflow/Create
