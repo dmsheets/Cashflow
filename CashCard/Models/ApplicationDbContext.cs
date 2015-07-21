@@ -27,5 +27,6 @@ namespace CashCard.Models
         public DbSet<CutOff> CutOffs { get; set; }
         public DbSet<RegularGroup> RegularGroup { get; set; }
 
+      
     }
 }

@@ -184,8 +184,16 @@
 
 @section Scripts {
     @Scripts.Render("~/bundle/datatable")
+    @Scripts.Render("~/bundles/jquerynumber")
     <script type="text/javascript">
 
+        function numberWithCommas(x) {
+            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        $("#Qty").number(true, 0);
+        $("#Amount").number(true, 0);
+        $('span.number').number(true, 2);
         $("#errorInfo").hide();
         var tbl = $("#tbl").DataTable(
         {
@@ -204,7 +212,9 @@
                     "targets": [1],
                     "visible": false
                 }
+               
             ]
+
         });
 
         $("#RegularQuiz").selectpicker();
@@ -231,7 +241,7 @@
             $("#RegularQuiz").selectpicker("val", rowData[1]);
             //$("#RegularQuiz").val(rowData[0]);
             //$("#RegularQuiz").selectpicker('refresh');
-           
+
             $("#Note1").val(rowData[3]);
             $("#Note2").val(rowData[4]);
             $("#Amount").val(rowData[5]);

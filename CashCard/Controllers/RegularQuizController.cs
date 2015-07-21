@@ -16,6 +16,10 @@ namespace CashCard.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public RegularQuizController()
+        {
+            ViewBag.Menu = "MnRegularQuiz";
+        }
         // GET: /RegularQuiz/
         public ActionResult Index()
         {

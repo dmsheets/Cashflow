@@ -15,6 +15,10 @@ namespace CashCard.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public RegularGroupController()
+        {
+            ViewBag.Menu = "MnRegularGroup";
+        }
         // GET: /RegularGroup/
         public ActionResult Index()
         {

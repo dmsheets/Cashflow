@@ -168,6 +168,7 @@
     <Compile Include="Controllers\RegularQuizController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\testController.cs" />
+    <Compile Include="Controllers\CashflowValidationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -416,6 +417,8 @@
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.js" />
     <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery.number.js" />
+    <Content Include="Scripts\jquery.number.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -479,6 +482,11 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\test\Index.cshtml" />
     <Content Include="Views\Role\Delete.cshtml" />
+    <Content Include="Views\CashflowValidation\Create.cshtml" />
+    <Content Include="Views\CashflowValidation\Delete.cshtml" />
+    <Content Include="Views\CashflowValidation\Details.cshtml" />
+    <Content Include="Views\CashflowValidation\Edit.cshtml" />
+    <Content Include="Views\CashflowValidation\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

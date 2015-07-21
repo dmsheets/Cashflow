@@ -16,10 +16,10 @@ namespace CashCard.Models
         public virtual CutOff CutOff { get; set; }
         public int CutOffId { get; set; }
         [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
+        public virtual ApplicationUser User { get; set; }
         public string UserId { get; set; }
         [ForeignKey("SuperVisorId")]
-        public ApplicationUser SuperVisor { get; set; }
+        public virtual ApplicationUser SuperVisor { get; set; }
         public string SuperVisorId { get; set; }
         public int Total { get; protected set; }
 

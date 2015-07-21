@@ -63,6 +63,11 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
+    
+    <script type="text/javascript">
+        $('#' + '@ViewBag.Menu').addClass("active");
+    </script>
+   
     @RenderSection("scripts", required: false)
 </body>
 </html>

@@ -15,10 +15,16 @@ namespace CashCard.Controllers
     public class BranchController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+  
 
+         public BranchController()
+         {
+              ViewBag.Menu = "MnBranch";
+         }
         // GET: /Branch/
         public ActionResult Index()
         {
+         
             return View(db.Branches.ToList());
         }
 

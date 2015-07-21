@@ -20,6 +20,7 @@ namespace CashCard.Controllers
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
+            ViewBag.Menu = "MnUser";
         }
 
         public AccountController(UserManager<ApplicationUser> userManager)

@@ -17,7 +17,7 @@ namespace CashCard.Models
         public CashOutRegular CashOutRegular { get; set; }
         public int? CashFlowId { get; set; }
 
-        public void GetSubTotal()
+        public void SetSubTotal()
         {
             SubTotal = Amount*Qty;
         }

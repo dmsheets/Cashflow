@@ -16,6 +16,11 @@ namespace CashCard.Controllers
     public class RoleController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+
+        public RoleController()
+        {
+            ViewBag.Menu = "MnRole";
+        }
         //
         // GET: /Role/
         public ActionResult Index()

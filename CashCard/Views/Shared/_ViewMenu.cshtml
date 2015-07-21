@@ -3,26 +3,26 @@
         
         @if (Request.IsAuthenticated && User.IsInRole("Admin"))
         {
-            <li class="active">
+            <li id="MnRole">
                 <a href="/Role/"><i class="fa fa-fw fa-dashboard"></i> Role</a>
             </li>
-            <li>
+            <li id="MnUser">
                 <a href="/Account/"><i class="fa fa-fw fa-bar-chart-o"></i> User</a>
             </li>
-            <li>
+            <li id="MnBranch">
                 <a href="/Branch/"><i class="fa fa-fw fa-table"></i> Branch</a>
             </li>
-            <li>
+            <li id="MnRegularGroup">
                 <a href="/RegularGroup/"><i class="fa fa-fw fa-arrows-v"></i>Regular Group</a>
             </li>
-            <li>
+            <li id="MnRegularQuiz">
                 <a href="/RegularQuiz/"><i class="fa fa-fw fa-arrows-v"></i>Regular Quiz</a>
             </li>
         }
         
          @if (Request.IsAuthenticated && User.IsInRole("User"))
          {
-             <li>
+             <li id="MnCashflow">
                  <a href="/Cashflow/"><i class="fa fa-fw fa-edit"></i> Cashflow</a>
              </li>
          }
@@ -38,10 +38,12 @@
                 </li>
             </ul>
         </li>*@
-       
-        <li>
-            <a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Validasi Cashflow</a>
-        </li>
+       @if (Request.IsAuthenticated && User.IsInRole("Officer"))
+       {
+           <li>
+               <a href="/CashflowValidation/"><i class="fa fa-fw fa-desktop"></i> Cashflow Validation </a>
+           </li>
+       }
         <li>
             <a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a>
         </li>
