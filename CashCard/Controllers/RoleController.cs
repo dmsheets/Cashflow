@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -29,8 +30,8 @@ namespace CashCard.Controllers
         [HttpPost]
         public async Task<ActionResult> Create(string name)
         {
-            var context = new ApplicationDbContext();
-            var roleStore = new RoleStore<IdentityRole>(context);
+            //var context = new ApplicationDbContext();
+            var roleStore = new RoleStore<IdentityRole>(db);
             var roleManager = new RoleManager<IdentityRole>(roleStore);
            IdentityResult result = await roleManager.CreateAsync(new IdentityRole(name));
            if (result.Succeeded)
@@ -53,5 +54,45 @@ namespace CashCard.Controllers
                 ModelState.AddModelError("", error);
             }
         }
-	}
+
+        public ActionResult Delete(string id)
+        {
+            if (string.IsNullOrEmpty(id) )
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+
+            var role = db.Roles.Find(id);
+            if (role == null)
+            {
+                return HttpNotFound();
+            }
+            return View(role);
+        }
+
+        // POST: /Branch/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(string id)
+        {
+            try
+            {
+
+                var role = db.Roles.Find(id);
+                db.Entry(role).State = EntityState.Deleted;
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+
+                return View("Error");
+            }
+
+
+
+        }
+    }
 }

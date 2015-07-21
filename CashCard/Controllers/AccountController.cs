@@ -15,7 +15,8 @@ namespace CashCard.Controllers
 {
     [Authorize]
     public class AccountController : Controller
-    {
+    { 
+        public UserManager<ApplicationUser> UserManager { get; private set; }
         public AccountController()
             : this(new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new ApplicationDbContext())))
         {
@@ -26,18 +27,18 @@ namespace CashCard.Controllers
             UserManager = userManager;
         }
 
-        public UserManager<ApplicationUser> UserManager { get; private set; }
+       
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult Index()
         {
             var db = new ApplicationDbContext();
 
             return View(db.Users.ToList());
         }
-       
 
-        [AllowAnonymous]
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(string id)
         {
             if (id == null)
@@ -71,7 +72,7 @@ namespace CashCard.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Edit(string[] roles, string name, int branchId)
         {
@@ -174,6 +175,11 @@ namespace CashCard.Controllers
                 }
 
             }
+            var db = new ApplicationDbContext();
+            var m = new MultiSelectList(db.Roles.ToList(), "Name", "Name");
+            ViewBag.Roles = m;
+            var x = new SelectList(db.Branches.ToList(), "Id", "Name");
+            ViewBag.Branches = x;
 
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -285,9 +291,14 @@ namespace CashCard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResetPassword(string userId, string newPass)
         {
+
             IdentityResult result = await UserManager.RemovePasswordAsync(userId);
-            result = await UserManager.AddPasswordAsync(userId, newPass);
-             if (result.Succeeded)
+            if (result.Succeeded)
+            {
+                result = await UserManager.AddPasswordAsync(userId, newPass);
+            }
+
+            if (result.Succeeded)
              {
                  return RedirectToAction("ResetPassword", new { Message = ManageMessageId.ChangePasswordSuccess, userId });
              }
@@ -298,7 +309,8 @@ namespace CashCard.Controllers
          
 
             // If we got this far, something failed, redisplay form
-            return View(userId);
+            //return View("ResetPassword", userId);
+             return RedirectToAction("ResetPassword", new { Message = ManageMessageId.Error, userId });
         }
         #region Belom Kepake
 

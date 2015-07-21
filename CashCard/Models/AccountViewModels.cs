@@ -49,13 +49,17 @@ namespace CashCard.Models
 
     public class RegisterViewModel
     {
+        public RegisterViewModel()
+        {
+            Roles = new List<string>();
+        }
         [Required]
         [Display(Name = "User name")]
         public string UserName { get; set; }
 
         public int BranchId { get; set; }
 
-        public List<string> Roles { get; set; }
+        public IList<string> Roles { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
