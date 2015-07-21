@@ -19,57 +19,59 @@
 
 @using (Html.BeginForm())
 {
-   
+
     @Html.AntiForgeryToken()
     <div class="form-horizontal">
-        <h4>CashFlow</h4>
-        <hr />
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(p=>p.Id)
-        
+        <fieldset>
+            <legend> Cashout Regular</legend>
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(p => p.Id) 
         <div class="form-group">
             <div class="col-md-offset-9 col-md-3">
                 <input type="submit" value="Save As Draft" id="saveDraft" class="btn btn-success" />
                 <input type="submit" value="Save As Final" id="saveFinal" class="btn btn-warning" />
             </div>
+        </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-1" })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.Date)
+                        @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
+                        @Html.ValidationMessageFor(model => model.Date)
+                    </div>
+
+                    @Html.LabelFor(model => model.State, new { @class = "control-label col-md-1" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.State, new { @class = "form-control", @readonly = "readonly", @data_val = "false" })
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-1" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Note)
+                    </div>
+
+                    @Html.LabelFor(model => model.Total, new { @class = "control-label col-md-1" })
+                    <div class="col-md-5">
+                        @Html.TextBoxFor(model => model.Total, new { @class = "form-control", @readonly = "readonly", @data_val = "false" })
+                        @* @Html.ValidationMessageFor(model => model.Total)*@
+                    </div>
+                </div>
+
+
            
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.Date, new {@class = "control-label col-md-1"})
-            <div class="col-md-11">
-                @Html.EditorFor(model => model.Date)
-                @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
-                @Html.ValidationMessageFor(model => model.Date)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Note, new {@class = "control-label col-md-1"})
-            <div class="col-md-11">
-                @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Note)
-            </div>
-        </div>
+        </fieldset>
+     
+      
         
-        <div class="form-group">
-            @Html.LabelFor(model => model.State, new { @class = "control-label col-md-1" })
-            <div class="col-md-11">
-                @Html.TextBoxFor(model => model.State, new { @class = "form-control", @readonly = "readonly", @data_val = "false" })
-              
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Total, new {@class = "control-label col-md-1"})
-            <div class="col-md-11">
-                @Html.TextBoxFor(model => model.Total, new { @class = "form-control", @readonly = "readonly", @data_val = "false"})
-               @* @Html.ValidationMessageFor(model => model.Total)*@
-            </div>
-        </div>
-        
+     
     </div>
 
-
+   
 }
 
 
