@@ -57,7 +57,7 @@ namespace CashCard.Controllers
 
             var cash = new CashOutRegular();
 
-            return View(cash);
+            return View( cash);
         }
 
         // POST: /Cashflow/Create
