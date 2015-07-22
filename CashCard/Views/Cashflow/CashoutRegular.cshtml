@@ -104,13 +104,11 @@
                     @Html.EditorFor(model => model.Date)
                     @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
                     @Html.ValidationMessageFor(model => model.Date)
-                </div>
-
-                @Html.LabelFor(model => model.State, new { @class = "control-label col-md-1" })
-                <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.State, new { @class = "form-control", @readonly = "readonly", @data_val = "false" })
+                    <span class="label label-info">State : @Html.DisplayFor(p => p.State)</span>
 
                 </div>
+
+              
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-1" })
@@ -119,18 +117,30 @@
                     @Html.ValidationMessageFor(model => model.Note)
                 </div>
 
+              
+            </div>
+            
+            <div class="form-group">
                 @Html.LabelFor(model => model.Total, new { @class = "control-label col-md-1" })
                 <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.Total, new { @class = "form-control", @readonly = "readonly", @data_val = "false" })
-                    @* @Html.ValidationMessageFor(model => model.Total)*@
+                    @Html.TextBoxFor(model => model.Total, new { @class = "form-control", @readonly="readonly", @data_val = "false" })
+                  
                 </div>
+
+
             </div>
 
             <div class="form-group">
-                <div class="col-md-offset-9 col-md-3">
-                    <input type="submit" value="Save As Draft" id="saveDraft" class="btn btn-success" />
-                    <input type="submit" value="Save As Final" id="saveFinal" class="btn btn-warning" />
-                </div>
+
+                <label class="col-md-1 control-label" ></label>
+                <div class="col-md-5">
+                  
+                        <input type="submit" value="Save As Draft" id="saveDraft" class="btn btn-success " />
+                    
+                        <input type="submit" value="Save As Final" id="saveFinal" class="btn btn-warning " />
+                    
+                    </div>
+               
             </div>
 
 
@@ -147,12 +157,14 @@
 
 
 
-
+<hr />
 
 <div class="row">
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-        Add Detail
-    </button>
+    <div class="col-md-offset-10 col-md-2">
+        <button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#myModal">
+            Add Detail
+        </button>
+    </div>
 </div>
 
 <div class="row" id="rowTable">
@@ -303,7 +315,7 @@
             $("#Qty").val(rowData[6]);
             $("#regularDetailId").val(rowData[0]);
 
-            tbl.row(rowData).remove().draw();
+            tbl.row(tr).remove().draw();
 
             $('#myModal').modal('show');
 
@@ -316,7 +328,7 @@
             var tr=  $(this).closest('tr');
             var rowData = tbl.row(tr).data();
 
-            tbl.row(rowData).remove().draw();
+            tbl.row(tr).remove().draw();
 
 
 
