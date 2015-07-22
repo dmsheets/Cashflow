@@ -25,7 +25,7 @@ namespace CashCard.Controllers
             var userId = User.Identity.GetUserId();
             var branchId = db.Users.Find(userId).BranchId;
 
-            var cashflows = db.CashFlows.Include(c => c.CutOff).Where(p => p.CutOff.BranchId == branchId);
+            var cashflows = db.CashFlows.Include(c => c.CutOff).Where(p => p.CutOff.BranchId == branchId && p.CutOff.State == StateCutOff.Start);
             return View(cashflows.ToList());
         }
 

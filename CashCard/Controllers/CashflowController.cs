@@ -28,8 +28,8 @@ namespace CashCard.Controllers
         {
             var userId = User.Identity.GetUserId();
             var cashflows =
-                db.CashFlows
-                    .Where(p => p.UserId == userId);
+                db.CashFlows.Include(p=>p.CutOff)
+                    .Where(p => p.UserId == userId && p.CutOff.State == StateCutOff.Start);
             return View(cashflows.ToList());
         }
 

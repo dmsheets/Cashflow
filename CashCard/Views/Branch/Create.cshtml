@@ -27,7 +27,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.PengeluaranRegular, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.PengeluaranRegular, new { @class = "form-control" })
+                @*@Html.EditorFor(model=>model.PengeluaranRegular)*@
+                 @Html.TextBoxFor(model => model.PengeluaranRegular, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.PengeluaranRegular)
             </div>
         </div>
@@ -43,5 +44,13 @@
 <div>
     @Html.ActionLink("Back to List", "Index")
 </div>
+@section Scripts {
+    
+    @Scripts.Render("~/bundles/jquerynumber")
+   
+    <script type="text/javascript">
+        //$("#PengeluaranRegular").number(true, 0);
+    </script>
+}
 
 

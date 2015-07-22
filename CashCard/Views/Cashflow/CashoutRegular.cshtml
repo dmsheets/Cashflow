@@ -193,25 +193,25 @@
                                 @Html.DisplayTextFor(i => a.Id)
                             </td>
                             <td>
-                                @Html.DisplayTextFor(i => a.RegularQuizId)
+                                @Html.DisplayFor(i => a.RegularQuizId)
                             </td>
                             <td>
-                                @Html.DisplayTextFor(i => a.RegularDetailQuiz.Quiz)
+                                @Html.DisplayFor(i => a.RegularDetailQuiz.Quiz)
                             </td>
                             <td>
-                                @Html.DisplayTextFor(i => a.Note1)
+                                @Html.DisplayFor(i => a.Note1)
                             </td>
                             <td>
-                                @Html.DisplayTextFor(i => a.Note2)
+                                @Html.DisplayFor(i => a.Note2)
                             </td>
                             <td>
-                                @Html.DisplayTextFor(i => a.Amount)
+                                @Html.DisplayFor(i => a.Amount)
                             </td>
                             <td>
-                                @Html.DisplayTextFor(i => a.Qty)
+                                @Html.DisplayFor(i => a.Qty)
                             </td>
                             <td>
-                                @Html.DisplayTextFor(i => a.SubTotal)
+                                @Html.DisplayFor(i => a.SubTotal)
                             </td>
                             <td>
                                 <a href="#">Edit</a>
@@ -236,12 +236,10 @@
 @section Scripts {
     @Scripts.Render("~/bundle/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
+@Scripts.Render("~/bundles/numeral")
     <script type="text/javascript">
 
-        function numberWithCommas(x) {
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-
+       
         $("#Qty").number(true, 0);
         $("#Amount").number(true, 0);
         $("#Total").number(true, 0);
@@ -252,8 +250,8 @@
         {
             "searching": false,
             "lengthChange": false,
-            "scrollY": "200px",
-            "scrollCollapse": true,
+            //"scrollY": "200px",
+            //"scrollCollapse": true,
             "paging": false,
             "columnDefs": [
                 {
@@ -294,7 +292,7 @@
 
                 tbl.row.add([
                     "0", $("#RegularQuiz").val(), $("#RegularQuiz option:selected").text(), $("#Note1").val(),
-                    $("#Note2").val(), $("#Amount").val(), $("#Qty").val(), subTotal
+                    $("#Note2").val(), numeral($("#Amount").val()).format('0,0'),numeral( $("#Qty").val()).format('0,0'), numeral(subTotal).format('0,0')
                 ]).draw();
                 $('[data-id="RegularQuiz"]')[0].focus();
                 $("#Note1").val('');
@@ -305,6 +303,7 @@
             }
 
         });
+       
 
         $('#rowTable').on('click', '.editDetail', function() {
             var tr=  $(this).closest('tr');
@@ -336,31 +335,7 @@
             total = total - rowData[7];
             $("#Total").val(total);
         });
-        /*
-        $(".editDetail").live('click', function() {
-
-
-        });*/
-        /*
-        $('#tbl tbody').on('click', 'tr', function() {
-            var rowData = tbl.row(this).data();
-            $("#RegularQuiz").selectpicker("val", rowData[1]);
-
-
-            $("#Note1").val(rowData[3]);
-            $("#Note2").val(rowData[4]);
-            $("#Amount").val(rowData[5]);
-            $("#Qty").val(rowData[6]);
-            $("#regularDetailId").val(rowData[0]);
-
-            tbl.row(this).remove().draw();
-            // rowData.remove();
-
-            var total = $("#Total").val();
-            total = total - rowData[7];
-            $("#Total").val(total);
-
-        });*/
+      
 
         var data = @Html.Raw(Json.Encode(ViewBag.RegularQuizInfo));
 
@@ -391,8 +366,8 @@
                 regularDetail.RegularQuizId = dt[1];
                 regularDetail.Note1 = dt[3];
                 regularDetail.Note2 = dt[4];
-                regularDetail.Amount = dt[5];
-                regularDetail.Qty = dt[6];
+                regularDetail.Amount = numeral().unformat(dt[5]);
+                regularDetail.Qty = numeral().unformat(dt[6]);
                 cashFlow.RegularDetails.push(regularDetail);
             }
             return cashFlow;

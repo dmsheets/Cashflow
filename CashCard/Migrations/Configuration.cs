@@ -42,6 +42,20 @@ namespace CashCard.Migrations
                 var role = new IdentityRole { Name = "Supervisor" };
                 roleManager.Create(role);
             }
+
+            if (!context.Roles.Any(p => p.Name == "Admin"))
+            {
+
+                var role = new IdentityRole { Name = "Admin" };
+                roleManager.Create(role);
+            }
+
+            if (!context.Roles.Any(p => p.Name == "Officer"))
+            {
+
+                var role = new IdentityRole { Name = "Officer" };
+                roleManager.Create(role);
+            }
         
 
 
@@ -60,9 +74,9 @@ namespace CashCard.Migrations
             }
 
             var userx = manager.FindByName("Tanto");
-            if (!manager.IsInRole(userx.Id, "User"))
+            if (!manager.IsInRole(userx.Id, "Admin"))
             {
-                manager.AddToRole(userx.Id, "User");
+                manager.AddToRole(userx.Id, "Admin");
             }
 
 

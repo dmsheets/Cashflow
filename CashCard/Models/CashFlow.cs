@@ -26,6 +26,7 @@ namespace CashCard.Models
         [ForeignKey("SuperVisorId")]
         public virtual ApplicationUser SuperVisor { get; set; }
         public string SuperVisorId { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int Total { get; protected set; }
 
         public abstract void SetTotal();

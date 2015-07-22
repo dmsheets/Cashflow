@@ -13,6 +13,7 @@ namespace CashCard.Models
         [Required]
         [Remote("CheckName", "Branch")]
         public string Name { get; set; }
+        [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int PengeluaranRegular { get; set; }
     }
 }
