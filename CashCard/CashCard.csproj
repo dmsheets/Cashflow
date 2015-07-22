@@ -163,6 +163,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\CashflowController.cs" />
+    <Compile Include="Controllers\CutoffController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RegularGroupController.cs" />
     <Compile Include="Controllers\RegularQuizController.cs" />
@@ -335,6 +336,7 @@
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.js.map" />
     <Content Include="Content\bootstrap-select.css.map" />
+    <None Include="Properties\PublishProfiles\tofile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -482,11 +484,10 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\test\Index.cshtml" />
     <Content Include="Views\Role\Delete.cshtml" />
-    <Content Include="Views\CashflowValidation\Create.cshtml" />
-    <Content Include="Views\CashflowValidation\Delete.cshtml" />
-    <Content Include="Views\CashflowValidation\Details.cshtml" />
-    <Content Include="Views\CashflowValidation\Edit.cshtml" />
+    <Content Include="Views\CashflowValidation\CashoutRegular.cshtml" />
     <Content Include="Views\CashflowValidation\Index.cshtml" />
+    <Content Include="Views\Cutoff\Details.cshtml" />
+    <Content Include="Views\Cutoff\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

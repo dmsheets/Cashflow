@@ -7,46 +7,42 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CashCard.Models;
-using Microsoft.AspNet.Identity;
 
 namespace CashCard.Controllers
+
 {
-    public class CashflowValidationController : Controller
+    [Authorize(Roles = "Officer")]
+    public class CutoffController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public CashflowValidationController()
+        public CutoffController()
         {
-            ViewBag.Menu = "MnCashflowValidation";
+            ViewBag.Menu = "MnCutoff";
         }
-        // GET: /WorkflowValidation/
+        // GET: /Cutoff/
         public ActionResult Index()
         {
-            var userId = User.Identity.GetUserId();
-            var branchId = db.Users.Find(userId).BranchId;
-
-            var cashflows = db.CashFlows.Include(c => c.CutOff).Where(p => p.CutOff.BranchId == branchId);
-            return View(cashflows.ToList());
+            var cutoffs = db.CutOffs.Include(c => c.Branch);
+            return View(cutoffs.ToList());
         }
 
-        // GET: /WorkflowValidation/Details/5
+        // GET: /Cutoff/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var cashflow = db.CashFlows.OfType<CashOutRegular>().FirstOrDefault(p => p.Id == id);
-            if (cashflow == null)
+            CutOff cutoff = db.CutOffs.Find(id);
+            if (cutoff == null)
             {
                 return HttpNotFound();
             }
-            return View("CashoutRegular",cashflow);
+            return View(cutoff);
         }
 
-      
-
-       
+    
 
         protected override void Dispose(bool disposing)
         {
