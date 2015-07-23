@@ -467,7 +467,7 @@
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\Cashflow\CashoutRegular.cshtml" />
     <Content Include="Views\Cashflow\Delete.cshtml" />
-    <Content Include="Views\Cashflow\Details.cshtml" />
+    <Content Include="Views\Cashflow\CashoutRegularInfo.cshtml" />
     <Content Include="Views\Cashflow\Edit.cshtml" />
     <Content Include="Views\Cashflow\Index.cshtml" />
     <Content Include="Views\RegularQuiz\Create.cshtml" />
@@ -492,6 +492,7 @@
     <Content Include="Views\Cutoff\Details.cshtml" />
     <Content Include="Views\Cutoff\Index.cshtml" />
     <Content Include="Views\Cashflow\CashIn.cshtml" />
+    <Content Include="Views\Cashflow\CashInInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

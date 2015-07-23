@@ -33,21 +33,7 @@ namespace CashCard.Controllers
             return View(cashflows.ToList());
         }
 
-        // GET: /Cashflow/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            CashFlow cashflow = db.CashFlows.Find(id);
-            if (cashflow == null)
-            {
-                return HttpNotFound();
-            }
-           
-            return View(cashflow);
-        }
+   
 
         // GET: /Cashflow/Create
         public ActionResult CashoutRegular()
@@ -271,8 +257,10 @@ namespace CashCard.Controllers
         [HttpPost]
         public JsonResult CreateCashoutRegularDraft(CashOutRegular cashoutRegular)
         {
+           
             try
             {
+               
                 var cashout = cashoutRegular;
 
                 var usr = User.Identity.GetUserId();
@@ -388,7 +376,7 @@ namespace CashCard.Controllers
         #endregion
 
         // GET: /Cashflow/Edit/5
-      
+
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -406,40 +394,30 @@ namespace CashCard.Controllers
             var cashOutRegular = cashflow as CashOutRegular;
             if (cashOutRegular != null)
             {
+                if (cashOutRegular.State == StateCashFlow.Final)
+                {
+                    return View("CashoutRegularInfo", cashOutRegular);
+                }
                 ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
                 ViewBag.RegularQuizInfo = from x in db.RegularQuizs select new {Id = x.Id, Info = x.Info};
-
                 return View("CashoutRegular", cashOutRegular);
             }
             var cashIn = cashflow as CashIn;
             if (cashIn != null)
-             {
-                 return View("CashIn", cashIn);
-             }
+            {
+                if (cashIn.State == StateCashFlow.Final)
+                {
+                    return View("CashInInfo", cashIn);
+                }
+                return View("CashIn", cashIn);
+            }
 
             return View("CashIn", cashIn);
 
             //return View( cashflow);
         }
 
-        // POST: /Cashflow/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,Date,Note,State,LogNote,CutOffId,UserId")] CashOutRegular cashflow)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cashflow).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.CutOffId = new SelectList(db.CutOffs, "Id", "Note", cashflow.CutOffId);
-            ViewBag.UserId = new SelectList(db.Users, "Id", "UserName", cashflow.UserId);
-            return View(cashflow);
-        }
-
+      
         // GET: /Cashflow/Delete/5
         public ActionResult Delete(int? id)
         {
