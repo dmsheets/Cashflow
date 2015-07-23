@@ -56,7 +56,16 @@ namespace CashCard.Controllers
             return View(cash);
         }
 
-      
+        public ActionResult CashoutIrregular()
+        {
+            var y = new SelectList(Enum.GetValues(typeof(IrregularType)));
+            ViewBag.IrregularTypes = y;
+          
+
+            var cash = new CashOutIrregular();
+
+            return View(cash);
+        }
 
         private void Subtitution(CashOutRegular cashoutDb, CashOutRegular cashoutView)
         {
@@ -129,6 +138,50 @@ namespace CashCard.Controllers
                     var detail = cashInDb.CashInDetails.First(p => p.Id == regDetail.Id);
                     detail.Note = regDetail.Note;
                     detail.Amount = regDetail.Amount;
+
+                }
+            }
+
+
+        }
+
+        private void Subtitution(CashOutIrregular cashInDb, CashOutIrregular cashInView)
+        {
+            cashInDb.Date = cashInView.Date;
+            cashInDb.Note = cashInView.Note;
+
+            //delete detail
+            for (int i = cashInDb.IrregularDetails.Count - 1; i >= 0; i--)
+            {
+                var idReg = cashInDb.IrregularDetails[i].Id;
+
+                var reg = cashInView.IrregularDetails.FirstOrDefault(p => p.Id == idReg);
+                if (reg == null)
+                {
+                    db.Entry(cashInDb.IrregularDetails[i]).State = EntityState.Deleted;
+                    //cashoutDb.RegularDetails.RemoveAt(i);
+                }
+            }
+            //add or update detail
+            for (int i = 0; i < cashInView.IrregularDetails.Count; i++)
+            {
+                if (cashInView.IrregularDetails[i].Id == 0)
+                {
+                    cashInDb.IrregularDetails.Add(cashInView.IrregularDetails[i]);
+                }
+                else
+                {
+                    var regDetail = cashInView.IrregularDetails[i];
+                    var detail = cashInDb.IrregularDetails.First(p => p.Id == regDetail.Id);
+                    detail.IrregularType = regDetail.IrregularType;
+                    detail.FlightDate = regDetail.FlightDate;
+                    detail.FlightNo = regDetail.FlightNo;
+                    detail.FromTo = regDetail.FromTo;
+                    detail.Amount = regDetail.Amount;
+                    detail.Qty = regDetail.Qty;
+                    detail.Note = regDetail.Note;
+                   
+                  
 
                 }
             }
@@ -374,6 +427,127 @@ namespace CashCard.Controllers
         }
 
         #endregion
+        #region Cashout IRegular
+        [HttpPost]
+        public JsonResult CreateCashoutIregularDraft(CashOutIrregular cashoutIregular)
+        {
+
+            try
+            {
+
+                var cashout = cashoutIregular;
+
+                var usr = User.Identity.GetUserId();
+                var xx = db.Users.Find(usr);
+
+                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start);
+                if (cutOff == null)
+                {
+                    cutOff = new CutOff();
+                    cutOff.State = StateCutOff.Start;
+                    cutOff.DateStart = DateTime.Now;
+                    cutOff.DateEnd = DateTime.Now;
+                    cutOff.BranchId = xx.BranchId.Value;
+                    db.CutOffs.Add(cutOff);
+                    db.SaveChanges();
+
+                }
+
+                if (cashoutIregular.Id != 0)
+                {
+                    cashout = db.CashFlows.OfType<CashOutIrregular>().First(p => p.Id == cashoutIregular.Id);
+
+                    Subtitution(cashout, cashoutIregular);
+
+
+
+
+                }
+                else
+                {
+                    db.CashFlows.Add(cashout);
+                    //cashoutRegular.Date = DateTime.Now;
+                    cashout.CutOffId = cutOff.Id;
+                    cashout.UserId = usr;
+
+
+
+                }
+                //set subtotal and total
+
+                cashout.SetToDraft();
+                cashout.IrregularDetails.ForEach(p => p.SetSubTotal());
+                cashout.SetTotal();
+                db.SaveChanges();
+
+
+                return Json(new { Success = 1, CashOutId = cashoutIregular.Id, ex = "" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = 0, ex = ex.Message });
+            }
+
+
+        }
+
+        [HttpPost]
+        public JsonResult CreateCashoutIregularFinal(CashOutIrregular cashoutIregular)
+        {
+            try
+            {
+                var cashout = cashoutIregular;
+                var usr = User.Identity.GetUserId();
+                var xx = db.Users.Find(usr);
+
+                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start);
+                if (cutOff == null)
+                {
+                    cutOff = new CutOff();
+                    cutOff.State = StateCutOff.Start;
+                    cutOff.DateStart = DateTime.Now;
+                    cutOff.DateEnd = DateTime.Now;
+                    cutOff.BranchId = xx.BranchId.Value;
+                    db.CutOffs.Add(cutOff);
+                    db.SaveChanges();
+
+                }
+
+                if (cashoutIregular.Id != 0)
+                {
+                    cashout = db.CashFlows.OfType<CashOutIrregular>().First(p => p.Id == cashoutIregular.Id);
+
+                    Subtitution(cashout, cashoutIregular);
+
+                }
+                else
+                {
+                    db.CashFlows.Add(cashout);
+                    //cashoutRegular.Date = DateTime.Now;
+                    cashout.CutOffId = cutOff.Id;
+                    cashout.UserId = usr;
+
+                }
+
+
+                cashout.SetToFinal();
+
+                cashout.IrregularDetails.ForEach(p => p.SetSubTotal());
+                cashout.SetTotal();
+                db.SaveChanges();
+
+
+                return Json(new { Success = 1, CashOutId = cashoutIregular.Id, ex = "" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = 0, ex = ex.Message });
+            }
+
+
+        }
+
+        #endregion
 
         // GET: /Cashflow/Edit/5
 
@@ -412,37 +586,25 @@ namespace CashCard.Controllers
                 return View("CashInInfo", cashIn);
             }
 
-            return View("CashIn", cashIn);
-
-            //return View( cashflow);
-        }
-
-
-        // GET: /Cashflow/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
+            var cashOutIrregular = cashflow as CashOutIrregular;
+            if (cashOutIrregular != null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                if (cashOutIrregular.State == StateCashFlow.Draft || cashOutIrregular.State == StateCashFlow.Revision)
+                {
+                    var y = new SelectList(Enum.GetValues(typeof(IrregularType)));
+                    ViewBag.IrregularTypes = y;
+          
+                    return View("CashoutIrregular", cashOutIrregular);
+                }
+                return View("CashoutIrregularInfo", cashOutIrregular);
             }
-            CashFlow cashflow = db.CashFlows.Find(id);
-            if (cashflow == null)
-            {
-                return HttpNotFound();
-            }
-            return View(cashflow);
+
+
+            return View("Error");
         }
 
-        // POST: /Cashflow/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            CashFlow cashflow = db.CashFlows.Find(id);
-            db.CashFlows.Remove(cashflow);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+
+     
 
         protected override void Dispose(bool disposing)
         {

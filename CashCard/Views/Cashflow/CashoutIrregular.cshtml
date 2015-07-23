@@ -1,0 +1,461 @@
+﻿@model CashCard.Models.CashOutIrregular
+@{
+    ViewBag.Title = Model.Id == 0 ? "Create" : "Update";
+    Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
+}
+
+@if (Model.Id == 0)
+{
+    <h2>Create</h2>
+}
+else
+{
+    <h2>Update</h2>
+}
+
+<div id="errorInfo" class="row">
+   
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <form id="detail">
+
+                    <input id="iregularDetailId" type="hidden" />
+
+
+                    <div class="form-group">
+                        <label>Irregularity</label>
+                        <div>
+                            @Html.DropDownList("IrregularType", (SelectList)ViewBag.IrregularTypes, new { @class = "form-control"})
+                        </div>
+                       
+                    </div>
+
+
+                    <div class="form-group">
+                        <label>Flight No</label>
+                        <div>
+                            <input id="FlightNo" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label>Flight Date</label>
+                        <div>
+                            <input id="FlightDate" class="form-control" required readonly="readonly" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group ">
+                        <label>From/To</label>
+                        <div>
+                            <input id="FromTo" class="form-control" />
+                        </div>
+                    </div>
+                    
+                    <div class="form-group ">
+                        <label>Note</label>
+                        <div>
+                            <input id="Note1" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-group ">
+                        <label>Amount</label>
+                        <div>
+                            <input id="Amount" name="Amount" type="text" class="form-control" required number="true" />
+                        </div>
+                    </div>
+
+
+                    <div class="form-group ">
+                        <label>Qty</label>
+                        <div>
+                            <input id="Qty" name="Qty" type="text" class="form-control" required number="true" />
+                        </div>
+                    </div>
+
+                    <div class="form-group ">
+                        <button type="button" id="addToTbl" class="btn btn-primary">Add</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <fieldset>
+            <legend> Cashout Irregular</legend>
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(p => p.Id)
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-1" })
+                <div class="col-md-5">
+                    @Html.EditorFor(model => model.Date)
+                    @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
+                    @Html.ValidationMessageFor(model => model.Date)
+                    <span class="label label-info">State : @Html.DisplayFor(p => p.State)</span>
+
+                </div>
+
+
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-1" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Note)
+                </div>
+
+
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Total, new { @class = "control-label col-md-1" })
+                <div class="col-md-5">
+                    @Html.TextBoxFor(model => model.Total, new { @class = "form-control", @readonly = "readonly", @data_val = "false" })
+
+                </div>
+
+
+            </div>
+
+            <div class="form-group">
+
+                <label class="col-md-1 control-label"></label>
+                <div class="col-md-5">
+
+                    <input type="submit" value="Save As Draft" id="saveDraft" class="btn btn-default " />
+
+                    <input type="submit" value="Save As Final" id="saveFinal" class="btn btn-primary " />
+
+                </div>
+
+            </div>
+
+
+
+        </fieldset>
+
+
+
+
+    </div>
+
+
+}
+
+
+
+<hr />
+
+<div class="row">
+    <div class="col-md-offset-10 col-md-2">
+        <button type="button" class="btn btn-primary form-control" data-toggle="modal" data-target="#myModal">
+            Add Detail
+        </button>
+    </div>
+</div>
+
+<div class="row" id="rowTable">
+    <div class="col-lg-12">
+
+        <table id="tbl" class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Irregularity</th>
+                    <th>Flight No</th>
+                    <th>Flight Date</th>
+                    <th>From/To</th>
+                    <th>Note</th>
+                    <th>Amount</th>
+                    <th>Qty</th>
+                    <th>Subtotal</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var a in Model.IrregularDetails)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayTextFor(i => a.Id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(i => a.IrregularType)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(i => a.FlightNo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(i => a.FlightDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(i => a.FromTo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(i => a.Note)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(i => a.Amount)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(i => a.Qty)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(i => a.SubTotal)
+                            </td>
+                            <td>
+                                <a href="#">Edit</a>
+                                <a href="#">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                }
+
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundle/datatable")
+    @Scripts.Render("~/bundles/jquerynumber")
+    @Scripts.Render("~/bundles/numeral")
+    <script type="text/javascript">
+
+
+        $("#Qty").number(true, 0);
+        $("#Amount").number(true, 0);
+        $("#Total").number(true, 0);
+
+        $("#FlightDate").datepicker({ dateFormat: "yy/mm/dd" });
+        $("#Date").datepicker({ dateFormat: "yy/mm/dd" });
+     
+        var tbl = $("#tbl").DataTable(
+        {
+            "searching": false,
+            "lengthChange": false,
+            //"scrollY": "200px",
+            //"scrollCollapse": true,
+            "paging": false,
+            "columnDefs": [
+                {
+                    "targets": [0],
+                    "visible": false,
+                   
+                },
+               
+                {
+                    "targets": [9],
+                    "render": function(data, type, full, meta) {
+                        return " <a href='#' class='editDetail'>Edit</a> | <a href='#' class='deleteDetail'>Delete</a>";
+                    }
+                }
+            ]
+
+        });
+
+      
+
+        function showErrorInfo(error) {
+            var s = " <div class='col-lg-12'> \
+                          <div class='alert alert-danger' role='alert'> \
+                              <span class='glyphicon glyphicon-exclamation-sign'' aria-hidden='true'></span> \
+                              <span class='sr-only'>Error:</span> \
+                              <span id='errorText'>" + error + " \
+                          </div> \
+                      </div>";
+            $("#errorInfo").html(s);
+        }
+
+
+        $("#addToTbl").click(function(e) {
+            e.preventDefault();
+            if ($("#detail").valid()) {
+
+                var total = 0;
+                if ($("#Total").val()) {
+                    total = Number($("#Total").val());
+                }
+
+
+                var subTotal = Number($("#Amount").val()) * Number($("#Qty").val());
+                total = total + subTotal;
+                $("#Total").val(total);
+
+                tbl.row.add([
+                     $("#iregularDetailId").val(), $("#IrregularType option:selected").text(), $("#FlightNo").val(),
+                    $("#FlightDate").val(),$("#FromTo").val(),$("#Note1").val(), numeral($("#Amount").val()).format('0,0'),numeral( $("#Qty").val()).format('0,0'), numeral(subTotal).format('0,0')
+                ]).draw();
+
+                $("#FlightNo").val('');
+                $("#FlightDate").datepicker("setDate", new Date());
+                $("#FromTo").val('');
+                $("#Note1").val('');
+                $("#Amount").val('');
+                $("#Qty").val('');
+                $("#iregularDetailId").val("0");
+                $("#IrregularType").focus();
+            }
+
+        });
+
+
+        $('#rowTable').on('click', '.editDetail', function() {
+            var tr=  $(this).closest('tr');
+            var rowData = tbl.row(tr).data();
+
+            $("#IrregularType").val(rowData[1]);
+            $("#FlightNo").val(rowData[2]);
+            $("#FlightDate").val(rowData[3]);
+            $("#FromTo").val(rowData[4]);
+            $("#Note1").val(rowData[5]);
+            $("#Amount").val(rowData[6]);
+            $("#Qty").val(rowData[7]);
+            $("#iregularDetailId").val(rowData[0]);
+
+          
+
+            tbl.row(tr).remove().draw();
+
+            $('#myModal').modal('show');
+
+            var total = $("#Total").val();
+            total = total - rowData[7];
+            $("#Total").val(total);
+        });
+
+        $('#rowTable').on('click', '.deleteDetail', function() {
+            var tr=  $(this).closest('tr');
+            var rowData = tbl.row(tr).data();
+
+            tbl.row(tr).remove().draw();
+
+
+
+            var total = $("#Total").val();
+            total = total - rowData[7];
+            $("#Total").val(total);
+        });
+
+
+        
+
+      
+
+     
+
+
+        //get cashflow
+        function getCashFlow() {
+            var cashFlow = { "Id": 0, "Date": "", "Note": "", "IrregularDetails": [] };
+            // var regularDetail = { "Id": 0, "RegularQuidId": 0, "Note1": "", "Note2": "", "Amount": 0, "Qty": 0 };
+            cashFlow.Id = $("#Id").val();
+            cashFlow.Date = $("#Date").val();
+            cashFlow.Note = $("#Note").val();
+            var datas = tbl.rows().data();
+            for (var i = 0; i < datas.length; i++) {
+                var dt = datas[i];
+                var regularDetail = { "Id": 0, "IrregularType": 0, "FlightNo": "", "FlightDate": "", "FromTo": "","Note":'', "Amount":0, "Qty": 0 };
+                regularDetail.Id = dt[0];
+                regularDetail.IrregularType = dt[1];
+                regularDetail.FlightNo = dt[2];
+                regularDetail.FlightDate = dt[3];
+                regularDetail.FromTo = dt[4];
+                regularDetail.Note = dt[5];
+                regularDetail.Amount = numeral().unformat(dt[6]);
+                regularDetail.Qty = numeral().unformat(dt[7]);
+                cashFlow.IrregularDetails.push(regularDetail);
+            }
+            return cashFlow;
+        }
+
+
+        $("#saveDraft").click(function(e) {
+            e.preventDefault();
+            var form = $(this).parents('form:first');
+            if (form.valid()) {
+                var cashFlow = getCashFlow();
+                $.ajax({
+                    url: '/CashFlow/CreateCashoutIregularDraft',
+                    data: JSON.stringify(cashFlow),
+                    type: 'POST',
+                    contentType: 'application/json;',
+                    dataType: 'json',
+                    success: function(result) {
+
+                        if (result.Success == "1") {
+                            window.location.href = "/Cashflow/index";
+                        } else {
+                            showErrorInfo(result.ex);
+                        }
+                    }
+
+                });
+            }
+        });
+
+        $("#saveFinal").click(function(e) {
+            e.preventDefault();
+
+            var form = $(this).parents('form:first');
+            if (form.valid()) {
+                //Ajax call here
+
+                var cashFlow = getCashFlow();
+                $.ajax({
+                    url: '/CashFlow/CreateCashoutIregularFinal',
+                    data: JSON.stringify(cashFlow),
+                    type: 'POST',
+                    contentType: 'application/json;',
+                    dataType: 'json',
+                    success: function(result) {
+
+                        if (result.Success == "1") {
+                            window.location.href = "/Cashflow/index";
+                        } else {
+                            showErrorInfo(result.ex);
+                        }
+                    }
+
+                });
+            }
+        });
+        $("#detail").validate();
+    </script>
+    <style>
+    </style>
+
+}

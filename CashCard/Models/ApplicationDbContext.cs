@@ -17,7 +17,7 @@ namespace CashCard.Models
             modelBuilder.Entity<CashFlow>()
                 .Map<CashIn>(m => m.Requires("CashType").HasValue("CashIn"))
                 .Map<CashOutRegular>(m => m.Requires("CashType").HasValue("CastOutRegular"))
-                .Map<CashOutIregular>(m => m.Requires("CashType").HasValue("CastOutIregular"));
+                .Map<CashOutIrregular>(m => m.Requires("CashType").HasValue("CastOutIregular"));
             
         }
         public DbSet<CashFlow> CashFlows { get; set; }
