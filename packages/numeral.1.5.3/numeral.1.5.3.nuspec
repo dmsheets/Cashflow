@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>numeral</id>
+    <version>1.5.3</version>
+    <title>Numeral.js</title>
+    <authors>Adam Draper</authors>
+    <owners>Adam Draper</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>http://numeraljs.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A javascript library for formatting and manipulating numbers. Package issues? Pleae post them here https://github.com/sirkirby/numeral-js-nuget/issues</description>
+    <releaseNotes>initial release from v1.5.3 source</releaseNotes>
+    <tags>numeral number formatting format currency percentage javascript</tags>
+  </metadata>
+</package>
