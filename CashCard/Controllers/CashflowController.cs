@@ -45,6 +45,7 @@ namespace CashCard.Controllers
             {
                 return HttpNotFound();
             }
+           
             return View(cashflow);
         }
 
@@ -60,26 +61,16 @@ namespace CashCard.Controllers
             return View( cash);
         }
 
-        // POST: /Cashflow/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-      /*  [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult CreateCashoutRegular([Bind(Include="Id,Date,Note,State,LogNote,CutOffId,UserId")] CashOutRegular cashflow)
+        public ActionResult CashIn()
         {
-            if (ModelState.IsValid)
-            {
-                db.CashFlows.Add(cashflow);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
 
-          
-            ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
-            return View(cashflow);
+
+            var cash = new CashIn();
+
+            return View(cash);
         }
 
-        */
+      
 
         private void Subtitution(CashOutRegular cashoutDb, CashOutRegular cashoutView)
         {
@@ -121,6 +112,162 @@ namespace CashCard.Controllers
 
 
         }
+
+        private void Subtitution(CashIn cashInDb, CashIn cashInView)
+        {
+            cashInDb.Date = cashInView.Date;
+            cashInDb.Note = cashInView.Note;
+
+            //delete detail
+            for (int i = cashInDb.CashInDetails.Count - 1; i >= 0; i--)
+            {
+                var idReg = cashInDb.CashInDetails[i].Id;
+
+                var reg = cashInView.CashInDetails.FirstOrDefault(p => p.Id == idReg);
+                if (reg == null)
+                {
+                    db.Entry(cashInDb.CashInDetails[i]).State = EntityState.Deleted;
+                    //cashoutDb.RegularDetails.RemoveAt(i);
+                }
+            }
+            //add or update detail
+            for (int i = 0; i < cashInView.CashInDetails.Count; i++)
+            {
+                if (cashInView.CashInDetails[i].Id == 0)
+                {
+                    cashInDb.CashInDetails.Add(cashInView.CashInDetails[i]);
+                }
+                else
+                {
+                    var regDetail = cashInView.CashInDetails[i];
+                    var detail = cashInDb.CashInDetails.First(p => p.Id == regDetail.Id);
+                    detail.Note = regDetail.Note;
+                    detail.Amount = regDetail.Amount;
+
+                }
+            }
+
+
+        }
+
+        #region CashIn
+        [HttpPost]
+        public JsonResult CreateCashInDraft(CashIn cashIn)
+        {
+            try
+            {
+                var cashInActive = cashIn;
+
+                var usr = User.Identity.GetUserId();
+                var xx = db.Users.Find(usr);
+
+                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start);
+                if (cutOff == null)
+                {
+                    cutOff = new CutOff();
+                    cutOff.State = StateCutOff.Start;
+                    cutOff.DateStart = DateTime.Now;
+                    cutOff.DateEnd = DateTime.Now;
+                    cutOff.BranchId = xx.BranchId.Value;
+                    db.CutOffs.Add(cutOff);
+                    db.SaveChanges();
+
+                }
+
+                if (cashIn.Id != 0)
+                {
+                    cashInActive = db.CashFlows.OfType<CashIn>().First(p => p.Id == cashIn.Id);
+
+                    Subtitution(cashInActive, cashIn);
+
+
+
+
+                }
+                else
+                {
+                    db.CashFlows.Add(cashInActive);
+                    //cashoutRegular.Date = DateTime.Now;
+                    cashInActive.CutOffId = cutOff.Id;
+                    cashInActive.UserId = usr;
+
+
+
+                }
+                //set subtotal and total
+
+                cashInActive.SetToDraft();
+               
+                cashInActive.SetTotal();
+                db.SaveChanges();
+
+
+                return Json(new { Success = 1, CashOutId = cashIn.Id, ex = "" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = 0, ex = ex.Message });
+            }
+
+
+        }
+
+        [HttpPost]
+        public JsonResult CreateCashInFinal(CashIn cashIn)
+        {
+            try
+            {
+                var cashInActive = cashIn;
+                var usr = User.Identity.GetUserId();
+                var xx = db.Users.Find(usr);
+
+                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start);
+                if (cutOff == null)
+                {
+                    cutOff = new CutOff();
+                    cutOff.State = StateCutOff.Start;
+                    cutOff.DateStart = DateTime.Now;
+                    cutOff.DateEnd = DateTime.Now;
+                    cutOff.BranchId = xx.BranchId.Value;
+                    db.CutOffs.Add(cutOff);
+                    db.SaveChanges();
+
+                }
+
+                if (cashIn.Id != 0)
+                {
+                    cashInActive = db.CashFlows.OfType<CashIn>().First(p => p.Id == cashIn.Id);
+
+                    Subtitution(cashInActive, cashIn);
+
+                }
+                else
+                {
+                    db.CashFlows.Add(cashInActive);
+                    //cashoutRegular.Date = DateTime.Now;
+                    cashInActive.CutOffId = cutOff.Id;
+                    cashInActive.UserId = usr;
+
+                }
+
+
+                cashInActive.SetToFinal();
+                cashInActive.SetTotal();
+                db.SaveChanges();
+
+
+                return Json(new { Success = 1, CashOutId = cashIn.Id, ex = "" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = 0, ex = ex.Message });
+            }
+
+
+        }
+
+        #endregion
+        #region Cashout Regular
         [HttpPost]
         public JsonResult CreateCashoutRegularDraft(CashOutRegular cashoutRegular)
         {
@@ -237,7 +384,11 @@ namespace CashCard.Controllers
 
 
         }
+
+        #endregion
+
         // GET: /Cashflow/Edit/5
+      
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -252,10 +403,22 @@ namespace CashCard.Controllers
             //ViewBag.CutOffId = new SelectList(db.CutOffs, "Id", "Note", cashflow.CutOffId);
             //ViewBag.UserId = new SelectList(db.Users, "Id", "UserName", cashflow.UserId);
 
-            ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
-            ViewBag.RegularQuizInfo = from x in db.RegularQuizs select new { Id = x.Id, Info = x.Info };
+            var cashOutRegular = cashflow as CashOutRegular;
+            if (cashOutRegular != null)
+            {
+                ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
+                ViewBag.RegularQuizInfo = from x in db.RegularQuizs select new {Id = x.Id, Info = x.Info};
 
-            return View("CashoutRegular",(CashOutRegular) cashflow);
+                return View("CashoutRegular", cashOutRegular);
+            }
+            var cashIn = cashflow as CashIn;
+            if (cashIn != null)
+             {
+                 return View("CashIn", cashIn);
+             }
+
+            return View("CashIn", cashIn);
+
             //return View( cashflow);
         }
 

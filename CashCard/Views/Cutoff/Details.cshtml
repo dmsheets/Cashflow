@@ -96,15 +96,19 @@
                            
                             @if (a is CashOutRegular)
                             {
-                                @Html.Encode("Regular")
+                                <span>Regular</span>
+                               
                             }
                             else if (a is CashIn)
                             {
-                                @Html.Encode("CashIn")
+                                <span>Cash In</span>
+                               
                             }
                             else
                             {
-                                @Html.Encode("Iregular")
+                                <span>Iregular</span>
+                                
+                               
                             }
                            
                         </td>

@@ -183,6 +183,7 @@
     <Compile Include="Models\Branch.cs" />
     <Compile Include="Models\CashFlow.cs" />
     <Compile Include="Models\CashIn.cs" />
+    <Compile Include="Models\CashInDetail.cs" />
     <Compile Include="Models\CashOutIregular.cs" />
     <Compile Include="Models\CashOutRegular.cs" />
     <Compile Include="Models\CutOff.cs" />
@@ -490,6 +491,7 @@
     <Content Include="Views\CashflowValidation\Index.cshtml" />
     <Content Include="Views\Cutoff\Details.cshtml" />
     <Content Include="Views\Cutoff\Index.cshtml" />
+    <Content Include="Views\Cashflow\CashIn.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
