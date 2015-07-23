@@ -15,67 +15,114 @@
 <p>
     @Html.ActionLink("Create New", "CashIn")
 </p>
-<table class="table">
-    <tr>
-     
-        <th>
-           Owner
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Note)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.State)
-        </th>
-        <th>
-           Type
-        </th>
-        <th> Action </th>
-    </tr>
+<table  class="table table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
 
-@foreach (var item in Model) {
-    <tr>
-       
-        <td>
-            @Html.DisplayFor(modelItem => item.User.UserName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Note)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.State)
-        </td>
-        <td>
-            @if (item is CashOutRegular)
-            {
-                <span>Regular</span>
+            <th>
+                Owner
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Note)
+            </th>
+            <th>
+                Total
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                Type
+            </th>
+            <th> Action </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
 
-            }
-            else if (item is CashIn)
-            {
-                <span>Cash In</span>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Total)
+                </td>
+                <td>
 
-            }
-            else
-            {
-                <span>Iregular</span>
+                    @switch (item.State)
+                    {
+                        case StateCashFlow.Draft:
+                            <span class="label label-default">Draft</span>
+                            break;
+                        case StateCashFlow.Final:
+                        <span class="label label-primary">Final</span>
+                            break;
+                        case StateCashFlow.Revision:
+                        <span class="label label-warning">Revision</span>
+                            break;
+                        case StateCashFlow.Approve:
+                        <span class="label label-success">Approve</span>
+                            break;
+                        case StateCashFlow.Reject:
+                        <span class="label label-danger">Reject</span>
+                            break;
+                    }
 
 
-            }
+                </td>
+                <td>
+                    @if (item is CashOutRegular)
+                    {
+                        <span>Regular</span>
+
+                    }
+                    else if (item is CashIn)
+                    {
+                        <span>Cash In</span>
+
+                    }
+                    else
+                    {
+                        <span>Iregular</span>
 
 
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id })
-          
-        </td>
-    </tr>
-}
+                    }
+
+
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+
+                </td>
+            </tr>
+        }
+    </tbody>
 
 </table>
+
+@section Scripts {
+    @Scripts.Render("~/bundle/datatable")
+    <script type="text/javascript">
+
+        var tbl = $(".table").DataTable(
+        {
+            "searching": true,
+            "lengthChange": false
+        });
+
+
+
+    </script>
+}
+
+

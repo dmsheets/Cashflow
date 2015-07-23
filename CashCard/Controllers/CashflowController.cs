@@ -394,22 +394,22 @@ namespace CashCard.Controllers
             var cashOutRegular = cashflow as CashOutRegular;
             if (cashOutRegular != null)
             {
-                if (cashOutRegular.State == StateCashFlow.Final)
+                if (cashOutRegular.State == StateCashFlow.Draft || cashOutRegular.State == StateCashFlow.Revision)
                 {
-                    return View("CashoutRegularInfo", cashOutRegular);
+                    ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
+                    ViewBag.RegularQuizInfo = from x in db.RegularQuizs select new {Id = x.Id, Info = x.Info};
+                    return View("CashoutRegular", cashOutRegular);
                 }
-                ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
-                ViewBag.RegularQuizInfo = from x in db.RegularQuizs select new {Id = x.Id, Info = x.Info};
-                return View("CashoutRegular", cashOutRegular);
+                return View("CashoutRegularInfo", cashOutRegular);
             }
             var cashIn = cashflow as CashIn;
             if (cashIn != null)
             {
-                if (cashIn.State == StateCashFlow.Final)
+                if (cashIn.State == StateCashFlow.Draft || cashIn.State == StateCashFlow.Revision)
                 {
-                    return View("CashInInfo", cashIn);
+                    return View("CashIn", cashIn);
                 }
-                return View("CashIn", cashIn);
+                return View("CashInInfo", cashIn);
             }
 
             return View("CashIn", cashIn);
@@ -417,7 +417,7 @@ namespace CashCard.Controllers
             //return View( cashflow);
         }
 
-      
+
         // GET: /Cashflow/Delete/5
         public ActionResult Delete(int? id)
         {

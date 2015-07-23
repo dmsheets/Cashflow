@@ -28,7 +28,7 @@
             @Html.DisplayFor(model => model.State)
         </dd>
 
-      
+
 
         <dt>
             @Html.DisplayNameFor(model => model.PreviousBallance)
@@ -54,9 +54,9 @@
             @Html.DisplayFor(model => model.Note)
         </dd>
         <dd>
-            
+
             <input type="button" value="Cut Off!" class="btn btn-danger " />
-           
+
         </dd>
 
     </dl>
@@ -67,10 +67,10 @@
             <tr>
                 <th>Id</th>
                 <th>Date</th>
-                <th>State</th>
                 <th>Total</th>
+                <th>State</th>
                 <th>Type</th>
-               
+
 
             </tr>
         </thead>
@@ -87,32 +87,51 @@
                             @Html.DisplayFor(i => a.Date)
                         </td>
                         <td>
-                            @Html.DisplayFor(i => a.State)
-                        </td>
-                        <td>
                             @Html.DisplayFor(i => a.Total)
                         </td>
                         <td>
-                           
+                            @switch (a.State)
+                            {
+                                case StateCashFlow.Draft:
+                                    <span class="label label-default">Draft</span>
+                                    break;
+                                case StateCashFlow.Final:
+                                <span class="label label-primary">Final</span>
+                                    break;
+                                case StateCashFlow.Revision:
+                                <span class="label label-warning">Revision</span>
+                                    break;
+                                case StateCashFlow.Approve:
+                                <span class="label label-success">Approve</span>
+                                    break;
+                                case StateCashFlow.Reject:
+                                <span class="label label-danger">Reject</span>
+                                    break;
+                            }
+
+                        </td>
+
+                        <td>
+
                             @if (a is CashOutRegular)
                             {
                                 <span>Regular</span>
-                               
+
                             }
                             else if (a is CashIn)
                             {
                                 <span>Cash In</span>
-                               
+
                             }
                             else
                             {
                                 <span>Iregular</span>
-                                
-                               
+
+
                             }
-                           
+
                         </td>
-                        
+
 
                     </tr>
                 }
