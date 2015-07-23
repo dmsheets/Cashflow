@@ -9,6 +9,10 @@ namespace CashCard.Controllers
      [Authorize]
     public class HomeController : Controller
     {
+         public HomeController()
+         {
+             ViewBag.Menu = "MnHome";
+         }
         public ActionResult Index()
         {
             return View();

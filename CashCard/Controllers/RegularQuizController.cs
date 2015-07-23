@@ -129,10 +129,19 @@ namespace CashCard.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            RegularQuiz RegularQuiz = db.RegularQuizs.Find(id);
-            db.RegularQuizs.Remove(RegularQuiz);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                RegularQuiz RegularQuiz = db.RegularQuizs.Find(id);
+                db.RegularQuizs.Remove(RegularQuiz);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception)
+            {
+
+                return View("Error");
+            }
+
         }
 
         protected override void Dispose(bool disposing)

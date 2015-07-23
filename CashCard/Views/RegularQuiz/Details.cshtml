@@ -12,22 +12,6 @@
 	<hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.SapCode)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SapCode)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.ConterName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ConterName)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.Quiz)
         </dt>
 
@@ -36,12 +20,22 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Active)
+            Group Info
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Active)
+            @Html.DisplayFor(model => model.RegularGroup.AccountNo) -
+            @Html.DisplayFor(model => model.RegularGroup.AccountDesription)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RegularType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RegularType)
+        </dd>
+
 
     </dl>
 </div>

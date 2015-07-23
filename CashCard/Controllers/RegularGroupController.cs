@@ -120,19 +120,18 @@ namespace CashCard.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-             RegularGroup regulargroup = db.RegularGroup.Find(id);
+          
             try
             {
-               
+                RegularGroup regulargroup = db.RegularGroup.Find(id);
                 db.RegularGroup.Remove(regulargroup);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", ex.Message);
-                return View(regulargroup);
-               
+                return View("Error");
+
             }
 
         }

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CashCard.Models.CashFlow>
+﻿@using CashCard.Models
+@model IEnumerable<CashFlow>
 
 @{
     ViewBag.Title = "Index";
@@ -18,7 +19,7 @@
     <tr>
      
         <th>
-            @Html.DisplayNameFor(model => model.User.UserName)
+           Owner
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Date)
@@ -30,9 +31,9 @@
             @Html.DisplayNameFor(model => model.State)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.LogNote)
+           Type
         </th>
-        <th></th>
+        <th> Action </th>
     </tr>
 
 @foreach (var item in Model) {
@@ -51,11 +52,28 @@
             @Html.DisplayFor(modelItem => item.State)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.LogNote)
+            @if (item is CashOutRegular)
+            {
+                <span>Regular</span>
+
+            }
+            else if (item is CashIn)
+            {
+                <span>Cash In</span>
+
+            }
+            else
+            {
+                <span>Iregular</span>
+
+
+            }
+
+
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id })
+          
         </td>
     </tr>
 }
