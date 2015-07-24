@@ -10,9 +10,7 @@
 <div>
     <h4>CashFlow</h4>
     <hr />
-    <div id="errorInfo" title="Error Info">
-
-    </div>
+   
     <dl class="dl-horizontal">
         @Html.HiddenFor(p => p.Id)
        
@@ -69,9 +67,9 @@
             <form method="POST" action="/CashflowValidation/SetState" >
                
              
-                <input type="button" id="btnRevision" value="Revision" class="btn btn-warning " />
-                <input type="button" id="btnReject" value="Reject" class="btn btn-danger "  />
-                <input type="button" id="btnApprove" value="Approve" class="btn btn-success"  />
+                <input type="button" id="btnRevision" state="Revision" value="Revision" class="btn-ajax btn btn-warning " />
+                <input type="button" id="btnReject" state="Reject" value="Reject" class="btn-ajax btn btn-danger "  />
+                <input type="button" id="btnApprove" state="Approve" value="Approve" class="btn-ajax btn btn-success"  />
             </form>
            
         </dd>
@@ -140,29 +138,38 @@
     @Html.ActionLink("Back to List", "Index")
 </p>
 
+<div id="errorInfo" title="Error Info">
+
+</div>
+
+<div id="InputInfo" title="Note">
+    <input id="validationInfo" type="text"/>
+</div>
+
 @section Scripts {
     @Scripts.Render("~/bundle/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
 
     <script type="text/javascript">
+        var state, id, log;
         var tbl = $("#tbl").DataTable(
-       {
-           "searching": false,
-           "lengthChange": false,
-           "paging": false,
-           "columnDefs": [
-               {
-                   "targets": [0],
-                   "visible": false,
-                   "ordering": false
-               },
-               {
-                   "targets": [1],
-                   "visible": false
-               }
-           ]
+        {
+            "searching": false,
+            "lengthChange": false,
+            "paging": false,
+            "columnDefs": [
+                {
+                    "targets": [0],
+                    "visible": false,
+                    "ordering": false
+                },
+                {
+                    "targets": [1],
+                    "visible": false
+                }
+            ]
 
-       });
+        });
         $("#spanTotal").number(true, 0);
         var dialog = $("#errorInfo").dialog({
             autoOpen: false,
@@ -170,6 +177,36 @@
             buttons: {
                 Ok: function () {
                     $(this).dialog("close");
+                }
+            }
+        });
+
+        var dialogInputText = $("#InputInfo").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                Ok: function () {
+                    $(this).dialog("close");
+
+                    log = $("#validationInfo").val();
+
+                    $.ajax({
+                        url: '/CashflowValidation/SetState',
+                        data: JSON.stringify({ Id: id, State: state,Log:log }),
+                        type: 'POST',
+                        contentType: 'application/json;',
+                        dataType: 'json',
+                        success: function (result) {
+
+                            if (result.Success == "1") {
+                                window.location.href = "/CashflowValidation/index";
+                            } else {
+                                showErrorInfo(result.ex);
+                            }
+                        }
+
+                    });
+
                 }
             }
         });
@@ -183,23 +220,12 @@
 
         }
 
-        $("#btnRevision").click(function() {
-            $.ajax({
-                url: '/CashflowValidation/SetState',
-                data: JSON.stringify({Idx:$("#Id").val(), Statex:'Revision'}),
-                type: 'POST',
-                contentType: 'application/json;',
-                dataType: 'json',
-                success: function (result) {
-
-                    if (result.Success == "1") {
-                        window.location.href = "/Cashflow/index";
-                    } else {
-                        showErrorInfo(result.ex);
-                    }
-                }
-
-            });
+        $(".btn-ajax").click(function () {
+             state = $(this).attr("state");
+            id = $("#Id").val();
+            
+             dialogInputText.dialog("option", "title", "Validate as " + state);
+            dialogInputText.dialog("open");
         });
     </script>
 

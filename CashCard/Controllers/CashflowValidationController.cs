@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CashCard.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 
 namespace CashCard.Controllers
@@ -45,12 +46,12 @@ namespace CashCard.Controllers
         }
 
         [HttpPost]
-        public JsonResult SetState(int idx, StateCashFlow statex)
+        public JsonResult SetState(int id, StateCashFlow state, string log)
         {
             try
             {
-                var ch = db.CashFlows.Find(idx);
-                switch (statex)
+                var ch = db.CashFlows.Find(id);
+                switch (state)
                 {
                     case StateCashFlow.Revision:
                         ch.SetToRevision();
@@ -65,6 +66,7 @@ namespace CashCard.Controllers
                         throw new Exception("State not valid");
                 }
                 ch.SuperVisorId = User.Identity.GetUserId();
+                ch.LogNote = User.Identity.Name + "|" + state + "|" + log + "<br>" + ch.LogNote;
                 db.SaveChanges();
                 return Json(new { Success = 1, CashOutId = ch.Id, ex = "" });
 

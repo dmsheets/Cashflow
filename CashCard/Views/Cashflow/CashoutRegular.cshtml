@@ -1,21 +1,9 @@
-﻿@model CashCard.Models.CashOutRegular
+﻿@using CashCard.Models
+@model CashCard.Models.CashOutRegular
 @{
     ViewBag.Title = Model.Id == 0 ? "Create" : "Update";
     Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
 }
-
-@if (Model.Id == 0)
-{
-    <h2>Create</h2>
-}
-else
-{
-    <h2>Update</h2>
-}
-
-<div id="errorInfo" title="Error Info">
-
-</div>
 
 
 
@@ -84,74 +72,114 @@ else
     </div>
 </div>
 
-@using (Html.BeginForm())
-{
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm())
+        {
 
-    @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <fieldset>
-            <legend> Cashout Regular</legend>
-            @Html.ValidationSummary(true)
-            @Html.HiddenFor(p => p.Id)
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                <fieldset>
+                    <legend> Cashout Regular</legend>
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(p => p.Id)
 
 
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-1" })
-                <div class="col-md-5">
-                    @Html.EditorFor(model => model.Date)
-                    @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
-                    @Html.ValidationMessageFor(model => model.Date)
-                    <span class="label label-info">State : @Html.DisplayFor(p => p.State)</span>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Date)
+                            @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
+                            @Html.ValidationMessageFor(model => model.Date)
+                            <span class="label label-info">State : @Html.DisplayFor(p => p.State)</span>
 
-                </div>
+                        </div>
+
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Note)
+                        </div>
+
+
+                    </div>
+                    
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.State, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @switch (Model.State)
+                            {
+                                case StateCashFlow.Draft:
+                                    <span class="label label-default">Draft</span>
+                                    break;
+                                case StateCashFlow.Final:
+                                <span class="label label-primary">Final</span>
+                                    break;
+                                case StateCashFlow.Revision:
+                                <span class="label label-warning">Revision</span>
+                                    break;
+                                case StateCashFlow.Approve:
+                                <span class="label label-success">Approve</span>
+                                    break;
+                                case StateCashFlow.Reject:
+                                <span class="label label-danger">Reject</span>
+                                    break;
+                            }
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Total, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Total, new { @class = "form-control", @readonly = "readonly", @data_val = "false" })
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+
+                            <input type="submit" value="Save As Draft" id="saveDraft" class="btn btn-default " />
+
+                            <input type="submit" value="Save As Final" id="saveFinal" class="btn btn-primary " />
+
+                        </div>
+
+                    </div>
+
+
+
+                </fieldset>
+
+
 
 
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-1" })
-                <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Note)
-                </div>
 
 
+        }
+
+    </div>
+    <div class="col-md-6">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">Log</div>
+            <div class="panel-body">
+                @Html.DisplayTextFor(model => model.LogNote)
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Total, new { @class = "control-label col-md-1" })
-                <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.Total, new { @class = "form-control", @readonly = "readonly", @data_val = "false" })
-
-                </div>
-
-
-            </div>
-
-            <div class="form-group">
-
-                <label class="col-md-1 control-label"></label>
-                <div class="col-md-5">
-
-                    <input type="submit" value="Save As Draft" id="saveDraft" class="btn btn-default " />
-
-                    <input type="submit" value="Save As Final" id="saveFinal" class="btn btn-primary " />
-
-                </div>
-
-            </div>
-
-
-
-        </fieldset>
-
-
+        </div>
 
 
     </div>
-
-
-}
+</div>
 
 
 
@@ -232,6 +260,10 @@ else
     @Html.ActionLink("Back to List", "Index")
 </div>
 
+
+<div id="errorInfo" title="Error Info">
+
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundle/datatable")

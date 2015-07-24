@@ -1,72 +1,97 @@
-﻿@model CashCard.Models.CashOutIrregular
+﻿@using CashCard.Models
+@model CashCard.Models.CashOutIrregular
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
 }
 
-<div class="alert alert-warning" role="alert">Waiting for validation</div>
-<h2>Details</h2>
 
-<div>
-    <h4>Cashout Regular</h4>
-    <hr />
+  
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Cashout Irregular</h2>
 
-    <dl class="dl-horizontal">
+            <dl class="dl-horizontal">
+               
+                <dt>
+                    Owner
+                </dt>
 
-        <dt>
-            Owner
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.User.UserName)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.UserName)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Date)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Date)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Note)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Note)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Note)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Note)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.State)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.State)
-        </dt>
+                <dd>
+                    @switch (Model.State)
+                    {
+                        case StateCashFlow.Draft:
+                            <span class="label label-default">Draft</span>
+                            break;
+                        case StateCashFlow.Final:
+                        <span class="label label-primary">Final</span>
+                            break;
+                        case StateCashFlow.Revision:
+                        <span class="label label-warning">Revision</span>
+                            break;
+                        case StateCashFlow.Approve:
+                        <span class="label label-success">Approve</span>
+                            break;
+                        case StateCashFlow.Reject:
+                        <span class="label label-danger">Reject</span>
+                            break;
+                    }
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.State)
-        </dd>
+               
 
-        <dt>
-            @Html.DisplayNameFor(model => model.LogNote)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Total)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.LogNote)
-        </dd>
+                <dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Total)
-        </dt>
-
-        <dd>
-
-            @Html.DisplayFor(model => model.Total)
-        </dd>
+                    @Html.DisplayFor(model => model.Total)
+                </dd>
 
 
 
-    </dl>
-</div>
+            </dl>
+        </div>
+        <div class="col-md-6">
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">Log</div>
+                <div class="panel-body">
+                    @Html.DisplayTextFor(model => model.LogNote)
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    
+
 
 <div class="row" id="rowTable">
     <div class="col-lg-12">

@@ -1,22 +1,14 @@
-﻿@model CashCard.Models.CashIn
+﻿@using CashCard.Models
+@model CashCard.Models.CashIn
 @{
-    ViewBag.Title = Model.Id==0 ? "Create" : "Update";
+    ViewBag.Title = Model.Id == 0 ? "Create" : "Update";
 
     Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
 }
 
-@if (Model.Id == 0)
-{
-    <h2>Create</h2>
-}
-else
-{
-    <h2>Update</h2>
-}
 
-<div id="errorInfo" title="Error Info">
-  
-</div>
+
+
 
 
 
@@ -47,7 +39,7 @@ else
                     </div>
 
 
-                   
+
 
                     <div class="form-group ">
                         <button type="button" id="addToTbl" class="btn btn-primary">Add</button>
@@ -56,81 +48,117 @@ else
                 </form>
             </div>
             @*<div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
-            </div>*@
+                </div>*@
         </div>
     </div>
 </div>
 
-@using (Html.BeginForm())
-{
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm())
+        {
 
-    @Html.AntiForgeryToken()
-    <div class="form-horizontal">
-        <fieldset>
-            <legend> Cash In</legend>
-            @Html.ValidationSummary(true)
-            @Html.HiddenFor(p => p.Id)
-
-
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-1" })
-                <div class="col-md-5">
-                    @Html.EditorFor(model => model.Date)
-                    @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
-                    @Html.ValidationMessageFor(model => model.Date)
-                    <span class="label label-info">State : @Html.DisplayFor(p => p.State)</span>
-
-                </div>
-
-              
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-1" })
-                <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(model => model.Note)
-                </div>
-
-              
-            </div>
-            
-            <div class="form-group">
-                @Html.LabelFor(model => model.Total, new { @class = "control-label col-md-1" })
-                <div class="col-md-5">
-                    @Html.TextBoxFor(model => model.Total, new { @class = "form-control", @readonly="readonly", @data_val = "false" })
-                  
-                </div>
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                <fieldset>
+                    <legend> Cash In</legend>
+                    @Html.ValidationSummary(true)
+                    @Html.HiddenFor(p => p.Id)
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.Date)
+                            @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
+                            @Html.ValidationMessageFor(model => model.Date)
+                         
+                        </div>
 
 
-            </div>
-
-            <div class="form-group">
-
-                <label class="col-md-1 control-label" ></label>
-                <div class="col-md-5">
-                  
-                        <input type="submit" value="Save As Draft" id="saveDraft" class="btn btn-default " />
-                    
-                        <input type="submit" value="Save As Final" id="saveFinal" class="btn btn-primary " />
-                    
                     </div>
-               
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.State, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @switch (Model.State)
+                            {
+                                case StateCashFlow.Draft:
+                                    <span class="label label-default">Draft</span>
+                                    break;
+                                case StateCashFlow.Final:
+                                <span class="label label-primary">Final</span>
+                                    break;
+                                case StateCashFlow.Revision:
+                                <span class="label label-warning">Revision</span>
+                                    break;
+                                case StateCashFlow.Approve:
+                                <span class="label label-success">Approve</span>
+                                    break;
+                                case StateCashFlow.Reject:
+                                <span class="label label-danger">Reject</span>
+                                    break;
+                            }
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.Note)
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Total, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(model => model.Total, new { @class = "form-control", @readonly = "readonly", @data_val = "false" })
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-10">
+
+                            <input type="submit" value="Save As Draft" id="saveDraft" class="btn btn-default " />
+
+                            <input type="submit" value="Save As Final" id="saveFinal" class="btn btn-primary " />
+
+                        </div>
+
+                    </div>
+
+
+
+
+                </fieldset>
+
+
+
             </div>
 
 
+        }
+    </div>
+    <div class="col-md-6">
 
-        </fieldset>
-
-
+        <div class="panel panel-primary">
+            <div class="panel-heading">Log</div>
+            <div class="panel-body">
+                @Html.DisplayTextFor(model => model.LogNote)
+            </div>
+        </div>
 
 
     </div>
+</div>
 
-
-}
 
 
 
@@ -164,15 +192,15 @@ else
                             <td>
                                 @Html.DisplayTextFor(i => a.Id)
                             </td>
-                           
+
                             <td>
                                 @Html.DisplayFor(i => a.Note)
                             </td>
-                           
+
                             <td>
                                 @Html.DisplayFor(i => a.Amount)
                             </td>
-                           
+
                             <td>
                                 <a href="#">Edit</a>
                                 <a href="#">Delete</a>
@@ -184,7 +212,7 @@ else
 
             </tbody>
         </table>
-   </div>
+    </div>
 </div>
 
 
@@ -192,14 +220,17 @@ else
     @Html.ActionLink("Back to List", "Index")
 </div>
 
+<div id="errorInfo" title="Error Info">
+
+</div>
 
 @section Scripts {
     @Scripts.Render("~/bundle/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
-@Scripts.Render("~/bundles/numeral")
+    @Scripts.Render("~/bundles/numeral")
     <script type="text/javascript">
 
-       var dialog =  $("#errorInfo").dialog({
+        var dialog = $("#errorInfo").dialog({
             autoOpen: false,
             modal: true,
             buttons: {
@@ -208,12 +239,12 @@ else
                 }
             }
         });
-      
+
         $("#Amount").number(true, 0);
         $("#Total").number(true, 0);
-     
 
-       
+
+
         var tbl = $("#tbl").DataTable(
         {
             "searching": false,
@@ -229,7 +260,7 @@ else
                 },
                 {
                     "targets": [3],
-                    "render": function(data, type, full, meta) {
+                    "render": function (data, type, full, meta) {
                         return " <a href='#' class='editDetail'>Edit</a> | <a href='#' class='deleteDetail'>Delete</a>";
                     }
                 }
@@ -237,7 +268,7 @@ else
 
         });
 
-      
+
         function showErrorInfo(error) {
 
             var str = "<p> \
@@ -248,7 +279,7 @@ else
 
         }
 
-        $("#addToTbl").click(function(e) {
+        $("#addToTbl").click(function (e) {
             e.preventDefault();
             if ($("#detail").valid()) {
 
@@ -263,21 +294,21 @@ else
                 $("#Total").val(total);
 
                 tbl.row.add([
-                    $("#cashInDetailId").val(),  $("#Note2").val(), numeral($("#Amount").val()).format('0,0')]).draw();
+                    $("#cashInDetailId").val(), $("#Note2").val(), numeral($("#Amount").val()).format('0,0')]).draw();
 
                 $('#Note2').focus();
                 $("#Note2").val('');
-             
+
                 $("#Amount").val('');
-               
+
                 $("#cashInDetailId").val("0");
             }
 
         });
-       
 
-        $('#rowTable').on('click', '.editDetail', function() {
-            var tr=  $(this).closest('tr');
+
+        $('#rowTable').on('click', '.editDetail', function () {
+            var tr = $(this).closest('tr');
             var rowData = tbl.row(tr).data();
             $("#Note2").val(rowData[1]);
             $("#Amount").val(rowData[2]);
@@ -292,8 +323,8 @@ else
             $("#Total").val(total);
         });
 
-        $('#rowTable').on('click', '.deleteDetail', function() {
-            var tr=  $(this).closest('tr');
+        $('#rowTable').on('click', '.deleteDetail', function () {
+            var tr = $(this).closest('tr');
             var rowData = tbl.row(tr).data();
 
             tbl.row(tr).remove().draw();
@@ -304,10 +335,10 @@ else
             total = total - rowData[2];
             $("#Total").val(total);
         });
-      
 
 
-      
+
+
         $("#Date").datepicker({ dateFormat: "yy/mm/dd" });
 
 
@@ -321,18 +352,18 @@ else
             var datas = tbl.rows().data();
             for (var i = 0; i < datas.length; i++) {
                 var dt = datas[i];
-                var cashInDetail = { "Id": 0,  "Note": "",  "Amount": 0};
+                var cashInDetail = { "Id": 0, "Note": "", "Amount": 0 };
                 cashInDetail.Id = dt[0];
                 cashInDetail.Note = dt[1];
-                cashInDetail.Amount =  numeral().unformat(dt[2]);
-              
+                cashInDetail.Amount = numeral().unformat(dt[2]);
+
                 cashFlow.CashInDetails.push(cashInDetail);
             }
             return cashFlow;
         }
 
 
-        $("#saveDraft").click(function(e) {
+        $("#saveDraft").click(function (e) {
             e.preventDefault();
             var form = $(this).parents('form:first');
             if (form.valid()) {
@@ -343,13 +374,13 @@ else
                     type: 'POST',
                     contentType: 'application/json;',
                     dataType: 'json',
-                    success: function(result) {
+                    success: function (result) {
 
                         if (result.Success == "1") {
                             window.location.href = "/Cashflow/index";
                         } else {
                             showErrorInfo(result.ex);
-                         
+
                         }
                     }
 
@@ -357,7 +388,7 @@ else
             }
         });
 
-        $("#saveFinal").click(function(e) {
+        $("#saveFinal").click(function (e) {
             e.preventDefault();
 
             var form = $(this).parents('form:first');
@@ -371,7 +402,7 @@ else
                     type: 'POST',
                     contentType: 'application/json;',
                     dataType: 'json',
-                    success: function(result) {
+                    success: function (result) {
 
                         if (result.Success == "1") {
                             window.location.href = "/Cashflow/index";
