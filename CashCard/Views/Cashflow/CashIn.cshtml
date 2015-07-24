@@ -14,7 +14,7 @@ else
     <h2>Update</h2>
 }
 
-<div id="errorInfo" class="row">
+<div id="errorInfo" title="Error Info">
   
 </div>
 
@@ -51,13 +51,14 @@ else
 
                     <div class="form-group ">
                         <button type="button" id="addToTbl" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </form>
             </div>
-            <div class="modal-footer">
+            @*<div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 
-            </div>
+            </div>*@
         </div>
     </div>
 </div>
@@ -198,7 +199,15 @@ else
 @Scripts.Render("~/bundles/numeral")
     <script type="text/javascript">
 
-       
+       var dialog =  $("#errorInfo").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                Ok: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
       
         $("#Amount").number(true, 0);
         $("#Total").number(true, 0);
@@ -230,14 +239,13 @@ else
 
       
         function showErrorInfo(error) {
-            var s = " <div class='col-lg-12'> \
-                          <div class='alert alert-danger' role='alert'> \
-                              <span class='glyphicon glyphicon-exclamation-sign'' aria-hidden='true'></span> \
-                              <span class='sr-only'>Error:</span> \
-                              <span id='errorText'>" + error + " \
-                          </div> \
-                      </div>";
-            $("#errorInfo").html(s);
+
+            var str = "<p> \
+                        <b>Error :</b> <span>" + error + "</span> \
+                       </p>";
+            $("#errorInfo").html(str);
+            dialog.dialog("open");
+
         }
 
         $("#addToTbl").click(function(e) {

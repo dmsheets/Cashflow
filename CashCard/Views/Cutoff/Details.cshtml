@@ -13,7 +13,7 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Branch.Name)
+            Branch
         </dt>
 
         <dd>
@@ -65,7 +65,7 @@
     <table id="tbl" class="table table-striped table-bordered table-hover">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Owner</th>
                 <th>Date</th>
                 <th>Total</th>
                 <th>State</th>
@@ -81,7 +81,7 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(i => a.Id)
+                            @Html.DisplayFor(i => a.User.UserName)
                         </td>
                         <td>
                             @Html.DisplayFor(i => a.Date)
@@ -143,6 +143,6 @@
 
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+   
     @Html.ActionLink("Back to List", "Index")
 </p>

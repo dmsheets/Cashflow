@@ -44,8 +44,39 @@ namespace CashCard.Controllers
             return View("CashoutRegular",cashflow);
         }
 
-      
+        [HttpPost]
+        public JsonResult SetState(int idx, StateCashFlow statex)
+        {
+            try
+            {
+                var ch = db.CashFlows.Find(idx);
+                switch (statex)
+                {
+                    case StateCashFlow.Revision:
+                        ch.SetToRevision();
+                        break;
+                    case StateCashFlow.Reject:
+                        ch.SetToReject();
+                        break;
+                    case StateCashFlow.Approve:
+                        ch.SetToApprove();
+                        break;
+                    default:
+                        throw new Exception("State not valid");
+                }
+                ch.SuperVisorId = User.Identity.GetUserId();
+                db.SaveChanges();
+                return Json(new { Success = 1, CashOutId = ch.Id, ex = "" });
 
+            }
+            catch (Exception ex)
+            {
+
+                return Json(new { Success = 0, ex = ex.Message });
+             
+            }
+            
+        }
        
 
         protected override void Dispose(bool disposing)

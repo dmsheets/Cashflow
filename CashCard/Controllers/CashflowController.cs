@@ -195,6 +195,7 @@ namespace CashCard.Controllers
         {
             try
             {
+               
                 var cashInActive = cashIn;
 
                 var usr = User.Identity.GetUserId();
