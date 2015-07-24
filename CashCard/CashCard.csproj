@@ -499,6 +499,8 @@
     <Content Include="Views\Cashflow\CashInInfo.cshtml" />
     <Content Include="Views\Cashflow\CashoutIrregular.cshtml" />
     <Content Include="Views\Cashflow\CashoutIrregularInfo.cshtml" />
+    <Content Include="Views\CashflowValidation\CashoutIrregular.cshtml" />
+    <Content Include="Views\CashflowValidation\Cashin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

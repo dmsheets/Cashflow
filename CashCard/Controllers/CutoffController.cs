@@ -23,7 +23,12 @@ namespace CashCard.Controllers
         // GET: /Cutoff/
         public ActionResult Index()
         {
-            var cutoffs = db.CutOffs.Include(c => c.Branch);
+            var now = DateTime.Now.Date;
+            var startDate = new DateTime(now.Year, now.Month, 1);
+            var endDate = new DateTime(now.Year, now.Month + 1, 1);
+            var cutoffs =
+                db.CutOffs.Include(c => c.Branch)
+                    .Where(p => p.State == StateCutOff.Start || (startDate <= p.DateStart && p.DateStart <= endDate));
             return View(cutoffs.ToList());
         }
 
@@ -34,15 +39,54 @@ namespace CashCard.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CutOff cutoff = db.CutOffs.Find(id);
+            CutOff cutoff = db.CutOffs.Include(p => p.CashFlows).FirstOrDefault(p => p.Id == id);
             if (cutoff == null)
             {
                 return HttpNotFound();
             }
+            cutoff.SetEndBallance();
             return View(cutoff);
         }
 
-    
+
+        [HttpPost]
+        public JsonResult CutOff(int id)
+        {
+
+            try
+            {
+
+                
+                var cutOff = db.CutOffs.Find(id);
+               
+                var count =
+                    cutOff.CashFlows.Count(p => !(p.State == StateCashFlow.Reject || p.State == StateCashFlow.Approve));
+                if (count > 0)
+                {
+                    throw new Exception("Make sure all Cash flow have been validated as Approve or Reject");
+                }
+
+                if (cutOff.State == StateCutOff.End)
+                {
+                    
+                }
+                cutOff.SetEndBallance();
+               cutOff.SetEndState();
+                
+                db.SaveChanges();
+              
+              
+
+
+                return Json(new { Success = 1,  ex = "" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Success = 0, ex = ex.Message });
+            }
+
+
+        }
 
         protected override void Dispose(bool disposing)
         {

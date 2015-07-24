@@ -37,12 +37,28 @@ namespace CashCard.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var cashflow = db.CashFlows.OfType<CashOutRegular>().FirstOrDefault(p => p.Id == id);
+            var cashflow = db.CashFlows.FirstOrDefault(p => p.Id == id);
             if (cashflow == null)
             {
                 return HttpNotFound();
             }
-            return View("CashoutRegular",cashflow);
+            var cashoutRegular = cashflow as CashOutRegular;
+            if (cashoutRegular != null)
+            {
+                 return View("CashoutRegular",cashoutRegular);
+            }
+            var cashoutIrregular = cashflow as CashOutIrregular;
+            if (cashoutIrregular != null)
+            {
+                return View("CashoutIrregular", cashoutIrregular);
+            }
+            var cashin = cashflow as CashIn;
+            if (cashin != null)
+            {
+                return View("Cashin", cashin);
+            }
+            return View("Error");
+
         }
 
         [HttpPost]
@@ -66,7 +82,7 @@ namespace CashCard.Controllers
                         throw new Exception("State not valid");
                 }
                 ch.SuperVisorId = User.Identity.GetUserId();
-                ch.LogNote = User.Identity.Name + "|" + state + "|" + log + "<br>" + ch.LogNote;
+                ch.LogNote = DateTime.Now.ToString("yyyy-MM-dd HH:mm") + " | " +  User.Identity.Name + " | " + state + " | " + log + "<br>" + ch.LogNote;
                 db.SaveChanges();
                 return Json(new { Success = 1, CashOutId = ch.Id, ex = "" });
 

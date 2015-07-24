@@ -224,25 +224,61 @@
 
 </div>
 
+<div id="InputInfo" title="Note">
+    <input id="validationInfo" type="text" />
+</div>
+
 @section Scripts {
     @Scripts.Render("~/bundle/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
     @Scripts.Render("~/bundles/numeral")
     <script type="text/javascript">
-
+        var log;
         var dialog = $("#errorInfo").dialog({
             autoOpen: false,
             modal: true,
             buttons: {
-                Ok: function () {
+                Ok: function() {
                     $(this).dialog("close");
+                }
+            }
+        });
+
+        var dialogInputText = $("#InputInfo").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                Ok: function() {
+                    $(this).dialog("close");
+
+                    log = $("#validationInfo").val();
+
+                    var cashFlow = getCashFlow();
+                  
+
+                    $.ajax({
+                        url: '/CashFlow/CreateCashInFinal',
+                        data: JSON.stringify({ cashFlow: cashFlow, log: log }),
+                        type: 'POST',
+                        contentType: 'application/json;',
+                        dataType: 'json',
+                        success: function(result) {
+
+                            if (result.Success == "1") {
+                                window.location.href = "/Cashflow/index";
+                            } else {
+                                showErrorInfo(result.ex);
+                            }
+                        }
+
+                    });
+
                 }
             }
         });
 
         $("#Amount").number(true, 0);
         $("#Total").number(true, 0);
-
 
 
         var tbl = $("#tbl").DataTable(
@@ -260,7 +296,7 @@
                 },
                 {
                     "targets": [3],
-                    "render": function (data, type, full, meta) {
+                    "render": function(data, type, full, meta) {
                         return " <a href='#' class='editDetail'>Edit</a> | <a href='#' class='deleteDetail'>Delete</a>";
                     }
                 }
@@ -279,7 +315,7 @@
 
         }
 
-        $("#addToTbl").click(function (e) {
+        $("#addToTbl").click(function(e) {
             e.preventDefault();
             if ($("#detail").valid()) {
 
@@ -294,7 +330,8 @@
                 $("#Total").val(total);
 
                 tbl.row.add([
-                    $("#cashInDetailId").val(), $("#Note2").val(), numeral($("#Amount").val()).format('0,0')]).draw();
+                    $("#cashInDetailId").val(), $("#Note2").val(), numeral($("#Amount").val()).format('0,0')
+                ]).draw();
 
                 $('#Note2').focus();
                 $("#Note2").val('');
@@ -307,7 +344,7 @@
         });
 
 
-        $('#rowTable').on('click', '.editDetail', function () {
+        $('#rowTable').on('click', '.editDetail', function() {
             var tr = $(this).closest('tr');
             var rowData = tbl.row(tr).data();
             $("#Note2").val(rowData[1]);
@@ -323,20 +360,17 @@
             $("#Total").val(total);
         });
 
-        $('#rowTable').on('click', '.deleteDetail', function () {
+        $('#rowTable').on('click', '.deleteDetail', function() {
             var tr = $(this).closest('tr');
             var rowData = tbl.row(tr).data();
 
             tbl.row(tr).remove().draw();
 
 
-
             var total = $("#Total").val();
             total = total - rowData[2];
             $("#Total").val(total);
         });
-
-
 
 
         $("#Date").datepicker({ dateFormat: "yy/mm/dd" });
@@ -363,7 +397,7 @@
         }
 
 
-        $("#saveDraft").click(function (e) {
+        $("#saveDraft").click(function(e) {
             e.preventDefault();
             var form = $(this).parents('form:first');
             if (form.valid()) {
@@ -374,7 +408,7 @@
                     type: 'POST',
                     contentType: 'application/json;',
                     dataType: 'json',
-                    success: function (result) {
+                    success: function(result) {
 
                         if (result.Success == "1") {
                             window.location.href = "/Cashflow/index";
@@ -388,36 +422,20 @@
             }
         });
 
-        $("#saveFinal").click(function (e) {
+        $("#saveFinal").click(function(e) {
             e.preventDefault();
 
             var form = $(this).parents('form:first');
             if (form.valid()) {
                 //Ajax call here
+                dialogInputText.dialog("open");
 
-                var cashFlow = getCashFlow();
-                $.ajax({
-                    url: '/CashFlow/CreateCashInFinal',
-                    data: JSON.stringify(cashFlow),
-                    type: 'POST',
-                    contentType: 'application/json;',
-                    dataType: 'json',
-                    success: function (result) {
-
-                        if (result.Success == "1") {
-                            window.location.href = "/Cashflow/index";
-                        } else {
-                            showErrorInfo(result.ex);
-                        }
-                    }
-
-                });
             }
         });
 
         $("#detail").validate();
     </script>
     <style>
-    </style>
+        </style>
 
 }

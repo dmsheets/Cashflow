@@ -1,5 +1,5 @@
 ﻿@using CashCard.Models
-@model CashCard.Models.CashOutRegular
+@model CashCard.Models.CashOutIrregular
 
 @{
     ViewBag.Title = "Details";
@@ -13,7 +13,7 @@
    
     <div class="row">
         <div class="col-md-6">
-            <h4>Cashout Regular</h4>
+            <h4>Cashout Irregular</h4>
             <dl class="dl-horizontal">
                 @Html.HiddenFor(p => p.Id)
 
@@ -111,36 +111,40 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>IdQuiz</th>
-                    <th>Name</th>
-                    <th>Note1</th>
-                    <th>Note2</th>
+                    <th>Irregularity</th>
+                    <th>Flight No</th>
+                    <th>Flight Date</th>
+                    <th>From/To</th>
+                    <th>Note</th>
                     <th>Amount</th>
                     <th>Qty</th>
                     <th>Subtotal</th>
-                  
+
                 </tr>
             </thead>
             <tbody>
                 @if (Model != null)
                 {
-                    foreach (var a in Model.RegularDetails)
+                    foreach (var a in Model.IrregularDetails)
                     {
                         <tr>
                             <td>
                                 @Html.DisplayTextFor(i => a.Id)
                             </td>
                             <td>
-                                @Html.DisplayTextFor(i => a.RegularQuizId)
+                                @Html.DisplayFor(i => a.IrregularType)
                             </td>
                             <td>
-                                @Html.DisplayTextFor(i => a.RegularDetailQuiz.Quiz)
+                                @Html.DisplayFor(i => a.FlightNo)
                             </td>
                             <td>
-                                @Html.DisplayTextFor(i => a.Note1)
+                                @Html.DisplayFor(i => a.FlightDate)
                             </td>
                             <td>
-                                @Html.DisplayTextFor(i => a.Note2)
+                                @Html.DisplayFor(i => a.FromTo)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(i => a.Note)
                             </td>
                             <td>
                                 @Html.DisplayFor(i => a.Amount)
@@ -151,7 +155,7 @@
                             <td>
                                 @Html.DisplayFor(i => a.SubTotal)
                             </td>
-                           
+
                         </tr>
                     }
                 }
@@ -190,10 +194,6 @@
                     "targets": [0],
                     "visible": false,
                     "ordering": false
-                },
-                {
-                    "targets": [1],
-                    "visible": false
                 }
             ]
 

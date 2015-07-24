@@ -1,5 +1,5 @@
 ﻿@using CashCard.Models
-@model CashCard.Models.CashOutRegular
+@model CashCard.Models.CashIn
 
 @{
     ViewBag.Title = "Details";
@@ -13,7 +13,7 @@
    
     <div class="row">
         <div class="col-md-6">
-            <h4>Cashout Regular</h4>
+            <h4>CashIn</h4>
             <dl class="dl-horizontal">
                 @Html.HiddenFor(p => p.Id)
 
@@ -111,47 +111,29 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>IdQuiz</th>
-                    <th>Name</th>
-                    <th>Note1</th>
-                    <th>Note2</th>
+                    <th>Note</th>
                     <th>Amount</th>
-                    <th>Qty</th>
-                    <th>Subtotal</th>
-                  
+
                 </tr>
             </thead>
             <tbody>
                 @if (Model != null)
                 {
-                    foreach (var a in Model.RegularDetails)
+                    foreach (var a in Model.CashInDetails)
                     {
                         <tr>
                             <td>
                                 @Html.DisplayTextFor(i => a.Id)
                             </td>
+
                             <td>
-                                @Html.DisplayTextFor(i => a.RegularQuizId)
-                            </td>
-                            <td>
-                                @Html.DisplayTextFor(i => a.RegularDetailQuiz.Quiz)
-                            </td>
-                            <td>
-                                @Html.DisplayTextFor(i => a.Note1)
-                            </td>
-                            <td>
-                                @Html.DisplayTextFor(i => a.Note2)
+                                @Html.DisplayTextFor(i => a.Note)
                             </td>
                             <td>
                                 @Html.DisplayFor(i => a.Amount)
                             </td>
-                            <td>
-                                @Html.DisplayFor(i => a.Qty)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(i => a.SubTotal)
-                            </td>
-                           
+
+
                         </tr>
                     }
                 }
@@ -190,10 +172,6 @@
                     "targets": [0],
                     "visible": false,
                     "ordering": false
-                },
-                {
-                    "targets": [1],
-                    "visible": false
                 }
             ]
 

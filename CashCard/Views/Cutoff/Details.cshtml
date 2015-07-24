@@ -9,6 +9,7 @@
 <h2>Details</h2>
 
 <div>
+    @Html.HiddenFor(p=>p.Id);
     <h4>CutOff</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -19,7 +20,11 @@
         <dd>
             @Html.DisplayFor(model => model.Branch.Name)
         </dd>
-
+        
+        <dt>Start Date</dt>
+        <dd>@Html.DisplayFor(p=>p.DateStart)</dd>
+        <dt>End Date</dt>
+        <dd>@Html.DisplayFor(p => p.DateEnd)</dd>
         <dt>
             @Html.DisplayNameFor(model => model.State)
         </dt>
@@ -54,9 +59,10 @@
             @Html.DisplayFor(model => model.Note)
         </dd>
         <dd>
-
-            <input type="button" value="Cut Off!" class="btn btn-danger " />
-
+            @if (Model.State == StateCutOff.Start)
+            {
+                <input id="btnCutOff" type="button" value="Cut Off!" class="btn btn-danger " />
+            }
         </dd>
 
     </dl>
@@ -146,3 +152,60 @@
    
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+
+<div id="errorInfo" title="Error Info">
+
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundle/datatable")
+    <script type="text/javascript">
+
+        var tbl = $("#tbl").DataTable(
+        {
+            "searching": true,
+            "lengthChange": false
+        });
+
+        var dialog = $("#errorInfo").dialog({
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                Ok: function () {
+                    $(this).dialog("close");
+                }
+            }
+        });
+
+        function showErrorInfo(error) {
+
+            var str = "<p> \
+                        <b>Error :</b> <span>" + error + "</span> \
+                       </p>";
+            $("#errorInfo").html(str);
+            dialog.dialog("open");
+
+        }
+        $("#btnCutOff").click(function () {
+            var id = $("#Id").val();
+            $.ajax({
+                url: '/Cutoff/CutOff',
+                data: JSON.stringify({Id: id}),
+                type: 'POST',
+                contentType: 'application/json;',
+                dataType: 'json',
+                success: function (result) {
+
+                    if (result.Success == "1") {
+                        window.location.href = "/Cutoff/index";
+                    } else {
+                        showErrorInfo(result.ex);
+                    }
+                }
+
+            });
+        });
+
+
+    </script>
+}

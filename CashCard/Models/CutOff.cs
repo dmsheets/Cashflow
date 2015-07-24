@@ -9,20 +9,47 @@ namespace CashCard.Models
 {
     public class CutOff
     {
+        public CutOff()
+        {
+            DateStart = DateTime.Now;
+            DateEnd = DateTime.Now;
+        }
         public int Id { get; set; }
-        public StateCutOff State { get; set; }
-        public DateTime DateStart { get; set; }
-        public DateTime DateEnd { get; set; }
+        public StateCutOff State { get;protected set; }
+        public DateTime DateStart { get; protected set; }
+        public DateTime DateEnd { get; protected set; }
         [ForeignKey("BranchId")]
         public virtual Branch Branch { get; set; }
         public int? BranchId { get; set; }
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int PreviousBallance { get; set; }
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
-        public int EndBallance { get; set; }
+        public int EndBallance { get; protected set; }
         public string Note { get; set; }
-        public virtual ICollection<CashFlow> CashFlows { get; set; } 
+        public virtual ICollection<CashFlow> CashFlows { get; set; }
 
-
+        public void SetEndState()
+        {
+            if (State == StateCutOff.End)
+                throw new Exception("This date had been Closed");
+            State = StateCutOff.End;
+            DateEnd = DateTime.Now;
+        }
+        public void SetEndBallance()
+        {
+            int total = PreviousBallance;
+            foreach (var c in CashFlows)
+            {
+                if (c.State == StateCashFlow.Approve)
+                {
+                    if (c is CashIn)
+                        total += c.Total;
+                    else
+                        total -= c.Total;
+                }
+            }
+            EndBallance = total;
+          
+        }
     }
 }

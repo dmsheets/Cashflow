@@ -189,6 +189,24 @@ namespace CashCard.Controllers
 
         }
 
+        public CutOff SetCutOff(int branchId)
+        {
+            var xx = db.CutOffs.Where(p => p.BranchId == branchId).OrderByDescending(p => p.DateStart).Take(1).ToList();
+            var lastBallance = 0;
+            if (xx.Count > 0)
+            {
+                lastBallance = xx[0].EndBallance;
+            }
+
+            var cutOff = new CutOff();
+            
+            cutOff.BranchId = branchId;
+            cutOff.PreviousBallance = lastBallance;
+            db.CutOffs.Add(cutOff);
+            db.SaveChanges();
+            return cutOff;
+        }
+
         #region CashIn
         [HttpPost]
         public JsonResult CreateCashInDraft(CashIn cashIn)
@@ -201,28 +219,14 @@ namespace CashCard.Controllers
                 var usr = User.Identity.GetUserId();
                 var xx = db.Users.Find(usr);
 
-                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start);
-                if (cutOff == null)
-                {
-                    cutOff = new CutOff();
-                    cutOff.State = StateCutOff.Start;
-                    cutOff.DateStart = DateTime.Now;
-                    cutOff.DateEnd = DateTime.Now;
-                    cutOff.BranchId = xx.BranchId.Value;
-                    db.CutOffs.Add(cutOff);
-                    db.SaveChanges();
-
-                }
+                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start) ??
+                             SetCutOff(xx.BranchId.Value);
 
                 if (cashIn.Id != 0)
                 {
                     cashInActive = db.CashFlows.OfType<CashIn>().First(p => p.Id == cashIn.Id);
 
                     Subtitution(cashInActive, cashIn);
-
-
-
-
                 }
                 else
                 {
@@ -253,32 +257,23 @@ namespace CashCard.Controllers
         }
 
         [HttpPost]
-        public JsonResult CreateCashInFinal(CashIn cashIn)
+        public JsonResult CreateCashInFinal(CashIn cashflow,string log)
         {
             try
             {
-                var cashInActive = cashIn;
+                var cashInActive = cashflow;
                 var usr = User.Identity.GetUserId();
                 var xx = db.Users.Find(usr);
 
-                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start);
-                if (cutOff == null)
+                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start) ??
+                            SetCutOff(xx.BranchId.Value);
+
+
+                if (cashflow.Id != 0)
                 {
-                    cutOff = new CutOff();
-                    cutOff.State = StateCutOff.Start;
-                    cutOff.DateStart = DateTime.Now;
-                    cutOff.DateEnd = DateTime.Now;
-                    cutOff.BranchId = xx.BranchId.Value;
-                    db.CutOffs.Add(cutOff);
-                    db.SaveChanges();
+                    cashInActive = db.CashFlows.OfType<CashIn>().First(p => p.Id == cashflow.Id);
 
-                }
-
-                if (cashIn.Id != 0)
-                {
-                    cashInActive = db.CashFlows.OfType<CashIn>().First(p => p.Id == cashIn.Id);
-
-                    Subtitution(cashInActive, cashIn);
+                    Subtitution(cashInActive, cashflow);
 
                 }
                 else
@@ -292,11 +287,13 @@ namespace CashCard.Controllers
 
 
                 cashInActive.SetToFinal();
+                cashInActive.LogNote = DateTime.Now.ToString("yyyy-MM-dd HH:mm") + " | " + User.Identity.Name + " | Final | " + log + "<br>" + cashInActive.LogNote;
+
                 cashInActive.SetTotal();
                 db.SaveChanges();
 
 
-                return Json(new { Success = 1, CashOutId = cashIn.Id, ex = "" });
+                return Json(new { Success = 1, CashOutId = cashflow.Id, ex = "" });
             }
             catch (Exception ex)
             {
@@ -320,18 +317,9 @@ namespace CashCard.Controllers
                 var usr = User.Identity.GetUserId();
                 var xx = db.Users.Find(usr);
 
-                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start);
-                if (cutOff == null)
-                {
-                    cutOff = new CutOff();
-                    cutOff.State = StateCutOff.Start;
-                    cutOff.DateStart = DateTime.Now;
-                    cutOff.DateEnd = DateTime.Now;
-                    cutOff.BranchId = xx.BranchId.Value;
-                    db.CutOffs.Add(cutOff);
-                    db.SaveChanges();
+                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start) ??
+                            SetCutOff(xx.BranchId.Value);
 
-                }
 
                 if (cashoutRegular.Id != 0)
                 {
@@ -372,32 +360,23 @@ namespace CashCard.Controllers
         }
 
         [HttpPost]
-        public JsonResult CreateCashoutRegularFinal(CashOutRegular cashoutRegular)
+        public JsonResult CreateCashoutRegularFinal(CashOutRegular cashflow, string log)
         {
             try
             {
-                var cashout = cashoutRegular;
+                var cashout = cashflow;
                 var usr = User.Identity.GetUserId();
                 var xx = db.Users.Find(usr);
 
-                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start);
-                if (cutOff == null)
+                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start) ??
+                            SetCutOff(xx.BranchId.Value);
+
+
+                if (cashflow.Id != 0)
                 {
-                    cutOff = new CutOff();
-                    cutOff.State = StateCutOff.Start;
-                    cutOff.DateStart = DateTime.Now;
-                    cutOff.DateEnd = DateTime.Now;
-                    cutOff.BranchId = xx.BranchId.Value;
-                    db.CutOffs.Add(cutOff);
-                    db.SaveChanges();
+                   cashout = db.CashFlows.OfType<CashOutRegular>().First(p => p.Id == cashflow.Id);
 
-                }
-
-                if (cashoutRegular.Id != 0)
-                {
-                   cashout = db.CashFlows.OfType<CashOutRegular>().First(p => p.Id == cashoutRegular.Id);
-
-                    Subtitution(cashout, cashoutRegular);
+                    Subtitution(cashout, cashflow);
       
                 }
                 else
@@ -411,13 +390,14 @@ namespace CashCard.Controllers
 
 
                 cashout.SetToFinal();
+                cashout.LogNote = DateTime.Now.ToString("yyyy-MM-dd HH:mm") + " | " + User.Identity.Name + " | Final | " + log + "<br>" + cashout.LogNote;
 
                 cashout.RegularDetails.ForEach(p => p.SetSubTotal());
                 cashout.SetTotal();
                 db.SaveChanges();
 
 
-                return Json(new { Success = 1, CashOutId = cashoutRegular.Id, ex = "" });
+                return Json(new { Success = 1, CashOutId = cashflow.Id, ex = "" });
             }
             catch (Exception ex)
             {
@@ -430,7 +410,7 @@ namespace CashCard.Controllers
         #endregion
         #region Cashout IRegular
         [HttpPost]
-        public JsonResult CreateCashoutIregularDraft(CashOutIrregular cashoutIregular)
+        public JsonResult CreateCashoutIrregularDraft(CashOutIrregular cashoutIregular)
         {
 
             try
@@ -441,18 +421,9 @@ namespace CashCard.Controllers
                 var usr = User.Identity.GetUserId();
                 var xx = db.Users.Find(usr);
 
-                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start);
-                if (cutOff == null)
-                {
-                    cutOff = new CutOff();
-                    cutOff.State = StateCutOff.Start;
-                    cutOff.DateStart = DateTime.Now;
-                    cutOff.DateEnd = DateTime.Now;
-                    cutOff.BranchId = xx.BranchId.Value;
-                    db.CutOffs.Add(cutOff);
-                    db.SaveChanges();
+                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start) ??
+                              SetCutOff(xx.BranchId.Value);
 
-                }
 
                 if (cashoutIregular.Id != 0)
                 {
@@ -493,32 +464,23 @@ namespace CashCard.Controllers
         }
 
         [HttpPost]
-        public JsonResult CreateCashoutIregularFinal(CashOutIrregular cashoutIregular)
+        public JsonResult CreateCashoutIrregularFinal(CashOutIrregular cashflow, string log)
         {
             try
             {
-                var cashout = cashoutIregular;
+                var cashout = cashflow;
                 var usr = User.Identity.GetUserId();
                 var xx = db.Users.Find(usr);
 
-                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start);
-                if (cutOff == null)
+                var cutOff = db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start) ??
+                              SetCutOff(xx.BranchId.Value);
+
+
+                if (cashflow.Id != 0)
                 {
-                    cutOff = new CutOff();
-                    cutOff.State = StateCutOff.Start;
-                    cutOff.DateStart = DateTime.Now;
-                    cutOff.DateEnd = DateTime.Now;
-                    cutOff.BranchId = xx.BranchId.Value;
-                    db.CutOffs.Add(cutOff);
-                    db.SaveChanges();
+                    cashout = db.CashFlows.OfType<CashOutIrregular>().First(p => p.Id == cashflow.Id);
 
-                }
-
-                if (cashoutIregular.Id != 0)
-                {
-                    cashout = db.CashFlows.OfType<CashOutIrregular>().First(p => p.Id == cashoutIregular.Id);
-
-                    Subtitution(cashout, cashoutIregular);
+                    Subtitution(cashout, cashflow);
 
                 }
                 else
@@ -532,13 +494,14 @@ namespace CashCard.Controllers
 
 
                 cashout.SetToFinal();
+                cashout.LogNote = DateTime.Now.ToString("yyyy-MM-dd HH:mm") + " | " + User.Identity.Name + " | Final | " + log + "<br>" + cashout.LogNote;
 
                 cashout.IrregularDetails.ForEach(p => p.SetSubTotal());
                 cashout.SetTotal();
                 db.SaveChanges();
 
 
-                return Json(new { Success = 1, CashOutId = cashoutIregular.Id, ex = "" });
+                return Json(new { Success = 1, CashOutId = cashflow.Id, ex = "" });
             }
             catch (Exception ex)
             {
