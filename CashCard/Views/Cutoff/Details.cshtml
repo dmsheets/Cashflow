@@ -189,7 +189,7 @@
         $("#btnCutOff").click(function () {
             var id = $("#Id").val();
             $.ajax({
-                url: '/Cutoff/CutOff',
+                url: '@Url.Action("CutOff")',
                 data: JSON.stringify({Id: id}),
                 type: 'POST',
                 contentType: 'application/json;',
@@ -197,7 +197,7 @@
                 success: function (result) {
 
                     if (result.Success == "1") {
-                        window.location.href = "/Cutoff/index";
+                        window.location.href = '@Url.Action("index")';
                     } else {
                         showErrorInfo(result.ex);
                     }

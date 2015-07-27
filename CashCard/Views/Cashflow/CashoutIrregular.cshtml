@@ -311,7 +311,7 @@
 
 
                     $.ajax({
-                        url: '/CashFlow/CreateCashoutIrregularFinal',
+                        url: '@Url.Action("CreateCashoutIrregularFinal")',
                         data: JSON.stringify({ cashFlow: cashFlow, log: log }),
                         type: 'POST',
                         contentType: 'application/json;',
@@ -483,7 +483,7 @@
             if (form.valid()) {
                 var cashFlow = getCashFlow();
                 $.ajax({
-                    url: '/CashFlow/CreateCashoutIrregularDraft',
+                    url: '@Url.Action("CreateCashoutIrregularDraft")',
                     data: JSON.stringify(cashFlow),
                     type: 'POST',
                     contentType: 'application/json;',
@@ -491,7 +491,7 @@
                     success: function(result) {
 
                         if (result.Success == "1") {
-                            window.location.href = "/Cashflow/index";
+                            window.location.href = '@Url.Action("index")';
                         } else {
                             showErrorInfo(result.ex);
                         }

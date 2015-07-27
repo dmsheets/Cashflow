@@ -257,7 +257,7 @@
                   
 
                     $.ajax({
-                        url: '/CashFlow/CreateCashInFinal',
+                        url: '@Url.Action("CreateCashInFinal")',
                         data: JSON.stringify({ cashFlow: cashFlow, log: log }),
                         type: 'POST',
                         contentType: 'application/json;',
@@ -403,7 +403,7 @@
             if (form.valid()) {
                 var cashFlow = getCashFlow();
                 $.ajax({
-                    url: '/CashFlow/CreateCashInDraft',
+                    url: '@Url.Action("CreateCashInDraft")',
                     data: JSON.stringify(cashFlow),
                     type: 'POST',
                     contentType: 'application/json;',
@@ -411,7 +411,7 @@
                     success: function(result) {
 
                         if (result.Success == "1") {
-                            window.location.href = "/Cashflow/index";
+                            window.location.href = '@Url.Action("Index")';
                         } else {
                             showErrorInfo(result.ex);
 

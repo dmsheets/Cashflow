@@ -197,7 +197,7 @@
                     log = $("#validationInfo").val();
 
                     $.ajax({
-                        url: '/CashflowValidation/SetState',
+                        url: '@Url.Action("SetState")',
                         data: JSON.stringify({ Id: id, State: state,Log:log }),
                         type: 'POST',
                         contentType: 'application/json;',
@@ -205,7 +205,7 @@
                         success: function (result) {
 
                             if (result.Success == "1") {
-                                window.location.href = "/CashflowValidation/index";
+                                window.location.href = '@Url.Action("index")';
                             } else {
                                 showErrorInfo(result.ex);
                             }
