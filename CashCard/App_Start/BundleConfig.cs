@@ -35,8 +35,9 @@ namespace CashCard
             bundles.Add(new StyleBundle("~/content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-select.css",
-                      "~/Content/sb-admin.css",
-                      "~/font-awesome/css/font-awesome.css"));
+                      "~/Content/sb-admin.css").
+                      Include("~/font-awesome/css/font-awesome.css", new CssRewriteUrlTransform()));
+
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                                 "~/Content/themes/base/accordion.css",
                                 "~/Content/themes/base/all.css",
