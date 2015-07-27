@@ -305,7 +305,7 @@
                         success: function(result) {
 
                             if (result.Success == "1") {
-                                window.location.href = "/Cashflow/index";
+                                window.location.href = '@Url.Action("Index")';
                             } else {
                                 showErrorInfo(result.ex);
                             }
