@@ -3,7 +3,7 @@
         @if (Request.IsAuthenticated )
         {
             <li id="MnHome">
-                <a href="/Home/"><i class="fa fa-fw fa-edit"></i> Home</a>
+                <a href="~/Home/"><i class="fa fa-fw fa-edit"></i> Home</a>
             </li>
         }
         @if (Request.IsAuthenticated && User.IsInRole("Admin"))
@@ -12,23 +12,23 @@
                 <a href="~/Role/"><i class="fa fa-fw fa-dashboard"></i> Role</a>
             </li>
             <li id="MnUser">
-                <a href="/Account/"><i class="fa fa-fw fa-bar-chart-o"></i> User</a>
+                <a href="~/Account/"><i class="fa fa-fw fa-bar-chart-o"></i> User</a>
             </li>
             <li id="MnBranch">
-                <a href="/Branch/"><i class="fa fa-fw fa-table"></i> Branch</a>
+                <a href="~/Branch/"><i class="fa fa-fw fa-table"></i> Branch</a>
             </li>
             <li id="MnRegularGroup">
-                <a href="/RegularGroup/"><i class="fa fa-fw fa-arrows-v"></i>Regular Group</a>
+                <a href="~/RegularGroup/"><i class="fa fa-fw fa-arrows-v"></i>Regular Group</a>
             </li>
             <li id="MnRegularQuiz">
-                <a href="/RegularQuiz/"><i class="fa fa-fw fa-arrows-v"></i>Regular Quiz</a>
+                <a href="~/RegularQuiz/"><i class="fa fa-fw fa-arrows-v"></i>Regular Quiz</a>
             </li>
         }
 
         @if (Request.IsAuthenticated && User.IsInRole("User"))
         {
             <li id="MnCashflow">
-                <a href="/Cashflow/"><i class="fa fa-fw fa-edit"></i> Cashflow</a>
+                <a href="~/Cashflow/"><i class="fa fa-fw fa-edit"></i> Cashflow</a>
             </li>
         }
 
@@ -46,13 +46,13 @@
         @if (Request.IsAuthenticated && User.IsInRole("Supervisor"))
         {
             <li id="MnCashflowValidation">
-                <a href="/CashflowValidation/"><i class="fa fa-fw fa-desktop"></i> Cashflow Validation </a>
+                <a href="~/CashflowValidation/"><i class="fa fa-fw fa-desktop"></i> Cashflow Validation </a>
             </li>
         }
         @if (Request.IsAuthenticated && User.IsInRole("Officer"))
         {
             <li id="MnCutoff">
-                <a href="/Cutoff/"><i class="fa fa-fw fa-desktop"></i> Cut Off </a>
+                <a href="~/Cutoff/"><i class="fa fa-fw fa-desktop"></i> Cut Off </a>
             </li>
         }
       
