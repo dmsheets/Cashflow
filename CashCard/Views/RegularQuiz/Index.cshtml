@@ -36,7 +36,7 @@
                     @Html.DisplayFor(modelItem => item.Quiz)
                 </td>
                 <td>
-                    @Html.DisplayName(item.RegularGroup.AccountNo + "-" + item.RegularGroup.AccountDesription)
+                    @Html.DisplayName(item.RegularGroup.AccountNo) - @Html.DisplayName(item.RegularGroup.AccountDesription)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.RegularType)
