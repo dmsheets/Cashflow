@@ -32,7 +32,7 @@ namespace CashCard
                       "~/Scripts/respond.js",
                       "~/Scripts/bootstrap-select.js"));
 
-            bundles.Add(new StyleBundle("~/content/css").Include(
+            bundles.Add(new StyleBundle("~/content").Include(
                 "~/Content/bootstrap.css",
                 "~/Content/bootstrap-select.css",
                 "~/Content/sb-admin.css",
@@ -41,7 +41,7 @@ namespace CashCard
             //bundles.Add(new StyleBundle("~/content/css").
             //          Include("~/Content/font-awesome.css", new CssRewriteUrlTransform()));
 
-            bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
+            bundles.Add(new StyleBundle("~/Content/themes/base").Include(
                                 "~/Content/themes/base/accordion.css",
                                 "~/Content/themes/base/all.css",
                                 "~/Content/themes/base/autocomplete.css",
