@@ -1,4 +1,6 @@
-﻿@{
+﻿@model CashCard.Models.ApplicationUser
+
+@{
     ViewBag.Title = "Home Page";
 }
 
@@ -13,6 +15,7 @@
 <div class="jumbotron">
     <h1>Welcome To Cashcard</h1>
    
+   <h4> @Html.DisplayFor(p=>p.UserName) from @Html.DisplayFor(p=>p.Branch.Name)</h4>
 </div>
 
 <div class="row">

@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
+}
+
+<h2>Index</h2>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>Start Date</label>
+                <div>
+                    <input id="startDt" placeholder="yyyy/mm/dd" class="form-control date" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label>End Date</label>
+                <div>
+                    <input id="endDate" placeholder="yyyy/mm/dd" class="form-control date" />
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label>Branch</label>
+                <div>
+                    @Html.DropDownList("Branch", (SelectList)ViewBag.Branches, new { @class = "form-control" })
+                </div>
+
+            </div>
+            <div class="form-group">
+                <label style="visibility: hidden">Action</label>
+                <div>
+                    <button id="addToTbl" class="btn btn-default form-control">Search</button>
+
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table>
+        <thead>
+            <th>xxx</th>
+        </thead>
+        <tbody>
+            <td>ssss</td>
+        </tbody>
+    </table>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundle/datatable")
+    @Scripts.Render("~/bundles/jquerynumber")
+    @Scripts.Render("~/bundles/numeral")
+    <script type="text/javascript">
+        var $dt = $(".date").datepicker({
+            dateFormat: "yy/mm/dd",
+            onClose:
+                function(dateText, inst) {
+                    $(this).datepicker('option', 'dateFormat', 'yy/mm/dd');
+                }
+        });
+
+        $dt.datepicker('setDate',
+            new Date());
+    </script>
+}
+
