@@ -36,7 +36,7 @@ namespace CashCard.Controllers
 
             var xxx = dt.Select(co => new[]
             {
-                co.Branch.Name, co.State.ToString(), co.PreviousBallance.ToString("N0"), co.EndBallance.ToString("N0"), co.DateEnd.ToString("yyyy/MM/dd"), "xxxx"
+                co.Branch.Name, co.State.ToString(), co.PreviousBallance.ToString("N0"), co.EndBallance.ToString("N0"), co.DateEnd.ToString("yyyy/MM/dd"), co.Id.ToString()
             }).ToList();
 
             json.data = xxx;
