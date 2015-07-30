@@ -20,5 +20,31 @@ namespace CashCard.Controllers
             ViewBag.Branches = x;
             return View();
         }
+
+        public JsonResult FindData(DateTime startDate, DateTime endDate, int branchId, int draw, int start, int length, Order[] order )
+        {
+            var json = new DataTablesJson();
+            json.draw = draw;
+            json.recordsTotal = db.CutOffs.Count();
+
+            var tempEndDate = endDate.AddDays(1);
+            var dt =
+                db.CutOffs.Where(p => p.DateEnd >= startDate && p.DateEnd < tempEndDate && p.BranchId == branchId).OrderBy(p=>p.Id)
+                    .Skip(start).Take(length).ToList();
+            json.recordsFiltered =
+                db.CutOffs.Count(p => p.DateEnd >= startDate && p.DateEnd < tempEndDate && p.BranchId == branchId);
+
+            var xxx = dt.Select(co => new[]
+            {
+                co.Branch.Name, co.State.ToString(), co.PreviousBallance.ToString("N0"), co.EndBallance.ToString("N0"), co.DateEnd.ToString("yyyy/MM/dd"), "xxxx"
+            }).ToList();
+
+            json.data = xxx;
+            return Json(json, JsonRequestBehavior.AllowGet);
+
+
+
+
+        }
 	}
 }

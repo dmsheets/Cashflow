@@ -196,6 +196,7 @@
     <Compile Include="Models\CashOutRegular.cs" />
     <Compile Include="Models\CutOff.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\DataTablesJson.cs" />
     <Compile Include="Models\DoddleProductRepository.cs" />
     <Compile Include="Models\GroupType.cs" />
     <Compile Include="Models\IrregularDetail.cs">
