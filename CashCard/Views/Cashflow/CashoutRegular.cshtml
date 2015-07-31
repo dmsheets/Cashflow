@@ -89,7 +89,8 @@
                     <div class="form-group">
                         @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
-                            @Html.EditorFor(model => model.Date)
+                            <input type="text" id="Date" name="Date" class="form-control" value='@Model.Date.ToString("yyyy/MM/dd")' required />
+                            @*@Html.EditorFor(model => model.Date)*@
                             @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
                             @Html.ValidationMessageFor(model => model.Date)
                             <span class="label label-info">State : @Html.DisplayFor(p => p.State)</span>

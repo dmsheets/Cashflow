@@ -12,95 +12,91 @@
 <hr />
 <div class="row">
     <table class="table">
-       
-      
+
+
         <tr>
             <td><b>Previous Ballance</b></td>
             <td></td>
             <td class="text-right">@Html.DisplayFor(p => p.PreviousBallance)</td>
         </tr>
 
-        @if(Model.CashFlows.OfType<CashIn>().Count()>0)
+        @if (Model.CashFlows.OfType<CashIn>().Any())
         {
-              <tr>
-            <td colspan="3"><h3>Cash In</h3></td>
-        </tr>
-     
+            <tr>
+                <td colspan="3"><h3>Cash In</h3></td>
+            </tr>
 
 
-        foreach (var b in Model.CashFlows.OfType<CashCard.Models.CashIn>())
-        {
+
+            foreach (var b in Model.CashFlows.OfType<CashCard.Models.CashIn>())
+            {
+
+                <tr>
+                    <td>
+                        - @Html.DisplayFor(p => b.Date)
+                    </td>
+                    <td class="text-right">
+                        @Html.DisplayFor(p => b.Total)
+                    </td>
+                    <td></td>
+                </tr>
+            }
 
             <tr>
-                <td>
-                   - @Html.DisplayFor(p => b.Date)
-                </td>
-                <td class="text-right">
-                    @Html.DisplayFor(p => b.Total)
-                </td>
-                <td></td>
+                <td colspan="2"><b>SubTotal</b></td>
+                <td class="text-right">@ViewBag.TotalCashIn</td>
             </tr>
         }
 
-        <tr>
-            <td colspan="2"><b>SubTotal</b></td>
-            <td class="text-right">@ViewBag.TotalCashIn</td>
-        </tr>
-        }
-      
-@if (Model.CashFlows.OfType<CashOutRegular>().Count() > 0)
-{
- <tr>
-            <td colspan="3"><h3>Cash Out Regular</h3></td>
-        </tr>
-
-        foreach (var b in Model.CashFlows.OfType<CashCard.Models.CashOutRegular>())
+        @if (Model.CashFlows.OfType<CashOutRegular>().Any())
         {
             <tr>
-                <td>
-                  -  @Html.DisplayFor(p => b.Date)
-                </td>
-                <td class="text-right">
-                    (@Html.DisplayFor(p => b.Total))
-                </td>
-                <td>
-
-                </td>
+                <td colspan="3"><h3>Cash Out Regular</h3></td>
             </tr>
-        }
-        <tr>
-            <td colspan="2"><b>SubTotal</b></td>
-            <td class="text-right">(@ViewBag.TotalCashOutRegular)</td>
-        </tr>
-}
-       
-@if (Model.CashFlows.OfType<CashOutIrregular>().Count() > 0)
-{
-    
 
-        <tr>
-            <td colspan="3"><h3>Cash Out Irregular</h3></td>
-        </tr>
-
-        foreach (var b in Model.CashFlows.OfType<CashCard.Models.CashOutIrregular>())
-        {
+            foreach (var b in Model.CashFlows.OfType<CashCard.Models.CashOutRegular>())
+            {
+                <tr>
+                    <td>
+                        -  @Html.DisplayFor(p => b.Date)
+                    </td>
+                    <td class="text-right">
+                        (@Html.DisplayFor(p => b.Total))
+                    </td>
+                    <td></td>
+                </tr>
+            }
             <tr>
-                <td>
-                   - @Html.DisplayFor(p => b.Date)
-                </td>
-                <td class="text-right" >
-                    (@Html.DisplayFor(p => b.Total))
-                </td>
-                <td>
-
-                </td>
+                <td colspan="2"><b>SubTotal</b></td>
+                <td class="text-right">(@ViewBag.TotalCashOutRegular)</td>
             </tr>
         }
-        <tr>
-            <td colspan="2"><b>SubTotal</b></td>
-            <td class="text-right">(@ViewBag.TotalCashOutIrregular)</td>
-        </tr>
-}
+
+        @if (Model.CashFlows.OfType<CashOutIrregular>().Any())
+        {
+
+
+            <tr>
+                <td colspan="3"><h3>Cash Out Irregular</h3></td>
+            </tr>
+
+            foreach (var b in Model.CashFlows.OfType<CashCard.Models.CashOutIrregular>())
+            {
+                <tr>
+                    <td>
+                        - @Html.DisplayFor(p => b.Date)
+                    </td>
+                    <td class="text-right">
+                        (@Html.DisplayFor(p => b.Total))
+                    </td>
+                    <td></td>
+                </tr>
+            }
+            <tr>
+                <td colspan="2"><b>SubTotal</b></td>
+                <td class="text-right">(@ViewBag.TotalCashOutIrregular)</td>
+            </tr>
+        }
         <tr>
             <td>
                 <b>End Ballance</b>
@@ -114,6 +110,6 @@
 </div>
 
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+
     @Html.ActionLink("Back to List", "Index")
 </p>

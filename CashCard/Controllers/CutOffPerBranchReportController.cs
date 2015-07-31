@@ -34,10 +34,10 @@ namespace CashCard.Controllers
 
             var tempEndDate = endDate.AddDays(1);
             var dt =
-                db.CutOffs.Where(p => p.DateEnd >= startDate && p.DateEnd < tempEndDate && p.BranchId == branchId).OrderBy(p=>p.Id)
+                db.CutOffs.Where(p => p.DateEnd >= startDate && p.DateEnd < tempEndDate && p.BranchId == branchId && p.State == StateCutOff.End).OrderBy(p=>p.Id)
                     .Skip(start).Take(length).ToList();
             json.recordsFiltered =
-                db.CutOffs.Count(p => p.DateEnd >= startDate && p.DateEnd < tempEndDate && p.BranchId == branchId);
+                db.CutOffs.Count(p => p.DateEnd >= startDate && p.DateEnd < tempEndDate && p.BranchId == branchId && p.State == StateCutOff.End);
 
             var xxx = dt.Select(co => new[]
             {

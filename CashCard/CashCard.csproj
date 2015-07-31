@@ -175,6 +175,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RegularGroupController.cs" />
     <Compile Include="Controllers\RegularQuizController.cs" />
+    <Compile Include="Controllers\ReportSummaryController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\testController.cs" />
     <Compile Include="Controllers\CashflowValidationController.cs" />
@@ -492,6 +493,7 @@
     <Content Include="Views\CashflowValidation\Cashin.cshtml" />
     <Content Include="Views\CutOffPerBranchReport\Index.cshtml" />
     <Content Include="Views\CutOffPerBranchReport\GetReport.cshtml" />
+    <Content Include="Views\ReportSummary\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

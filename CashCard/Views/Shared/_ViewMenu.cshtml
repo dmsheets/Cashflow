@@ -58,8 +58,25 @@
       
         @if (Request.IsAuthenticated)
         {
+
+    @*<li id="MnReportPerBranch">
+        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Regular  <i class="fa fa-fw fa-caret-down"></i></a>
+        <ul id="demo" class="collapse">
+            <li>
+                <a href="~/CutOffPerBranchReport/"> Report Per Branch</a>
+            </li>
+            <li>
+                <a href="~/ReportSummary/">Summary</a>
+            </li>
+        </ul>
+    </li>*@
+
             <li id="MnReportPerBranch">
                 <a href="~/CutOffPerBranchReport/"><i class="fa fa-fw fa-home"></i> Report Per Branch</a>
+            </li>
+
+            <li id="MnReportPerBranch">
+                <a href="~/ReportSummary/"><i class="fa fa-fw fa-home"></i> Report Summary</a>
             </li>
         }
     </ul>
