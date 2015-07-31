@@ -7,11 +7,16 @@ using CashCard.Models;
 
 namespace CashCard.Controllers
 {
+     [Authorize]
     public class CutOffPerBranchReportController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         //
         // GET: /CutOffPerBranchReport/
+         public CutOffPerBranchReportController()
+        {
+            ViewBag.Menu = "MnReportPerBranch";
+        }
         public ActionResult Index()
         {
             var dt = db.Branches.Select(oo => new { aaa = oo.Id, bbb = oo.Name}).ToList();
@@ -45,6 +50,22 @@ namespace CashCard.Controllers
 
 
 
+        }
+         public ActionResult GetReport(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(System.Net.HttpStatusCode.BadRequest);
+            }
+            CutOff cutoff = db.CutOffs.Find(id);
+            if (cutoff == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.TotalCashIn = cutoff.CashFlows.OfType<CashIn>().Sum(p => p.Total).ToString("N0");
+            ViewBag.TotalCashOutRegular = cutoff.CashFlows.OfType<CashOutRegular>().Sum(p => p.Total).ToString("N0");
+            ViewBag.TotalCashOutIrregular = cutoff.CashFlows.OfType<CashOutIrregular>().Sum(p => p.Total).ToString("N0");
+            return View(cutoff);
         }
 	}
 }

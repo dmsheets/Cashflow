@@ -113,7 +113,7 @@
             },
             "columnDefs": [
                 {"render":function(data, type, row) {
-                        return "<a class='rpt' idCutoff='" + data + "' href='#'>Report</a>";
+                    return "<a class='rpt' idCutoff='" + data + "' href='/CutOffPerBranchReport/GetReport/" + data + "'>Report</a>";
                     },
                 "targets":5}
             ]
@@ -122,10 +122,10 @@
             tbl.ajax.reload();
         });
 
-        $(".table").on("click", ".rpt", function (e) {
-            e.preventDefault();
-            $("#modalx").modal('show');
-        });
+        //$(".table").on("click", ".rpt", function (e) {
+        //    e.preventDefault();
+        //    $("#modalx").modal('show');
+        //});
     </script>
 }
 

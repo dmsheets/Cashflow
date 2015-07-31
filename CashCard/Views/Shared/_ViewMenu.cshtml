@@ -56,5 +56,11 @@
             </li>
         }
       
+        @if (Request.IsAuthenticated)
+        {
+            <li id="MnReportPerBranch">
+                <a href="~/CutOffPerBranchReport/"><i class="fa fa-fw fa-home"></i> Report Per Branch</a>
+            </li>
+        }
     </ul>
 </div>

@@ -491,6 +491,7 @@
     <Content Include="Views\CashflowValidation\CashoutIrregular.cshtml" />
     <Content Include="Views\CashflowValidation\Cashin.cshtml" />
     <Content Include="Views\CutOffPerBranchReport\Index.cshtml" />
+    <Content Include="Views\CutOffPerBranchReport\GetReport.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

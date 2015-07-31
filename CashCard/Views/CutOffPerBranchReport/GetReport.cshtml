@@ -1,0 +1,117 @@
+﻿@model CutOff
+@using CashCard.Models
+
+
+@{
+    ViewBag.Title = "GetReport";
+    Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
+}
+
+<h2>GetReport</h2>
+
+<div class="row">
+    <table class="table">
+        <tr>
+            <td colspan="3">Branch Office @Html.DisplayFor(p => p.Branch.Name)</td>
+        </tr>
+        <tr>
+            <td colspan="2"> Pengeluaran Regular</td>
+            <td>@Html.DisplayFor(p => p.Branch.PengeluaranRegular)</td>
+        </tr>
+
+        <tr>
+            <td><b>Previous Ballance</b></td>
+            <td></td>
+            <td class="text-right">@Html.DisplayFor(p => p.PreviousBallance)</td>
+        </tr>
+
+        @if(Model.CashFlows.OfType<CashIn>().Count()>0)
+        {
+              <tr>
+            <td colspan="3"><h3>Cash In</h3></td>
+        </tr>
+     
+
+
+        foreach (var b in Model.CashFlows.OfType<CashCard.Models.CashIn>())
+        {
+
+            <tr>
+                <td>
+                   - @Html.DisplayFor(p => b.Date)
+                </td>
+                <td class="text-left" colspan="2">
+                    @Html.DisplayFor(p => b.Total)
+                </td>
+            </tr>
+        }
+
+        <tr>
+            <td colspan="2"><b>SubTotal</b></td>
+            <td class="text-right">@ViewBag.TotalCashIn</td>
+        </tr>
+        }
+      
+@if (Model.CashFlows.OfType<CashOutRegular>().Count() > 0)
+{
+ <tr>
+            <td colspan="3"><h3>Cash Out Regular</h3></td>
+        </tr>
+
+        foreach (var b in Model.CashFlows.OfType<CashCard.Models.CashOutRegular>())
+        {
+            <tr>
+                <td>
+                  -  @Html.DisplayFor(p => b.Date)
+                </td>
+                <td class="text-left" colspan="2">
+                    (@Html.DisplayFor(p => b.Total))
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="2"><b>SubTotal</b></td>
+            <td class="text-right">(@ViewBag.TotalCashOutRegular)</td>
+        </tr>
+}
+       
+@if (Model.CashFlows.OfType<CashOutIrregular>().Count() > 0)
+{
+    
+
+        <tr>
+            <td colspan="3"><h3>Cash Out Irregular</h3></td>
+        </tr>
+
+        foreach (var b in Model.CashFlows.OfType<CashCard.Models.CashOutIrregular>())
+        {
+            <tr>
+                <td>
+                   - @Html.DisplayFor(p => b.Date)
+                </td>
+                <td class="text-left" colspan="2">
+                    (@Html.DisplayFor(p => b.Total))
+                </td>
+            </tr>
+        }
+        <tr>
+            <td colspan="2"><b>SubTotal</b></td>
+            <td class="text-right">(@ViewBag.TotalCashOutIrregular)</td>
+        </tr>
+}
+        <tr>
+            <td>
+                <b>End Ballance</b>
+            </td>
+            <td></td>
+            <td class="text-right"> @Html.DisplayFor(p => p.EndBallance)</td>
+        </tr>
+
+    </table>
+
+</div>
+
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
