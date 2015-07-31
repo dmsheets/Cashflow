@@ -173,9 +173,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201507221349471_initial.cs" />
-    <Compile Include="Migrations\201507221349471_initial.Designer.cs">
-      <DependentUpon>201507221349471_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201507300630049_okeh.cs" />
+    <Compile Include="Migrations\201507300630049_okeh.Designer.cs">
+      <DependentUpon>201507300630049_okeh.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -489,8 +489,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201507221349471_initial.resx">
-      <DependentUpon>201507221349471_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201507300630049_okeh.resx">
+      <DependentUpon>201507300630049_okeh.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
