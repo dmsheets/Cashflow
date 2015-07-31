@@ -62,6 +62,7 @@ namespace CashCard.Controllers
             {
                 return HttpNotFound();
             }
+            cutoff.CashFlows = cutoff.CashFlows.Where(p => p.State == StateCashFlow.Approve).ToList();
             ViewBag.TotalCashIn = cutoff.CashFlows.OfType<CashIn>().Sum(p => p.Total).ToString("N0");
             ViewBag.TotalCashOutRegular = cutoff.CashFlows.OfType<CashOutRegular>().Sum(p => p.Total).ToString("N0");
             ViewBag.TotalCashOutIrregular = cutoff.CashFlows.OfType<CashOutIrregular>().Sum(p => p.Total).ToString("N0");

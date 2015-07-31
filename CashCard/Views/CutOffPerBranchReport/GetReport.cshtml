@@ -7,18 +7,13 @@
     Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
 }
 
-<h2>GetReport</h2>
-
+<h2>Branch Office @Html.DisplayFor(p => p.Branch.Name)</h2>
+<h4>PU Pengeluaran Regular @Html.DisplayFor(p => p.Branch.PengeluaranRegular)</h4>
+<hr />
 <div class="row">
     <table class="table">
-        <tr>
-            <td colspan="3">Branch Office @Html.DisplayFor(p => p.Branch.Name)</td>
-        </tr>
-        <tr>
-            <td colspan="2"> Pengeluaran Regular</td>
-            <td>@Html.DisplayFor(p => p.Branch.PengeluaranRegular)</td>
-        </tr>
-
+       
+      
         <tr>
             <td><b>Previous Ballance</b></td>
             <td></td>
@@ -40,9 +35,10 @@
                 <td>
                    - @Html.DisplayFor(p => b.Date)
                 </td>
-                <td class="text-left" colspan="2">
+                <td class="text-right">
                     @Html.DisplayFor(p => b.Total)
                 </td>
+                <td></td>
             </tr>
         }
 
@@ -64,8 +60,11 @@
                 <td>
                   -  @Html.DisplayFor(p => b.Date)
                 </td>
-                <td class="text-left" colspan="2">
+                <td class="text-right">
                     (@Html.DisplayFor(p => b.Total))
+                </td>
+                <td>
+
                 </td>
             </tr>
         }
@@ -89,8 +88,11 @@
                 <td>
                    - @Html.DisplayFor(p => b.Date)
                 </td>
-                <td class="text-left" colspan="2">
+                <td class="text-right" >
                     (@Html.DisplayFor(p => b.Total))
+                </td>
+                <td>
+
                 </td>
             </tr>
         }

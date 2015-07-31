@@ -68,86 +68,88 @@
     </dl>
 </div>
 <div class="row">
-    <table id="tbl" class="table table-striped table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>Owner</th>
-                <th>Date</th>
-                <th>Total</th>
-                <th>State</th>
-                <th>Type</th>
+    <div class="col-lg-12">
+        <table id="tbl" class="table table-striped table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Owner</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>State</th>
+                    <th>Type</th>
 
 
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null)
-            {
-                foreach (var a in Model.CashFlows)
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
                 {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(i => a.User.UserName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(i => a.Date)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(i => a.Total)
-                        </td>
-                        <td>
-                            @switch (a.State)
-                            {
-                                case StateCashFlow.Draft:
-                                    <span class="label label-default">Draft</span>
-                                    break;
-                                case StateCashFlow.Final:
-                                <span class="label label-primary">Final</span>
-                                    break;
-                                case StateCashFlow.Revision:
-                                <span class="label label-warning">Revision</span>
-                                    break;
-                                case StateCashFlow.Approve:
-                                <span class="label label-success">Approve</span>
-                                    break;
-                                case StateCashFlow.Reject:
-                                <span class="label label-danger">Reject</span>
-                                    break;
-                            }
+                    foreach (var a in Model.CashFlows)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(i => a.User.UserName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(i => a.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(i => a.Total)
+                            </td>
+                            <td>
+                                @switch (a.State)
+                                {
+                                    case StateCashFlow.Draft:
+                                        <span class="label label-default">Draft</span>
+                                        break;
+                                    case StateCashFlow.Final:
+                                    <span class="label label-primary">Final</span>
+                                        break;
+                                    case StateCashFlow.Revision:
+                                    <span class="label label-warning">Revision</span>
+                                        break;
+                                    case StateCashFlow.Approve:
+                                    <span class="label label-success">Approve</span>
+                                        break;
+                                    case StateCashFlow.Reject:
+                                    <span class="label label-danger">Reject</span>
+                                        break;
+                                }
 
-                        </td>
+                            </td>
 
-                        <td>
+                            <td>
 
-                            @if (a is CashOutRegular)
-                            {
-                                <span>Regular</span>
+                                @if (a is CashOutRegular)
+                                {
+                                    <span>Regular</span>
 
-                            }
-                            else if (a is CashIn)
-                            {
-                                <span>Cash In</span>
+                                }
+                                else if (a is CashIn)
+                                {
+                                    <span>Cash In</span>
 
-                            }
-                            else
-                            {
-                                <span>Irregular</span>
-
-
-                            }
-
-                        </td>
+                                }
+                                else
+                                {
+                                    <span>Irregular</span>
 
 
-                    </tr>
+                                }
+
+                            </td>
+
+
+                        </tr>
+                    }
                 }
-            }
 
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+        </div>
 
-</div>
+    </div>
 <p>
    
     @Html.ActionLink("Back to List", "Index")
