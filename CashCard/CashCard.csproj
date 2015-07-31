@@ -39,6 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="DoddleReport">
+      <HintPath>..\packages\DoddleReport.Web.1.4\lib\net40\DoddleReport.dll</HintPath>
+    </Reference>
+    <Reference Include="DoddleReport.Web">
+      <HintPath>..\packages\DoddleReport.Web.1.4\lib\net40\DoddleReport.Web.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
@@ -164,6 +170,8 @@
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\CashflowController.cs" />
     <Compile Include="Controllers\CutoffController.cs" />
+    <Compile Include="Controllers\CutOffPerBranchReportController.cs" />
+    <Compile Include="Controllers\DoddleController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RegularGroupController.cs" />
     <Compile Include="Controllers\RegularQuizController.cs" />
@@ -188,6 +196,8 @@
     <Compile Include="Models\CashOutRegular.cs" />
     <Compile Include="Models\CutOff.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
+    <Compile Include="Models\DataTablesJson.cs" />
+    <Compile Include="Models\DoddleProductRepository.cs" />
     <Compile Include="Models\GroupType.cs" />
     <Compile Include="Models\IrregularDetail.cs">
       <SubType>Code</SubType>
@@ -480,6 +490,7 @@
     <Content Include="Views\Cashflow\CashoutIrregularInfo.cshtml" />
     <Content Include="Views\CashflowValidation\CashoutIrregular.cshtml" />
     <Content Include="Views\CashflowValidation\Cashin.cshtml" />
+    <Content Include="Views\CutOffPerBranchReport\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -42,7 +42,7 @@
                     <div class="form-group ">
                         <label>Flight Date</label>
                         <div>
-                            <input id="FlightDate" class="form-control" required readonly="readonly" />
+                            <input id="FlightDate" placeholder="yyyy/mm/dd" class="form-control" required  />
                         </div>
                     </div>
                     
@@ -335,8 +335,20 @@
         $("#Amount").number(true, 0);
         $("#Total").number(true, 0);
 
-        $("#FlightDate").datepicker({ dateFormat: "yy/mm/dd" });
-        $("#Date").datepicker({ dateFormat: "yy/mm/dd" });
+        $("#FlightDate").datepicker({
+            dateFormat: "yy/mm/dd",
+            onClose:
+                function (dateText, inst) {
+                    $(this).datepicker('option', 'dateFormat', 'yy/mm/dd');
+                }
+        });
+        $("#Date").datepicker({
+            dateFormat: "yy/mm/dd",
+            onClose:
+                function (dateText, inst) {
+                    $(this).datepicker('option', 'dateFormat', 'yy/mm/dd');
+                }
+        });
      
         var tbl = $("#tbl").DataTable(
         {
