@@ -10,14 +10,14 @@
         <div class="form-inline">
             <div class="form-group">
                 <label>Start Date</label>
-                <div>
-                    <input id="startDt" placeholder="yyyy/mm/dd" class="form-control date" />
+                <div class="hero-unit">
+                    <input id="startDt" placeholder="yyyy/mm/dd" class="form-control  "  />
                 </div>
             </div>
             <div class="form-group">
                 <label>End Date</label>
                 <div>
-                    <input id="endDt" placeholder="yyyy/mm/dd" class="form-control date" />
+                    <input id="endDt" placeholder="yyyy/mm/dd" class="form-control date" value='@DateTime.Now.ToString("yyyy/MM/dd")' />
                 </div>
 
             </div>
@@ -57,22 +57,25 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundle/datatable")
+    @Scripts.Render("~/bundles/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
     @Scripts.Render("~/bundles/numeral")
+
     <script type="text/javascript">
-        var $dt = $(".date").datepicker({
-            dateFormat: "yy/mm/dd",
-            onClose:
-                function (dateText, inst) {
-                    $(this).datepicker('option', 'dateFormat', 'yy/mm/dd');
-                }
+
+        var pathToSWF = '@Url.Content("~/Content/DataTables/swf/copy_csv_xls_pdf.swf")';
+        //var $dt = $(".date").datepicker({
+        //    format: 'yyyy/mm/dd',
+        //    todayBtn: 'linked'
+        //});
+
+        //$(".date").datepicker('update');
+
+        $('#startDt').datepicker({
+            "setDate": new Date(),
+            "autoclose": true,
+            "format":"yyyy/mm/dd"
         });
-
-        $dt.datepicker('setDate',
-            new Date());
-
-
         var tbl = $(".table").DataTable(
         {
             "lengthChange": false,
@@ -84,15 +87,19 @@
             "serverSide": true,
             "ajax": {
                 "url": '@Url.Action("FindData")',
-                "data": function (d) {
+                "data": function(d) {
                     d.startDate = $("#startDt").val();
                     d.endDate = $("#endDt").val();
 
                 }
+            },
+            "dom": 'T<"clear">lfrtip',
+            "tableTools": {
+                "sSwfPath": pathToSWF
             }
-           
+
         });
-        $("#btnSearch").click(function () {
+        $("#btnSearch").click(function() {
             tbl.ajax.reload();
         });
 

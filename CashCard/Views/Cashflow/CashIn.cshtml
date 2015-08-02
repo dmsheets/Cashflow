@@ -230,22 +230,22 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundle/datatable")
+    @Scripts.Render("~/bundles/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
     @Scripts.Render("~/bundles/numeral")
     <script type="text/javascript">
         var log;
-        var dialog = $("#errorInfo").dialog({
-            autoOpen: false,
-            modal: true,
-            buttons: {
-                Ok: function() {
-                    $(this).dialog("close");
-                }
-            }
-        });
+        //var dialog = $("#errorInfo").dialog({
+        //    autoOpen: false,
+        //    modal: true,
+        //    buttons: {
+        //        Ok: function() {
+        //            $(this).dialog("close");
+        //        }
+        //    }
+        //});
 
-        var dialogInputText = $("#InputInfo").dialog({
+        @*var dialogInputText = $("#InputInfo").dialog({
             autoOpen: false,
             modal: true,
             buttons: {
@@ -276,7 +276,7 @@
 
                 }
             }
-        });
+        });*@
 
         $("#Amount").number(true, 0);
         $("#Total").number(true, 0);
@@ -374,7 +374,7 @@
         });
 
 
-        $("#Date").datepicker({ dateFormat: "yy/mm/dd" });
+        $("#Date").datepicker({ format: "yyyy/mm/dd" });
 
 
         //get cashflow

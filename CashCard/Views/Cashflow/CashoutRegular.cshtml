@@ -93,8 +93,7 @@
                             @*@Html.EditorFor(model => model.Date)*@
                             @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
                             @Html.ValidationMessageFor(model => model.Date)
-                            <span class="label label-info">State : @Html.DisplayFor(p => p.State)</span>
-
+                           
                         </div>
 
 
@@ -270,7 +269,7 @@
 </div>
 
 @section Scripts {
-    @Scripts.Render("~/bundle/datatable")
+    @Scripts.Render("~/bundles/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
     @Scripts.Render("~/bundles/numeral")
     <script type="text/javascript">

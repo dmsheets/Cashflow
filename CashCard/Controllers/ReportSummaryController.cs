@@ -66,7 +66,15 @@ namespace CashCard.Controllers
             var reader = com.ExecuteReader();
             while (reader.Read())
             {
-                var oo = new string[] {reader.GetString(0),  reader.GetInt32(1).ToString()};
+                var oo = new string[xx.Count+1];
+                oo[0] = reader.GetString(0);
+                for (int i = 1; i < xx.Count+1; i++)
+                {
+                    var temp = reader.GetValue(i) is DBNull ? "0" : reader.GetInt32(i).ToString();
+
+                    oo[i] = temp;
+                }
+               
                 list.Add(oo);
 
             }
