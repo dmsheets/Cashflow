@@ -19,7 +19,7 @@
                     <div class="form-group ">
                         <label>Note</label>
                         <div>
-                            <input id="Note2" class="form-control" />
+                            <input id="NoteLog" class="form-control" />
                         </div>
                     </div>
 
@@ -310,9 +310,10 @@
     @Scripts.Render("~/bundles/numeral")
     <script type="text/javascript">
         var log;
+        var trActive;
 
         $("#btnConfirm").click(function () {
-            log = $("#Note2").val();
+            log = $("#NoteLog").val();
 
             $("#ModalAddInfo").modal('hide');
 
@@ -387,14 +388,19 @@
             e.preventDefault();
             if ($("#detail").valid()) {
 
-                var total = 0;
-                if ($("#Total").val()) {
-                    total = Number($("#Total").val());
-                }
+                var total = numeral().unformat($("#Total").val());
+             
 
 
-                var subTotal = Number($("#Amount").val()) * Number($("#Qty").val());
+                var subTotal = numeral().unformat($("#Amount").val())*numeral().unformat($("#Qty").val());
                 total = total + subTotal;
+
+                if(trActive)
+                {
+                    var trData = tbl.row(trActive).data();
+                    total = total - numeral().unformat(trData[7]);
+                    tbl.row(trActive).remove().draw();
+                }
                 $("#Total").val(total);
 
                 tbl.row.add([
@@ -407,6 +413,11 @@
                 $("#Amount").val('');
                 $("#Qty").val('');
                 $("#regularDetailId").val("0");
+
+                if(trActive)//edit mode
+                {
+                    $("#myModal").modal('hide');
+                }
             }
 
         });
@@ -421,13 +432,10 @@
             $("#Qty").val(rowData[6]);
             $("#regularDetailId").val(rowData[0]);
 
-            tbl.row(tr).remove().draw();
+         
 
             $('#myModal').modal('show');
-
-            var total = $("#Total").val();
-            total = total - rowData[7];
-            $("#Total").val(total);
+            trActive = tr;
         });
 
         $('#rowTable').on('click', '.deleteDetail', function() {
@@ -438,8 +446,8 @@
 
 
 
-            var total = $("#Total").val();
-            total = total - rowData[7];
+            var total =  numeral().unformat($("#Total").val());
+            total = total - numeral().unformat(rowData[7]);
             $("#Total").val(total);
         });
 
@@ -512,10 +520,21 @@
             if (form.valid()) {
                 //Ajax call here
 
-                $("#ModalAddInfo").modal('show')
+                $("#ModalAddInfo").modal('show');
             }
         });
         $("#detail").validate();
+
+        $("#myModal").on('hide.bs.modal', function (e) {
+            trActive = null;
+            $("#Note1").val('');
+            $("#Note2").val('');
+            $("#Amount").val('');
+            $("#Qty").val('');
+            $("#regularDetailId").val("0");
+        });
+
+      
     </script>
     <style>
     </style>

@@ -20,7 +20,7 @@
                     <div class="form-group ">
                         <label>Note</label>
                         <div>
-                            <input id="Note2" class="form-control" />
+                            <input id="NoteLog" class="form-control" />
                         </div>
                     </div>
 
@@ -260,10 +260,11 @@
     @Scripts.Render("~/bundles/numeral")
     <script type="text/javascript">
         var log;
+        var trActive;
         
 
         $("#btnConfirm").click(function () {
-            log = $("#Note2").val();
+            log = $("#NoteLog").val();
 
             $("#ModalAddInfo").modal('hide');
 
@@ -329,15 +330,25 @@
             e.preventDefault();
             if ($("#detail").valid()) {
 
-                var total = 0;
-                if ($("#Total").val()) {
-                    total = Number($("#Total").val());
-                }
+                var total = numeral().unformat($("#Total").val());
+             
 
 
-                var subTotal = Number($("#Amount").val());
+                var subTotal = numeral().unformat($("#Amount").val());
                 total = total + subTotal;
+                //minus trActive 
+                if (trActive)
+                {
+                    var trData = tbl.row(trActive).data();
+                    total = total - numeral().unformat(trData[2]);
+                  
+                    tbl.row(trActive).remove().draw();
+                   
+                }
+               
                 $("#Total").val(total);
+
+              
 
                 tbl.row.add([
                     $("#cashInDetailId").val(), $("#Note2").val(), numeral($("#Amount").val()).format('0,0')
@@ -345,10 +356,13 @@
 
                 $('#Note2').focus();
                 $("#Note2").val('');
-
                 $("#Amount").val('');
-
                 $("#cashInDetailId").val("0");
+
+                if(trActive)//edit mode
+                {
+                    $("#myModal").modal('hide');
+                }
             }
 
         });
@@ -361,13 +375,16 @@
             $("#Amount").val(rowData[2]);
             $("#cashInDetailId").val(rowData[0]);
 
-            tbl.row(tr).remove().draw();
+           
 
             $('#myModal').modal('show');
+            trActive = tr;
 
-            var total = $("#Total").val();
-            total = total - rowData[2];
-            $("#Total").val(total);
+
+            //tbl.row(tr).remove().draw();
+            //var total = $("#Total").val();
+            //total = total - rowData[2];
+            //$("#Total").val(total);
         });
 
         $('#rowTable').on('click', '.deleteDetail', function() {
@@ -377,8 +394,8 @@
             tbl.row(tr).remove().draw();
 
 
-            var total = $("#Total").val();
-            total = total - rowData[2];
+            var total = numeral().unformat($("#Total").val());
+            total = total - numeral().unformat(rowData[2]);
             $("#Total").val(total);
         });
 
@@ -449,6 +466,13 @@
         });
 
         $("#detail").validate();
+
+        $("#myModal").on('hide.bs.modal', function (e) {
+            trActive = null;
+            $("#Note2").val('');
+            $("#Amount").val('');
+            $("#cashInDetailId").val("0");
+        });
     </script>
     <style>
         </style>

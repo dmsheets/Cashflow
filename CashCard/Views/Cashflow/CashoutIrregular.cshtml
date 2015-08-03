@@ -19,7 +19,7 @@
                     <div class="form-group ">
                         <label>Note</label>
                         <div>
-                            <input id="Note2" class="form-control" />
+                            <input id="NoteLog" class="form-control" />
                         </div>
                     </div>
 
@@ -322,9 +322,10 @@
     @Scripts.Render("~/bundles/numeral")
     <script type="text/javascript">
         var log;
+        var trActive;
      
         $("#btnConfirm").click(function () {
-            log = $("#Note2").val();
+            log = $("#NoteLog").val();
 
             $("#ModalAddInfo").modal('hide');
 
@@ -409,14 +410,19 @@
             e.preventDefault();
             if ($("#detail").valid()) {
 
-                var total = 0;
-                if ($("#Total").val()) {
-                    total = Number($("#Total").val());
+                var total = numeral().unformat($("#Total").val());
+
+
+
+                var subTotal = numeral().unformat($("#Amount").val());
+                total = total + subTotal;
+                //minus trActive 
+                if (trActive) {
+                    var trData = tbl.row(trActive).data();
+                    total = total - numeral().unformat(trData[7]);
+                    tbl.row(trActive).remove().draw();
                 }
 
-
-                var subTotal = Number($("#Amount").val()) * Number($("#Qty").val());
-                total = total + subTotal;
                 $("#Total").val(total);
 
                 tbl.row.add([
@@ -432,6 +438,11 @@
                 $("#Qty").val('');
                 $("#iregularDetailId").val("0");
                 $("#IrregularType").focus();
+
+                if (trActive)//edit mode
+                {
+                    $("#myModal").modal('hide');
+                }
             }
 
         });
@@ -452,13 +463,12 @@
 
           
 
-            tbl.row(tr).remove().draw();
+          
 
             $('#myModal').modal('show');
+            trActive = tr;
 
-            var total = $("#Total").val();
-            total = total - rowData[7];
-            $("#Total").val(total);
+           
         });
 
         $('#rowTable').on('click', '.deleteDetail', function() {
@@ -469,8 +479,8 @@
 
 
 
-            var total = $("#Total").val();
-            total = total - rowData[7];
+            var total = numeral().unformat($("#Total").val());
+            total = total - numeral().unformat(rowData[7]);
             $("#Total").val(total);
         });
 
@@ -542,6 +552,17 @@
             }
         });
         $("#detail").validate();
+
+        $("#myModal").on('hide.bs.modal', function (e) {
+            trActive = null;
+            $("#FlightNo").val('');
+            $("#FlightDate").datepicker("setDate", new Date());
+            $("#FromTo").val('');
+            $("#Note1").val('');
+            $("#Amount").val('');
+            $("#Qty").val('');
+            $("#iregularDetailId").val("0");
+        });
     </script>
     <style>
     </style>
