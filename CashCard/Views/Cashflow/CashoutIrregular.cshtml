@@ -6,7 +6,46 @@
 }
 
 
+<!-- modal add info-->
+<div class="modal fade" id="ModalAddInfo" tabindex="-1" role="dialog" aria-labelledby="Add Note">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Add Log Note</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formNote">
+                    <div class="form-group ">
+                        <label>Note</label>
+                        <div>
+                            <input id="Note2" class="form-control" />
+                        </div>
+                    </div>
 
+                    <div class="form-group ">
+                        <button type="button" id="btnConfirm" class="btn btn-primary">Confirm</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bs-example-modal-sm" id="ModalError" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Error!</h4>
+            </div>
+            <div class="modal-body">
+                <span id="errorInfo">Error</span>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -276,61 +315,41 @@
     @Html.ActionLink("Back to List", "Index")
 </div>
 
-<div id="errorInfo" title="Error Info">
 
-</div>
-
-<div id="InputInfo" title="Note">
-    <input id="validationInfo" type="text" />
-</div>
 @section Scripts {
     @Scripts.Render("~/bundles/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
     @Scripts.Render("~/bundles/numeral")
     <script type="text/javascript">
         var log;
-        var dialog = $("#errorInfo").dialog({
-            autoOpen: false,
-            modal: true,
-            buttons: {
-                Ok: function () {
-                    $(this).dialog("close");
+     
+        $("#btnConfirm").click(function () {
+            log = $("#Note2").val();
+
+            $("#ModalAddInfo").modal('hide');
+
+            var cashFlow = getCashFlow();
+
+
+            $.ajax({
+                url: '@Url.Action("CreateCashoutIrregularFinal")',
+                data: JSON.stringify({ cashFlow: cashFlow, log: log }),
+                type: 'POST',
+                contentType: 'application/json;',
+                dataType: 'json',
+                success: function (result) {
+
+                    if (result.Success == "1") {
+                        window.location.href = '@Url.Action("Index")';
+                    } else {
+                        showErrorInfo(result.ex);
+                    }
                 }
-            }
+
+            });
+
         });
-
-        var dialogInputText = $("#InputInfo").dialog({
-            autoOpen: false,
-            modal: true,
-            buttons: {
-                Ok: function () {
-                    $(this).dialog("close");
-
-                    log = $("#validationInfo").val();
-
-                    var cashFlow = getCashFlow();
-
-
-                    $.ajax({
-                        url: '@Url.Action("CreateCashoutIrregularFinal")',
-                        data: JSON.stringify({ cashFlow: cashFlow, log: log }),
-                        type: 'POST',
-                        contentType: 'application/json;',
-                        dataType: 'json',
-                        success: function (result) {
-
-                            if (result.Success == "1") {
-                                window.location.href = '@Url.Action("Index")';
-                            } else {
-                                showErrorInfo(result.ex);
-                            }
-                        }
-
-                    });
-
-                }
-            }
-        });
+      
 
         $("#Qty").number(true, 0);
         $("#Amount").number(true, 0);
@@ -379,11 +398,9 @@
 
         function showErrorInfo(error) {
 
-            var str = "<p> \
-                        <b>Error :</b> <span>" + error + "</span> \
-                       </p>";
-            $("#errorInfo").html(str);
-            dialog.dialog("open");
+            $("#errorInfo").text(error);
+            $('#ModalError').modal('show')
+
 
         }
 
@@ -521,7 +538,7 @@
             if (form.valid()) {
                 //Ajax call here
 
-                dialogInputText.dialog("open");
+                $("#ModalAddInfo").modal('show')
             }
         });
         $("#detail").validate();

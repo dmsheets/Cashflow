@@ -11,13 +11,13 @@
             <div class="form-group">
                 <label>Start Date</label>
                 <div class="hero-unit">
-                    <input id="startDt" placeholder="yyyy/mm/dd" class="form-control  "  />
+                    <input id="startDt" placeholder="yyyy/mm/dd" class="form-control date" />
                 </div>
             </div>
             <div class="form-group">
                 <label>End Date</label>
                 <div>
-                    <input id="endDt" placeholder="yyyy/mm/dd" class="form-control date" value='@DateTime.Now.ToString("yyyy/MM/dd")' />
+                    <input id="endDt" placeholder="yyyy/mm/dd" class="form-control date" />
                 </div>
 
             </div>
@@ -64,18 +64,16 @@
     <script type="text/javascript">
 
         var pathToSWF = '@Url.Content("~/Content/DataTables/swf/copy_csv_xls_pdf.swf")';
-        //var $dt = $(".date").datepicker({
-        //    format: 'yyyy/mm/dd',
-        //    todayBtn: 'linked'
-        //});
-
-        //$(".date").datepicker('update');
-
-        $('#startDt').datepicker({
-            "setDate": new Date(),
-            "autoclose": true,
-            "format":"yyyy/mm/dd"
+        var $dt = $(".date").datepicker({
+            dateFormat: "yy/mm/dd",
+            onClose:
+                function (dateText, inst) {
+                    $(this).datepicker('option', 'dateFormat', 'yy/mm/dd');
+                }
         });
+
+        $dt.datepicker('setDate',
+            new Date());
         var tbl = $(".table").DataTable(
         {
             "lengthChange": false,

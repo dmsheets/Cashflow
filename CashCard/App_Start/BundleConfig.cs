@@ -31,20 +31,18 @@ namespace CashCard
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js",
-                      "~/Scripts/bootstrap-select.js",
-                      "~/Scripts/bootstrap-datepicker.js"));
+                      "~/Scripts/bootstrap-select.js"));
 
             bundles.Add(new StyleBundle("~/content/main").Include(
                 "~/Content/bootstrap.min.css",
                 "~/Content/bootstrap-select.min.css",
-                "~/Content/bootstrap-datepicker3.css",
                 "~/Content/sb-admin.css",
                 "~/Content/font-awesome.css"));
 
             //bundles.Add(new StyleBundle("~/content/css").
             //          Include("~/Content/font-awesome.css", new CssRewriteUrlTransform()));
 
-            bundles.Add(new StyleBundle("~/content/picker").Include(
+            bundles.Add(new StyleBundle("~/content/themes/base/jui").Include(
                                 "~/Content/themes/base/accordion.css",
                                 "~/Content/themes/base/all.css",
                                 "~/Content/themes/base/autocomplete.css",
@@ -72,7 +70,7 @@ namespace CashCard
                 "~/Scripts/DataTables/dataTables.bootstrap.js",
                  "~/Scripts/DataTables/dataTables.tableTools.js"));
 
-            bundles.Add(new StyleBundle("~/content/datatable").Include(
+            bundles.Add(new StyleBundle("~/content/datatables/css/tbl").Include(
                 "~/Content/DataTables/css/dataTables.bootstrap.css",
                 "~/Content/DataTables/css/dataTables.tableTools.css"));
 

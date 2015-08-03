@@ -16,12 +16,37 @@
 </head>
 <body>
     <div class="container">
-        <div class="hero-unit">
-            <input type="text" placeholder="click to show datepicker" id="example1">
-        </div>
-        <br/>
-        <div class="hero-unit" id="abc">
-            <input type="text" placeholder="click to show datepicker" id="example2">
+        <div class="form-inline">
+            <div class="form-group">
+                <label>Start Date</label>
+                @*<div class="hero-unit">
+                    <input id="startDt" placeholder="yyyy/mm/dd"  />
+                </div>*@
+                <div class='input-group date' id='datetimepicker1'>
+                    <input type='text' class="form-control" />
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>End Date</label>
+                <div>
+                    <input id="endDt" placeholder="yyyy/mm/dd" class="form-control date" value='@DateTime.Now.ToString("yyyy/MM/dd")' />
+                </div>
+
+            </div>
+
+            <div class="form-group">
+                <label style="visibility: hidden">Action</label>
+                <div>
+                    <button id="btnSearch" class="btn btn-default form-control">Search</button>
+
+                </div>
+            </div>
+
+
+
         </div>
     </div>
     <!-- Load jQuery and bootstrap datepicker scripts -->
@@ -31,15 +56,17 @@
         // When the document is ready
         $(document).ready(function () {
 
-            $('#example1').datepicker({
-                format: "dd/mm/yyyy"
+            $('#startDt').datepicker({
+                format: "dd/mm/yyyy",
+                orientation: "top left"
             });
 
             $('#example2').datepicker({
                 format: "dd/mm/yyyy",
-                orientation: "below"
+                orientation: "top left"
             });
 
+            $('#datetimepicker1').datetimepicker();
         });
     </script>
 </body>
