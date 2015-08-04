@@ -18,17 +18,17 @@
                 <a href="~/Branch/"><i class="fa fa-fw fa-table"></i> Branch</a>
             </li>
             <li id="MnRegularGroup">
-                <a href="~/RegularGroup/"><i class="fa fa-fw fa-flag"></i>Regular Group</a>
+                <a href="~/RegularGroup/"><i class="fa fa-fw fa-flag"></i> Regular Group</a>
             </li>
             <li id="MnRegularQuiz">
-                <a href="~/RegularQuiz/"><i class="fa fa-fw fa-key"></i>Regular Quiz</a>
+                <a href="~/RegularQuiz/"><i class="fa fa-fw fa-key"></i> Regular Quiz</a>
             </li>
         }
 
         @if (Request.IsAuthenticated && User.IsInRole("User"))
         {
             <li id="MnCashflow">
-                <a href="~/Cashflow/"><i class="fa fa-fw fa-calculator"></i> Cashflow</a>
+                <a href="~/Cashflow/"><i class="fa fa-fw fa-calculator"></i> Cash Card Report</a>
             </li>
         }
 
@@ -46,7 +46,7 @@
         @if (Request.IsAuthenticated && User.IsInRole("Supervisor"))
         {
             <li id="MnCashflowValidation">
-                <a href="~/CashflowValidation/"><i class="fa fa-fw fa-check"></i> Cashflow Validation </a>
+                <a href="~/CashflowValidation/"><i class="fa fa-fw fa-check"></i> Cash Card Validation </a>
             </li>
         }
         @if (Request.IsAuthenticated && User.IsInRole("Officer"))
@@ -59,25 +59,21 @@
         @if (Request.IsAuthenticated)
         {
 
-    @*<li id="MnReportPerBranch">
-        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Regular  <i class="fa fa-fw fa-caret-down"></i></a>
-        <ul id="demo" class="collapse">
-            <li>
-                <a href="~/CutOffPerBranchReport/"> Report Per Branch</a>
-            </li>
-            <li>
-                <a href="~/ReportSummary/">Summary</a>
-            </li>
-        </ul>
-    </li>*@
 
+
+
+    <li >
+        <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Reporting  <i class="fa fa-fw fa-caret-down"></i></a>
+        <ul id="demo" class="collapse">
             <li id="MnReportPerBranch">
                 <a href="~/CutOffPerBranchReport/"><i class="fa fa-fw fa-home"></i> Report Per Branch</a>
             </li>
 
-            <li id="MnReportPerBranch">
+            <li id="MnReportSummary">
                 <a href="~/ReportSummary/"><i class="fa fa-fw fa-home"></i> Report Summary</a>
             </li>
+            
+        </ul>
+    </li>
         }
-    </ul>
 </div>
