@@ -19,20 +19,20 @@ namespace CashCard.Controllers
         {
             ViewBag.Menu = "MnRegularGroup";
         }
-        // GET: /RegularGroup/
+        // GET: /QuizGroup/
         public ActionResult Index()
         {
             return View(db.RegularGroup.ToList());
         }
 
-        // GET: /RegularGroup/Details/5
+        // GET: /QuizGroup/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RegularGroup regulargroup = db.RegularGroup.Find(id);
+            QuizGroup regulargroup = db.RegularGroup.Find(id);
             if (regulargroup == null)
             {
                 return HttpNotFound();
@@ -40,7 +40,7 @@ namespace CashCard.Controllers
             return View(regulargroup);
         }
 
-        // GET: /RegularGroup/Create
+        // GET: /QuizGroup/Create
         public ActionResult Create()
         {
             var x = new SelectList(Enum.GetValues(typeof(GroupType)));
@@ -50,12 +50,12 @@ namespace CashCard.Controllers
             return View();
         }
 
-        // POST: /RegularGroup/Create
+        // POST: /QuizGroup/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="Id,AccountNo,AccountDesription,GroupType,Info")] RegularGroup regulargroup)
+        public ActionResult Create([Bind(Include="Id,AccountNo,AccountDesription,GroupType,Info")] QuizGroup regulargroup)
         {
             if (ModelState.IsValid)
             {
@@ -67,14 +67,14 @@ namespace CashCard.Controllers
             return View(regulargroup);
         }
 
-        // GET: /RegularGroup/Edit/5
+        // GET: /QuizGroup/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RegularGroup regulargroup = db.RegularGroup.Find(id);
+            QuizGroup regulargroup = db.RegularGroup.Find(id);
             if (regulargroup == null)
             {
                 return HttpNotFound();
@@ -84,12 +84,12 @@ namespace CashCard.Controllers
             return View(regulargroup);
         }
 
-        // POST: /RegularGroup/Edit/5
+        // POST: /QuizGroup/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="Id,AccountNo,AccountDesription,GroupType,Info")] RegularGroup regulargroup)
+        public ActionResult Edit([Bind(Include="Id,AccountNo,AccountDesription,GroupType,Info")] QuizGroup regulargroup)
         {
             if (ModelState.IsValid)
             {
@@ -100,14 +100,14 @@ namespace CashCard.Controllers
             return View(regulargroup);
         }
 
-        // GET: /RegularGroup/Delete/5
+        // GET: /QuizGroup/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RegularGroup regulargroup = db.RegularGroup.Find(id);
+            QuizGroup regulargroup = db.RegularGroup.Find(id);
             if (regulargroup == null)
             {
                 return HttpNotFound();
@@ -115,7 +115,7 @@ namespace CashCard.Controllers
             return View(regulargroup);
         }
 
-        // POST: /RegularGroup/Delete/5
+        // POST: /QuizGroup/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -123,7 +123,7 @@ namespace CashCard.Controllers
           
             try
             {
-                RegularGroup regulargroup = db.RegularGroup.Find(id);
+                QuizGroup regulargroup = db.RegularGroup.Find(id);
                 db.RegularGroup.Remove(regulargroup);
                 db.SaveChanges();
                 return RedirectToAction("Index");

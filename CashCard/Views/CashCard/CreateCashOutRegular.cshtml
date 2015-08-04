@@ -1,5 +1,5 @@
 ﻿@using CashCard.Models
-@model global::CashCard.Models.CashOutIrregular
+@model global::CashCard.Models.CashOut
 @{
     ViewBag.Title = Model.Id == 0 ? "Create" : "Update";
     Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
@@ -48,7 +48,6 @@
 </div>
 
 
-
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -60,44 +59,34 @@
             <div class="modal-body">
                 <form id="detail">
 
-                    <input id="iregularDetailId" type="hidden" />
+                    <input id="regularDetailId" type="hidden" />
 
 
                     <div class="form-group">
-                        <label>Irregularity</label>
+                        <label>Name</label>
                         <div>
-                            @Html.DropDownList("IrregularType", (SelectList)ViewBag.IrregularTypes, new { @class = "form-control"})
+                            @Html.DropDownList("Quiz", (SelectList)ViewBag.Quiz, new { @class = "form-control", data_live_search = "true" })
                         </div>
-                       
+                        <p id="info" class="help-block">Example block-level help text here.</p>
                     </div>
 
 
                     <div class="form-group">
-                        <label>Flight No</label>
-                        <div>
-                            <input id="FlightNo" class="form-control" />
-                        </div>
-                    </div>
-                    <div class="form-group ">
-                        <label>Flight Date</label>
-                        <div>
-                            <input id="FlightDate" placeholder="yyyy/mm/dd" class="form-control" required  />
-                        </div>
-                    </div>
-                    
-                    <div class="form-group ">
-                        <label>From/To</label>
-                        <div>
-                            <input id="FromTo" class="form-control" />
-                        </div>
-                    </div>
-                    
-                    <div class="form-group ">
-                        <label>Note</label>
+                        <label id="Label1">Note1</label>
                         <div>
                             <input id="Note1" class="form-control" />
                         </div>
                     </div>
+
+
+
+                    <div class="form-group ">
+                        <label id="Label2">Note2</label>
+                        <div>
+                            <input id="Note2" class="form-control" />
+                        </div>
+                    </div>
+
                     <div class="form-group ">
                         <label>Amount</label>
                         <div>
@@ -132,7 +121,7 @@
             @Html.AntiForgeryToken()
             <div class="form-horizontal">
                 <fieldset>
-                    <legend> Cashout Irregular</legend>
+                    <legend> Cashout Regular</legend>
                     @Html.ValidationSummary(true)
                     @Html.HiddenFor(p => p.Id)
 
@@ -143,7 +132,7 @@
                         <div class="col-md-10">
                             <input type="text" id="Date" name="Date" class="form-control" value='@Model.Date.ToString("yyyy/MM/dd")' required />
                             @*@Html.EditorFor(model => model.Date)*@
-                            @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control"})*@
+                            @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
                             @Html.ValidationMessageFor(model => model.Date)
                            
                         </div>
@@ -159,6 +148,7 @@
 
 
                     </div>
+                    
                     <div class="form-group">
                         @Html.LabelFor(model => model.State, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
@@ -183,7 +173,6 @@
                         </div>
 
                     </div>
-
                     <div class="form-group">
                         @Html.LabelFor(model => model.Total, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
@@ -218,6 +207,7 @@
 
 
         }
+
     </div>
     <div class="col-md-6">
 
@@ -230,8 +220,8 @@
 
 
     </div>
-
 </div>
+
 
 
 <hr />
@@ -251,11 +241,10 @@
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Irregularity</th>
-                    <th>Flight No</th>
-                    <th>Flight Date</th>
-                    <th>From/To</th>
-                    <th>Note</th>
+                    <th>IdQuiz</th>
+                    <th>Name</th>
+                    <th>Note1</th>
+                    <th>Note2</th>
                     <th>Amount</th>
                     <th>Qty</th>
                     <th>Subtotal</th>
@@ -265,26 +254,23 @@
             <tbody>
                 @if (Model != null)
                 {
-                    foreach (var a in Model.IrregularDetails)
+                    foreach (var a in Model.RegularDetails)
                     {
                         <tr>
                             <td>
                                 @Html.DisplayTextFor(i => a.Id)
                             </td>
                             <td>
-                                @Html.DisplayFor(i => a.IrregularType)
+                                @Html.DisplayFor(i => a.Quiz)
                             </td>
                             <td>
-                                @Html.DisplayFor(i => a.FlightNo)
+                                @Html.DisplayFor(i => a.Quiz.Info)
                             </td>
                             <td>
-                                @Html.DisplayFor(i => a.FlightDate)
+                                @Html.DisplayFor(i => a.Note1)
                             </td>
                             <td>
-                                @Html.DisplayFor(i => a.FromTo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(i => a.Note)
+                                @Html.DisplayFor(i => a.Note2)
                             </td>
                             <td>
                                 @Html.DisplayFor(i => a.Amount)
@@ -316,6 +302,8 @@
 </div>
 
 
+
+
 @section Scripts {
     @Scripts.Render("~/bundles/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
@@ -323,7 +311,7 @@
     <script type="text/javascript">
         var log;
         var trActive;
-     
+
         $("#btnConfirm").click(function () {
             log = $("#NoteLog").val();
 
@@ -333,12 +321,12 @@
 
 
             $.ajax({
-                url: '@Url.Action("CreateCashoutIrregularFinal")',
+                url: '@Url.Action("CreateCashoutRegularFinal")',
                 data: JSON.stringify({ cashFlow: cashFlow, log: log }),
                 type: 'POST',
                 contentType: 'application/json;',
                 dataType: 'json',
-                success: function (result) {
+                success: function(result) {
 
                     if (result.Success == "1") {
                         window.location.href = '@Url.Action("Index")';
@@ -352,24 +340,12 @@
         });
       
 
+       
         $("#Qty").number(true, 0);
         $("#Amount").number(true, 0);
         $("#Total").number(true, 0);
 
-        $("#FlightDate").datepicker({
-            dateFormat: "yy/mm/dd",
-            onClose:
-                function (dateText, inst) {
-                    $(this).datepicker('option', 'dateFormat', 'yy/mm/dd');
-                }
-        });
-        $("#Date").datepicker({
-            dateFormat: "yy/mm/dd",
-            onClose:
-                function (dateText, inst) {
-                    $(this).datepicker('option', 'dateFormat', 'yy/mm/dd');
-                }
-        });
+
      
         var tbl = $("#tbl").DataTable(
         {
@@ -382,11 +358,14 @@
                 {
                     "targets": [0],
                     "visible": false,
-                   
+                    "ordering": false
                 },
-               
                 {
-                    "targets": [9],
+                    "targets": [1],
+                    "visible": false
+                },
+                {
+                    "targets": [8],
                     "render": function(data, type, full, meta) {
                         return " <a href='#' class='editDetail'>Edit</a> | <a href='#' class='deleteDetail'>Delete</a>";
                     }
@@ -395,13 +374,12 @@
 
         });
 
-      
+        $("#Quiz").selectpicker();
 
         function showErrorInfo(error) {
 
             $("#errorInfo").text(error);
-            $('#ModalError').modal('show')
-
+            $('#ModalError').modal('show');
 
         }
 
@@ -411,35 +389,32 @@
             if ($("#detail").valid()) {
 
                 var total = numeral().unformat($("#Total").val());
+             
 
 
-
-                var subTotal = numeral().unformat($("#Amount").val());
+                var subTotal = numeral().unformat($("#Amount").val())*numeral().unformat($("#Qty").val());
                 total = total + subTotal;
-                //minus trActive 
-                if (trActive) {
+
+                if(trActive)
+                {
                     var trData = tbl.row(trActive).data();
                     total = total - numeral().unformat(trData[7]);
                     tbl.row(trActive).remove().draw();
                 }
-
                 $("#Total").val(total);
 
                 tbl.row.add([
-                     $("#iregularDetailId").val(), $("#IrregularType option:selected").text(), $("#FlightNo").val(),
-                    $("#FlightDate").val(),$("#FromTo").val(),$("#Note1").val(), numeral($("#Amount").val()).format('0,0'),numeral( $("#Qty").val()).format('0,0'), numeral(subTotal).format('0,0')
+                     $("#regularDetailId").val(), $("#Quiz").val(), $("#Quiz option:selected").text(), $("#Note1").val(),
+                    $("#Note2").val(), numeral($("#Amount").val()).format('0,0'),numeral( $("#Qty").val()).format('0,0'), numeral(subTotal).format('0,0')
                 ]).draw();
-
-                $("#FlightNo").val('');
-                $("#FlightDate").datepicker("setDate", new Date());
-                $("#FromTo").val('');
+                $('[data-id="Quiz"]')[0].focus();
                 $("#Note1").val('');
+                $("#Note2").val('');
                 $("#Amount").val('');
                 $("#Qty").val('');
-                $("#iregularDetailId").val("0");
-                $("#IrregularType").focus();
+                $("#regularDetailId").val("0");
 
-                if (trActive)//edit mode
+                if(trActive)//edit mode
                 {
                     $("#myModal").modal('hide');
                 }
@@ -451,24 +426,16 @@
         $('#rowTable').on('click', '.editDetail', function() {
             var tr=  $(this).closest('tr');
             var rowData = tbl.row(tr).data();
+            $("#Note1").val(rowData[3]);
+            $("#Note2").val(rowData[4]);
+            $("#Amount").val(rowData[5]);
+            $("#Qty").val(rowData[6]);
+            $("#regularDetailId").val(rowData[0]);
 
-            $("#IrregularType").val(rowData[1]);
-            $("#FlightNo").val(rowData[2]);
-            $("#FlightDate").val(rowData[3]);
-            $("#FromTo").val(rowData[4]);
-            $("#Note1").val(rowData[5]);
-            $("#Amount").val(rowData[6]);
-            $("#Qty").val(rowData[7]);
-            $("#iregularDetailId").val(rowData[0]);
-
-          
-
-          
+         
 
             $('#myModal').modal('show');
             trActive = tr;
-
-           
         });
 
         $('#rowTable').on('click', '.deleteDetail', function() {
@@ -479,22 +446,31 @@
 
 
 
-            var total = numeral().unformat($("#Total").val());
+            var total =  numeral().unformat($("#Total").val());
             total = total - numeral().unformat(rowData[7]);
             $("#Total").val(total);
         });
 
 
-        
+        var data = @Html.Raw(Json.Encode(ViewBag.QuizInfo));
 
-      
 
-     
+        $("#Quiz").change(function() {
+            var selected = $(this).find("option:selected").val();
+
+            var element = $.grep(data, function(e) { return e.Id == selected; });
+
+            //$("#info").html(element[0].Info);
+            $("#Label1").text(element[0].label1);
+            $("#Label2").text(element[0].label2);
+        });
+
+        $("#Date").datepicker({ dateFormat: "yy/mm/dd" });
 
 
         //get cashflow
         function getCashFlow() {
-            var cashFlow = { "Id": 0, "Date": "", "Note": "", "IrregularDetails": [] };
+            var cashFlow = { "Id": 0, "Date": "", "Note": "", "RegularDetails": [] };
             // var regularDetail = { "Id": 0, "RegularQuidId": 0, "Note1": "", "Note2": "", "Amount": 0, "Qty": 0 };
             cashFlow.Id = $("#Id").val();
             cashFlow.Date = $("#Date").val();
@@ -502,16 +478,14 @@
             var datas = tbl.rows().data();
             for (var i = 0; i < datas.length; i++) {
                 var dt = datas[i];
-                var regularDetail = { "Id": 0, "IrregularType": 0, "FlightNo": "", "FlightDate": "", "FromTo": "","Note":'', "Amount":0, "Qty": 0 };
+                var regularDetail = { "Id": 0, "RegularQuidId": 0, "Note1": "", "Note2": "", "Amount": 0, "Qty": 0 };
                 regularDetail.Id = dt[0];
-                regularDetail.IrregularType = dt[1];
-                regularDetail.FlightNo = dt[2];
-                regularDetail.FlightDate = dt[3];
-                regularDetail.FromTo = dt[4];
-                regularDetail.Note = dt[5];
-                regularDetail.Amount = numeral().unformat(dt[6]);
-                regularDetail.Qty = numeral().unformat(dt[7]);
-                cashFlow.IrregularDetails.push(regularDetail);
+                regularDetail.RegularQuizId = dt[1];
+                regularDetail.Note1 = dt[3];
+                regularDetail.Note2 = dt[4];
+                regularDetail.Amount = numeral().unformat(dt[5]);
+                regularDetail.Qty = numeral().unformat(dt[6]);
+                cashFlow.RegularDetails.push(regularDetail);
             }
             return cashFlow;
         }
@@ -523,7 +497,7 @@
             if (form.valid()) {
                 var cashFlow = getCashFlow();
                 $.ajax({
-                    url: '@Url.Action("CreateCashoutIrregularDraft")',
+                    url: '@Url.Action("CreateCashoutRegularDraft")',
                     data: JSON.stringify(cashFlow),
                     type: 'POST',
                     contentType: 'application/json;',
@@ -548,21 +522,21 @@
             if (form.valid()) {
                 //Ajax call here
 
-                $("#ModalAddInfo").modal('show')
+                $("#ModalAddInfo").modal('show');
             }
         });
         $("#detail").validate();
 
         $("#myModal").on('hide.bs.modal', function (e) {
             trActive = null;
-            $("#FlightNo").val('');
-            $("#FlightDate").datepicker("setDate", new Date());
-            $("#FromTo").val('');
             $("#Note1").val('');
+            $("#Note2").val('');
             $("#Amount").val('');
             $("#Qty").val('');
-            $("#iregularDetailId").val("0");
+            $("#regularDetailId").val("0");
         });
+
+      
     </script>
     <style>
     </style>

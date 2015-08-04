@@ -3,7 +3,7 @@ using System.Web.Mvc;
 
 namespace CashCard.Models
 {
-    public class RegularGroup
+    public class QuizGroup
     {
         public int Id { get; set; }
         [Required]

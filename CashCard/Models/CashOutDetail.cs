@@ -1,25 +1,28 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CashCard.Models
 {
-    public class RegularDetail
+    public class CashOutDetail
     {
         public int Id { get; set; }
-        [ForeignKey("RegularQuizId")]
-        public virtual RegularQuiz RegularDetailQuiz { get; set; }
-        public int? RegularQuizId { get; set; }
+        [ForeignKey("QuizId")]
+        public virtual Quiz Quiz { get; set; }
+        public int? QuizId { get; set; }
         public string Note1 { get; set; }
         public string Note2 { get; set; }
+         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime DateInfo { get; set; }
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int Amount { get; set; }
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int Qty { get; set; }
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int SubTotal { get; protected set; }
-        [ForeignKey("CashFlowId")]
-        public CashOutRegular CashOutRegular { get; set; }
-        public int? CashFlowId { get; set; }
+        [ForeignKey("CashOutId")]
+        public CashOut CashOut { get; set; }
+        public int? CashOutId { get; set; }
 
         public void SetSubTotal()
         {

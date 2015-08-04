@@ -20,65 +20,65 @@ namespace CashCard.Controllers
         {
             ViewBag.Menu = "MnRegularQuiz";
         }
-        // GET: /RegularQuiz/
+        // GET: /Quiz/
         public ActionResult Index()
         {
-            return View(db.RegularQuizs.ToList());
+            return View(db.Quizs.ToList());
         }
 
-        // GET: /RegularQuiz/Details/5
+        // GET: /Quiz/Details/5
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RegularQuiz RegularQuiz = db.RegularQuizs.Find(id);
-            if (RegularQuiz == null)
+            Quiz quiz = db.Quizs.Find(id);
+            if (quiz == null)
             {
                 return HttpNotFound();
             }
-            return View(RegularQuiz);
+            return View(quiz);
         }
 
-        // GET: /RegularQuiz/Create
+        // GET: /Quiz/Create
         public ActionResult Create()
         {
             var dt = db.RegularGroup.Select(oo => new {aaa = oo.Id, bbb = oo.AccountNo + "-" + oo.AccountDesription}).ToList();
 
             var x = new SelectList(dt,"aaa", "bbb");
             ViewBag.RegularGroups = x;
-            var y = new SelectList(Enum.GetValues(typeof (RegularType)));
+            var y = new SelectList(Enum.GetValues(typeof (CostCenter)));
             ViewBag.RegularType = y;
             return View();
         }
 
-        // POST: /RegularQuiz/Create
+        // POST: /Quiz/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(RegularQuiz RegularQuiz)
+        public ActionResult Create(Quiz quiz)
         {
             if (ModelState.IsValid)
             {
-                db.RegularQuizs.Add(RegularQuiz);
+                db.Quizs.Add(quiz);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(RegularQuiz);
+            return View(quiz);
         }
 
-        // GET: /RegularQuiz/Edit/5
+        // GET: /Quiz/Edit/5
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RegularQuiz RegularQuiz = db.RegularQuizs.Find(id);
-            if (RegularQuiz == null)
+            Quiz quiz = db.Quizs.Find(id);
+            if (quiz == null)
             {
                 return HttpNotFound();
             }
@@ -87,52 +87,52 @@ namespace CashCard.Controllers
 
             var x = new SelectList(dt, "aaa", "bbb");
             ViewBag.RegularGroups = x;
-            var y = new SelectList(Enum.GetValues(typeof(RegularType)));
+            var y = new SelectList(Enum.GetValues(typeof(CostCenter)));
             ViewBag.RegularType = y;
 
-            return View(RegularQuiz);
+            return View(quiz);
         }
 
-        // POST: /RegularQuiz/Edit/5
+        // POST: /Quiz/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(RegularQuiz RegularQuiz)
+        public ActionResult Edit(Quiz quiz)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(RegularQuiz).State = EntityState.Modified;
+                db.Entry(quiz).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(RegularQuiz);
+            return View(quiz);
         }
 
-        // GET: /RegularQuiz/Delete/5
+        // GET: /Quiz/Delete/5
         public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            RegularQuiz RegularQuiz = db.RegularQuizs.Find(id);
-            if (RegularQuiz == null)
+            Quiz quiz = db.Quizs.Find(id);
+            if (quiz == null)
             {
                 return HttpNotFound();
             }
-            return View(RegularQuiz);
+            return View(quiz);
         }
 
-        // POST: /RegularQuiz/Delete/5
+        // POST: /Quiz/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
             try
             {
-                RegularQuiz RegularQuiz = db.RegularQuizs.Find(id);
-                db.RegularQuizs.Remove(RegularQuiz);
+                Quiz quiz = db.Quizs.Find(id);
+                db.Quizs.Remove(quiz);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

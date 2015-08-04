@@ -1,5 +1,5 @@
 ﻿@using CashCard.Models
-@model CashCard.Models.CashOutRegular
+@model global::CashCard.Models.CashOut
 @{
     ViewBag.Title = Model.Id == 0 ? "Create" : "Update";
     Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
@@ -65,7 +65,7 @@
                     <div class="form-group">
                         <label>Name</label>
                         <div>
-                            @Html.DropDownList("RegularQuiz", (SelectList)ViewBag.RegularQuiz, new { @class = "form-control", data_live_search = "true" })
+                            @Html.DropDownList("Quiz", (SelectList)ViewBag.RegularQuiz, new { @class = "form-control", data_live_search = "true" })
                         </div>
                         <p id="info" class="help-block">Example block-level help text here.</p>
                     </div>
@@ -154,19 +154,19 @@
                         <div class="col-md-10">
                             @switch (Model.State)
                             {
-                                case StateCashFlow.Draft:
+                                case StateCashCard.Draft:
                                     <span class="label label-default">Draft</span>
                                     break;
-                                case StateCashFlow.Final:
+                                case StateCashCard.Final:
                                 <span class="label label-primary">Final</span>
                                     break;
-                                case StateCashFlow.Revision:
+                                case StateCashCard.Revision:
                                 <span class="label label-warning">Revision</span>
                                     break;
-                                case StateCashFlow.Approve:
+                                case StateCashCard.Approve:
                                 <span class="label label-success">Approve</span>
                                     break;
-                                case StateCashFlow.Reject:
+                                case StateCashCard.Reject:
                                 <span class="label label-danger">Reject</span>
                                     break;
                             }
@@ -264,7 +264,7 @@
                                 @Html.DisplayFor(i => a.RegularQuizId)
                             </td>
                             <td>
-                                @Html.DisplayFor(i => a.RegularDetailQuiz.Quiz)
+                                @Html.DisplayFor(i => a.DetailQuiz.Quiz)
                             </td>
                             <td>
                                 @Html.DisplayFor(i => a.Note1)
@@ -374,7 +374,7 @@
 
         });
 
-        $("#RegularQuiz").selectpicker();
+        $("#Quiz").selectpicker();
 
         function showErrorInfo(error) {
 
@@ -404,10 +404,10 @@
                 $("#Total").val(total);
 
                 tbl.row.add([
-                     $("#regularDetailId").val(), $("#RegularQuiz").val(), $("#RegularQuiz option:selected").text(), $("#Note1").val(),
+                     $("#regularDetailId").val(), $("#Quiz").val(), $("#Quiz option:selected").text(), $("#Note1").val(),
                     $("#Note2").val(), numeral($("#Amount").val()).format('0,0'),numeral( $("#Qty").val()).format('0,0'), numeral(subTotal).format('0,0')
                 ]).draw();
-                $('[data-id="RegularQuiz"]')[0].focus();
+                $('[data-id="Quiz"]')[0].focus();
                 $("#Note1").val('');
                 $("#Note2").val('');
                 $("#Amount").val('');
@@ -455,7 +455,7 @@
         var data = @Html.Raw(Json.Encode(ViewBag.RegularQuizInfo));
 
 
-        $("#RegularQuiz").change(function() {
+        $("#Quiz").change(function() {
             var selected = $(this).find("option:selected").val();
 
             var element = $.grep(data, function(e) { return e.Id == selected; });

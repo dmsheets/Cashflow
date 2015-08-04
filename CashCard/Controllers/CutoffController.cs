@@ -39,7 +39,7 @@ namespace CashCard.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CutOff cutoff = db.CutOffs.Include(p => p.CashFlows).FirstOrDefault(p => p.Id == id);
+            CutOff cutoff = db.CutOffs.Include(p => p.CashCards).FirstOrDefault(p => p.Id == id);
             if (cutoff == null)
             {
                 return HttpNotFound();
@@ -60,7 +60,7 @@ namespace CashCard.Controllers
                 var cutOff = db.CutOffs.Find(id);
                
                 var count =
-                    cutOff.CashFlows.Count(p => !(p.State == StateCashFlow.Reject || p.State == StateCashFlow.Approve));
+                    cutOff.CashCards.Count(p => !(p.State == StateCashCard.Reject || p.State == StateCashCard.Approve));
                 if (count > 0)
                 {
                     throw new Exception("Make sure all Cash flow have been validated as Approve or Reject");

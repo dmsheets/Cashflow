@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace CashCard.Models
 {
-    public class CashIn:CashFlow
+    public class CashIn:CashCard
     {
         private IList<CashInDetail> _cashInDetails;
         public CashIn()

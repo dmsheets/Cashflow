@@ -3,7 +3,7 @@ namespace CashCard.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class okeh : DbMigration
+    public partial class inisialize : DbMigration
     {
         public override void Up()
         {
@@ -18,7 +18,7 @@ namespace CashCard.Migrations
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.CashFlows",
+                "dbo.CashCards",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -30,7 +30,8 @@ namespace CashCard.Migrations
                         UserId = c.String(maxLength: 128),
                         SuperVisorId = c.String(maxLength: 128),
                         Total = c.Int(nullable: false),
-                        RegularType = c.Int(),
+                        CostCenter = c.Int(),
+                        TypeOut = c.Int(),
                         CashType = c.String(nullable: false, maxLength: 128),
                     })
                 .PrimaryKey(t => t.Id)
@@ -127,66 +128,49 @@ namespace CashCard.Migrations
                         Id = c.Int(nullable: false, identity: true),
                         Amount = c.Int(nullable: false),
                         Note = c.String(),
-                        CashFlowId = c.Int(),
+                        CashInId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.CashFlows", t => t.CashFlowId)
-                .Index(t => t.CashFlowId);
+                .ForeignKey("dbo.CashCards", t => t.CashInId)
+                .Index(t => t.CashInId);
             
             CreateTable(
-                "dbo.IrregularDetails",
+                "dbo.CashOutDetails",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        IrregularType = c.Int(nullable: false),
-                        FlightNo = c.String(),
-                        FlightDate = c.DateTime(nullable: false),
-                        FromTo = c.String(),
-                        Amount = c.Int(nullable: false),
-                        Qty = c.Int(nullable: false),
-                        Note = c.String(),
-                        SubTotal = c.Int(nullable: false),
-                        CashFlowId = c.Int(),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.CashFlows", t => t.CashFlowId)
-                .Index(t => t.CashFlowId);
-            
-            CreateTable(
-                "dbo.RegularDetails",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        RegularQuizId = c.Int(),
+                        QuizId = c.Int(),
                         Note1 = c.String(),
                         Note2 = c.String(),
+                        DateInfo = c.DateTime(nullable: false),
                         Amount = c.Int(nullable: false),
                         Qty = c.Int(nullable: false),
                         SubTotal = c.Int(nullable: false),
-                        CashFlowId = c.Int(),
+                        CashOutId = c.Int(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.CashFlows", t => t.CashFlowId)
-                .ForeignKey("dbo.RegularQuizs", t => t.RegularQuizId)
-                .Index(t => t.RegularQuizId)
-                .Index(t => t.CashFlowId);
+                .ForeignKey("dbo.CashCards", t => t.CashOutId)
+                .ForeignKey("dbo.Quizs", t => t.QuizId)
+                .Index(t => t.QuizId)
+                .Index(t => t.CashOutId);
             
             CreateTable(
-                "dbo.RegularQuizs",
+                "dbo.Quizs",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
-                        Quiz = c.String(nullable: false),
-                        RegularGroupId = c.Int(),
-                        RegularType = c.Int(nullable: false),
-                        Info = c.String(),
+                        Info = c.String(nullable: false),
+                        QuizGroupId = c.Int(),
+                        CostCenter = c.Int(nullable: false),
+                        Note1Label = c.String(),
+                        Note2Label = c.String(),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.RegularGroups", t => t.RegularGroupId)
-                .Index(t => t.RegularGroupId);
+                .ForeignKey("dbo.QuizGroups", t => t.QuizGroupId)
+                .Index(t => t.QuizGroupId);
             
             CreateTable(
-                "dbo.RegularGroups",
+                "dbo.QuizGroups",
                 c => new
                     {
                         Id = c.Int(nullable: false, identity: true),
@@ -197,42 +181,61 @@ namespace CashCard.Migrations
                     })
                 .PrimaryKey(t => t.Id);
             
+            CreateTable(
+                "dbo.IrregularDetails",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IrregularType = c.Int(nullable: false),
+                        FlightNo = c.String(),
+                        FromTo = c.String(),
+                        FlightDate = c.DateTime(nullable: false),
+                        Amount = c.Int(nullable: false),
+                        Qty = c.Int(nullable: false),
+                        Note = c.String(),
+                        SubTotal = c.Int(nullable: false),
+                        CashFlowId = c.Int(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.CashCards", t => t.CashFlowId)
+                .Index(t => t.CashFlowId);
+            
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.RegularDetails", "RegularQuizId", "dbo.RegularQuizs");
-            DropForeignKey("dbo.RegularQuizs", "RegularGroupId", "dbo.RegularGroups");
-            DropForeignKey("dbo.RegularDetails", "CashFlowId", "dbo.CashFlows");
-            DropForeignKey("dbo.IrregularDetails", "CashFlowId", "dbo.CashFlows");
-            DropForeignKey("dbo.CashInDetails", "CashFlowId", "dbo.CashFlows");
-            DropForeignKey("dbo.CashFlows", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.CashFlows", "SuperVisorId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.IrregularDetails", "CashFlowId", "dbo.CashCards");
+            DropForeignKey("dbo.CashOutDetails", "QuizId", "dbo.Quizs");
+            DropForeignKey("dbo.Quizs", "QuizGroupId", "dbo.QuizGroups");
+            DropForeignKey("dbo.CashOutDetails", "CashOutId", "dbo.CashCards");
+            DropForeignKey("dbo.CashInDetails", "CashInId", "dbo.CashCards");
+            DropForeignKey("dbo.CashCards", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.CashCards", "SuperVisorId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "User_Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUsers", "BranchId", "dbo.Branches");
-            DropForeignKey("dbo.CashFlows", "CutOffId", "dbo.CutOffs");
+            DropForeignKey("dbo.CashCards", "CutOffId", "dbo.CutOffs");
             DropForeignKey("dbo.CutOffs", "BranchId", "dbo.Branches");
-            DropIndex("dbo.RegularQuizs", new[] { "RegularGroupId" });
-            DropIndex("dbo.RegularDetails", new[] { "CashFlowId" });
-            DropIndex("dbo.RegularDetails", new[] { "RegularQuizId" });
             DropIndex("dbo.IrregularDetails", new[] { "CashFlowId" });
-            DropIndex("dbo.CashInDetails", new[] { "CashFlowId" });
+            DropIndex("dbo.Quizs", new[] { "QuizGroupId" });
+            DropIndex("dbo.CashOutDetails", new[] { "CashOutId" });
+            DropIndex("dbo.CashOutDetails", new[] { "QuizId" });
+            DropIndex("dbo.CashInDetails", new[] { "CashInId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "User_Id" });
             DropIndex("dbo.AspNetUsers", new[] { "BranchId" });
             DropIndex("dbo.CutOffs", new[] { "BranchId" });
-            DropIndex("dbo.CashFlows", new[] { "SuperVisorId" });
-            DropIndex("dbo.CashFlows", new[] { "UserId" });
-            DropIndex("dbo.CashFlows", new[] { "CutOffId" });
-            DropTable("dbo.RegularGroups");
-            DropTable("dbo.RegularQuizs");
-            DropTable("dbo.RegularDetails");
+            DropIndex("dbo.CashCards", new[] { "SuperVisorId" });
+            DropIndex("dbo.CashCards", new[] { "UserId" });
+            DropIndex("dbo.CashCards", new[] { "CutOffId" });
             DropTable("dbo.IrregularDetails");
+            DropTable("dbo.QuizGroups");
+            DropTable("dbo.Quizs");
+            DropTable("dbo.CashOutDetails");
             DropTable("dbo.CashInDetails");
             DropTable("dbo.AspNetRoles");
             DropTable("dbo.AspNetUserRoles");
@@ -240,7 +243,7 @@ namespace CashCard.Migrations
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.CutOffs");
-            DropTable("dbo.CashFlows");
+            DropTable("dbo.CashCards");
             DropTable("dbo.Branches");
         }
     }

@@ -1,6 +1,6 @@
 ﻿namespace CashCard.Models
 {
-    public enum StateCashFlow
+    public enum StateCashCard
     {
         Draft,
         Final,

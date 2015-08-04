@@ -1,4 +1,4 @@
-﻿@model CashCard.Models.RegularQuiz
+﻿@model CashCard.Models.Quiz
 
 @{
     ViewBag.Title = "Edit";
@@ -12,41 +12,48 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>RegularDetailQuiz</h4>
+        <h4>DetailQuiz</h4>
         <hr />
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Id)
 
 
         <div class="form-group">
-            @Html.LabelFor(model => model.Quiz, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Info, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Quiz, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Quiz)
+                @Html.TextBoxFor(model => model.Info, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Info)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.RegularGroup, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.QuizGroup, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("RegularGroupId", (SelectList)ViewBag.RegularGroups, new { @class = "form-control", data_live_search = "true" })
-                @Html.ValidationMessageFor(model => model.RegularGroupId)
+                @Html.DropDownList("QuizGroupId", (SelectList)ViewBag.RegularGroups, new { @class = "form-control", data_live_search = "true" })
+                @Html.ValidationMessageFor(model => model.QuizGroupId)
             </div>
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.RegularType, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CostCenter, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("RegularType", (SelectList)ViewBag.RegularTypes, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Quiz)
+                @Html.DropDownList("CostCenter", (SelectList)ViewBag.RegularType, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CostCenter)
             </div>
         </div>
         
         <div class="form-group">
-            @Html.LabelFor(model => model.Info, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.Note1Label, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Info, new{@class = "form-control"})
-                @Html.ValidationMessageFor(model => model.Info)
+                @Html.TextBoxFor(model => model.Note1Label, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Note1Label)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Note2Label, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Note2Label, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Note2Label)
             </div>
         </div>
 
@@ -67,7 +74,7 @@
     <script type="text/javascript">
 
 
-        $("#RegularGroupId").selectpicker();
+        $("#QuizGroupId").selectpicker();
     </script>
 
 }

@@ -1,5 +1,5 @@
 ﻿@using CashCard.Models
-@model CashCard.Models.CashOutRegular
+@model global::CashCard.Models.CashOut
 
 @{
     ViewBag.Title = "Details";
@@ -46,19 +46,19 @@
                 <dd>
                     @switch (Model.State)
                     {
-                        case StateCashFlow.Draft:
+                        case StateCashCard.Draft:
                             <span class="label label-default">Draft</span>
                             break;
-                        case StateCashFlow.Final:
+                        case StateCashCard.Final:
                             <span class="label label-primary">Final</span>
                             break;
-                        case StateCashFlow.Revision:
+                        case StateCashCard.Revision:
                             <span class="label label-warning">Revision</span>
                             break;
-                        case StateCashFlow.Approve:
+                        case StateCashCard.Approve:
                             <span class="label label-success">Approve</span>
                             break;
-                        case StateCashFlow.Reject:
+                        case StateCashCard.Reject:
                             <span class="label label-danger">Reject</span>
                             break;
                     }
@@ -78,7 +78,7 @@
 
                 <dd>
                    
-                    @if (Model.State == StateCashFlow.Final)
+                    @if (Model.State == StateCashCard.Final)
                     {
 
                         <input type="button" id="btnRevision" state="Revision" value="Revision" class="btn-ajax btn btn-warning " />
@@ -134,7 +134,7 @@
                                 @Html.DisplayTextFor(i => a.RegularQuizId)
                             </td>
                             <td>
-                                @Html.DisplayTextFor(i => a.RegularDetailQuiz.Quiz)
+                                @Html.DisplayTextFor(i => a.DetailQuiz.Quiz)
                             </td>
                             <td>
                                 @Html.DisplayTextFor(i => a.Note1)

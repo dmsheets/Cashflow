@@ -1,4 +1,4 @@
-﻿@model CashCard.Models.RegularGroup
+﻿@model CashCard.Models.QuizGroup
 
 @{
     ViewBag.Title = "Edit";
@@ -12,7 +12,7 @@
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>RegularGroup</h4>
+        <h4>QuizGroup</h4>
         <hr />
         @Html.ValidationSummary(true)
         @Html.HiddenFor(model => model.Id)

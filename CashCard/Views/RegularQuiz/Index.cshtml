@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CashCard.Models.RegularQuiz>
+﻿@model IEnumerable<CashCard.Models.Quiz>
 
 @{
     ViewBag.Title = "Index";
@@ -22,7 +22,12 @@
             <th>
                 @Html.DisplayName("Regular Type")
             </th>
-
+            <th>
+                Note label 1
+            </th>
+            <th>
+                Note Label 2
+            </th>
             <th>Action</th>
         </tr>
     </thead>
@@ -33,15 +38,20 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Quiz)
+                    @Html.DisplayFor(modelItem => item.Info)
                 </td>
                 <td>
-                    @Html.DisplayName(item.RegularGroup.AccountNo) - @Html.DisplayName(item.RegularGroup.AccountDesription)
+                    @Html.DisplayName(item.QuizGroup.AccountNo) - @Html.DisplayName(item.QuizGroup.AccountDesription)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.RegularType)
+                    @Html.DisplayFor(modelItem => item.CostCenter)
                 </td>
-
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note1Label)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note2Label)
+                </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                     @Html.ActionLink("Details", "Details", new { id = item.Id }) |

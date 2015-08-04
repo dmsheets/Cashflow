@@ -1,6 +1,6 @@
 ﻿namespace CashCard.Models
 {
-    public enum RegularType
+    public enum CostCenter
     {
         Dsm,
         Kk,

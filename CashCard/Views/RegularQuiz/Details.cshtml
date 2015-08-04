@@ -1,4 +1,4 @@
-﻿@model CashCard.Models.RegularQuiz
+﻿@model CashCard.Models.Quiz
 
 @{
     ViewBag.Title = "Details";
@@ -8,15 +8,15 @@
 <h2>Details</h2>
 
 <div>
-    <h4>RegularDetailQuiz</h4>
+    <h4>DetailQuiz</h4>
 	<hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Quiz)
+            @Html.DisplayNameFor(model => model.Info)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Quiz)
+            @Html.DisplayFor(model => model.Info)
         </dd>
 
         <dt>
@@ -24,18 +24,31 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.RegularGroup.AccountNo) -
-            @Html.DisplayFor(model => model.RegularGroup.AccountDesription)
+            @Html.DisplayFor(model => model.QuizGroup.AccountNo) -
+            @Html.DisplayFor(model => model.QuizGroup.AccountDesription)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.RegularType)
+            @Html.DisplayNameFor(model => model.CostCenter)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.RegularType)
+            @Html.DisplayFor(model => model.CostCenter)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Note1Label)
+        </dt>
 
+        <dd>
+            @Html.DisplayFor(model => model.Note1Label)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Note2Label)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Note2Label)
+        </dd>
 
     </dl>
 </div>

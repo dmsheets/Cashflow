@@ -162,6 +162,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
+    <Compile Include="Controllers\CashCardController.cs" />
     <Compile Include="Controllers\CashflowController.cs" />
     <Compile Include="Controllers\CutoffController.cs" />
     <Compile Include="Controllers\CutOffPerBranchReportController.cs" />
@@ -175,19 +176,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201507300630049_okeh.cs" />
-    <Compile Include="Migrations\201507300630049_okeh.Designer.cs">
-      <DependentUpon>201507300630049_okeh.cs</DependentUpon>
+    <Compile Include="Migrations\201508041614078_inisialize.cs" />
+    <Compile Include="Migrations\201508041614078_inisialize.Designer.cs">
+      <DependentUpon>201508041614078_inisialize.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
     <Compile Include="Models\Branch.cs" />
-    <Compile Include="Models\CashFlow.cs" />
+    <Compile Include="Models\CashCard.cs" />
     <Compile Include="Models\CashIn.cs" />
     <Compile Include="Models\CashInDetail.cs" />
     <Compile Include="Models\CashOutIrregular.cs" />
-    <Compile Include="Models\CashOutRegular.cs" />
+    <Compile Include="Models\CashOut.cs" />
     <Compile Include="Models\CutOff.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\DataTablesJson.cs" />
@@ -196,12 +197,13 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Models\IrregularType.cs" />
-    <Compile Include="Models\RegularDetail.cs" />
-    <Compile Include="Models\RegularQuiz.cs" />
-    <Compile Include="Models\RegularGroup.cs" />
-    <Compile Include="Models\RegularType.cs" />
-    <Compile Include="Models\StateCashFlow.cs" />
+    <Compile Include="Models\CashOutDetail.cs" />
+    <Compile Include="Models\Quiz.cs" />
+    <Compile Include="Models\QuizGroup.cs" />
+    <Compile Include="Models\CostCenter.cs" />
+    <Compile Include="Models\StateCashCard.cs" />
     <Compile Include="Models\StateCutOff.cs" />
+    <Compile Include="Models\TypeOut.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -488,6 +490,8 @@
     <Content Include="Views\CutOffPerBranchReport\Index.cshtml" />
     <Content Include="Views\CutOffPerBranchReport\GetReport.cshtml" />
     <Content Include="Views\ReportSummary\Index.cshtml" />
+    <Content Include="Views\CashCard\Index.cshtml" />
+    <Content Include="Views\CashCard\CreateCashOutRegular.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -497,8 +501,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201507300630049_okeh.resx">
-      <DependentUpon>201507300630049_okeh.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201508041614078_inisialize.resx">
+      <DependentUpon>201508041614078_inisialize.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

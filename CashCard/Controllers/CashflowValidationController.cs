@@ -27,7 +27,7 @@ namespace CashCard.Controllers
             
             var branchId = db.Users.Find(userId).BranchId;
 
-            var cashflows = db.CashFlows.Include(c => c.CutOff).Where(p => p.CutOff.BranchId == branchId && p.CutOff.State == StateCutOff.Start);
+            var cashflows = db.CashCards.Include(c => c.CutOff).Where(p => p.CutOff.BranchId == branchId && p.CutOff.State == StateCutOff.Start);
             return View(cashflows.ToList());
         }
 
@@ -38,12 +38,12 @@ namespace CashCard.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var cashflow = db.CashFlows.FirstOrDefault(p => p.Id == id);
+            var cashflow = db.CashCards.FirstOrDefault(p => p.Id == id);
             if (cashflow == null)
             {
                 return HttpNotFound();
             }
-            var cashoutRegular = cashflow as CashOutRegular;
+            var cashoutRegular = cashflow as CashOut;
             if (cashoutRegular != null)
             {
                  return View("CashoutRegular",cashoutRegular);
@@ -63,20 +63,20 @@ namespace CashCard.Controllers
         }
 
         [HttpPost]
-        public JsonResult SetState(int id, StateCashFlow state, string log)
+        public JsonResult SetState(int id, StateCashCard state, string log)
         {
             try
             {
-                var ch = db.CashFlows.Find(id);
+                var ch = db.CashCards.Find(id);
                 switch (state)
                 {
-                    case StateCashFlow.Revision:
+                    case StateCashCard.Revision:
                         ch.SetToRevision();
                         break;
-                    case StateCashFlow.Reject:
+                    case StateCashCard.Reject:
                         ch.SetToReject();
                         break;
-                    case StateCashFlow.Approve:
+                    case StateCashCard.Approve:
                         ch.SetToApprove();
                         break;
                     default:

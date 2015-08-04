@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace CashCard.Models
 {
-    public class CashOutIrregular : CashFlow
+    public class CashOutIrregular : CashCard
     {
         private IList<IrregularDetail> _irregularDetails;
 

@@ -62,10 +62,10 @@ namespace CashCard.Controllers
             {
                 return HttpNotFound();
             }
-            cutoff.CashFlows = cutoff.CashFlows.Where(p => p.State == StateCashFlow.Approve).ToList();
-            ViewBag.TotalCashIn = cutoff.CashFlows.OfType<CashIn>().Sum(p => p.Total).ToString("N0");
-            ViewBag.TotalCashOutRegular = cutoff.CashFlows.OfType<CashOutRegular>().Sum(p => p.Total).ToString("N0");
-            ViewBag.TotalCashOutIrregular = cutoff.CashFlows.OfType<CashOutIrregular>().Sum(p => p.Total).ToString("N0");
+            cutoff.CashCards = cutoff.CashCards.Where(p => p.State == StateCashCard.Approve).ToList();
+            ViewBag.TotalCashIn = cutoff.CashCards.OfType<CashIn>().Sum(p => p.Total).ToString("N0");
+            ViewBag.TotalCashOutRegular = cutoff.CashCards.OfType<CashOut>().Sum(p => p.Total).ToString("N0");
+            ViewBag.TotalCashOutIrregular = cutoff.CashCards.OfType<CashOutIrregular>().Sum(p => p.Total).ToString("N0");
             return View(cutoff);
         }
 	}

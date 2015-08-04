@@ -1,5 +1,5 @@
 ﻿@using CashCard.Models
-@model CashCard.Models.CashIn
+@model global::CashCard.Models.CashIn
 @{
     ViewBag.Title = Model.Id == 0 ? "Create" : "Update";
 
@@ -114,19 +114,19 @@
                         <div class="col-md-10">
                             @switch (Model.State)
                             {
-                                case StateCashFlow.Draft:
+                                case StateCashCard.Draft:
                                     <span class="label label-default">Draft</span>
                                     break;
-                                case StateCashFlow.Final:
+                                case StateCashCard.Final:
                                 <span class="label label-primary">Final</span>
                                     break;
-                                case StateCashFlow.Revision:
+                                case StateCashCard.Revision:
                                 <span class="label label-warning">Revision</span>
                                     break;
-                                case StateCashFlow.Approve:
+                                case StateCashCard.Approve:
                                 <span class="label label-success">Approve</span>
                                     break;
-                                case StateCashFlow.Reject:
+                                case StateCashCard.Reject:
                                 <span class="label label-danger">Reject</span>
                                     break;
                             }

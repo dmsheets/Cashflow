@@ -28,7 +28,7 @@ namespace CashCard.Controllers
         {
             var userId = User.Identity.GetUserId();
             var cashflows =
-                db.CashFlows.Include(p=>p.CutOff)
+                db.CashCards.Include(p=>p.CutOff)
                     .Where(p => p.UserId == userId && p.CutOff.State == StateCutOff.Start);
             return View(cashflows.ToList());
         }
@@ -39,10 +39,10 @@ namespace CashCard.Controllers
         public ActionResult CashoutRegular()
         {
          
-            ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
-            ViewBag.RegularQuizInfo = from x in db.RegularQuizs select new {Id = x.Id, Info = x.Info};
+            ViewBag.RegularQuiz = new SelectList(db.Quizs, "Id", "Quiz");
+            ViewBag.RegularQuizInfo = from x in db.Quizs select new {Id = x.Id, label1 = x.Note1Label, label2 = x.Note2Label};
 
-            var cash = new CashOutRegular();
+            var cash = new CashOut();
 
             return View( cash);
         }
@@ -67,7 +67,7 @@ namespace CashCard.Controllers
             return View(cash);
         }
 
-        private void Subtitution(CashOutRegular cashoutDb, CashOutRegular cashoutView)
+        private void Subtitution(CashOut cashoutDb, CashOut cashoutView)
         {
             cashoutDb.Date = cashoutView.Date;
             cashoutDb.Note = cashoutView.Note;
@@ -95,8 +95,8 @@ namespace CashCard.Controllers
                 {
                     var regDetail = cashoutView.RegularDetails[i];
                     var detail = cashoutDb.RegularDetails.First(p => p.Id == regDetail.Id);
-                    detail.RegularQuizId = regDetail.RegularQuizId;
-                    detail.RegularDetailQuiz = null;
+                    detail.QuizId = regDetail.QuizId;
+                    detail.Quiz = null;
                     detail.Note1 = regDetail.Note1;
                     detail.Note2 = regDetail.Note2;
                     detail.Qty = regDetail.Qty;
@@ -224,14 +224,14 @@ namespace CashCard.Controllers
 
                 if (cashIn.Id != 0)
                 {
-                    cashInActive = db.CashFlows.OfType<CashIn>().First(p => p.Id == cashIn.Id);
+                    cashInActive = db.CashCards.OfType<CashIn>().First(p => p.Id == cashIn.Id);
 
                     Subtitution(cashInActive, cashIn);
                 }
                 else
                 {
-                    db.CashFlows.Add(cashInActive);
-                    //cashoutRegular.Date = DateTime.Now;
+                    db.CashCards.Add(cashInActive);
+                    //CashOut.Date = DateTime.Now;
                     cashInActive.CutOffId = cutOff.Id;
                     cashInActive.UserId = usr;
 
@@ -271,15 +271,15 @@ namespace CashCard.Controllers
 
                 if (cashflow.Id != 0)
                 {
-                    cashInActive = db.CashFlows.OfType<CashIn>().First(p => p.Id == cashflow.Id);
+                    cashInActive = db.CashCards.OfType<CashIn>().First(p => p.Id == cashflow.Id);
 
                     Subtitution(cashInActive, cashflow);
 
                 }
                 else
                 {
-                    db.CashFlows.Add(cashInActive);
-                    //cashoutRegular.Date = DateTime.Now;
+                    db.CashCards.Add(cashInActive);
+                    //CashOut.Date = DateTime.Now;
                     cashInActive.CutOffId = cutOff.Id;
                     cashInActive.UserId = usr;
 
@@ -306,13 +306,13 @@ namespace CashCard.Controllers
         #endregion
         #region Cashout Regular
         [HttpPost]
-        public JsonResult CreateCashoutRegularDraft(CashOutRegular cashoutRegular)
+        public JsonResult CreateCashoutRegularDraft(CashOut cashout)
         {
            
             try
             {
                
-                var cashout = cashoutRegular;
+                var cashout1 = cashout;
 
                 var usr = User.Identity.GetUserId();
                 var xx = db.Users.Find(usr);
@@ -321,11 +321,11 @@ namespace CashCard.Controllers
                             SetCutOff(xx.BranchId.Value);
 
 
-                if (cashoutRegular.Id != 0)
+                if (cashout.Id != 0)
                 {
-                    cashout = db.CashFlows.OfType<CashOutRegular>().First(p => p.Id == cashoutRegular.Id);
+                    cashout = db.CashCards.OfType<CashOut>().First(p => p.Id == cashout.Id);
 
-                    Subtitution(cashout, cashoutRegular);
+                    Subtitution(cashout, cashout);
 
 
 
@@ -333,8 +333,8 @@ namespace CashCard.Controllers
                 }
                 else
                 {
-                    db.CashFlows.Add(cashout);
-                    //cashoutRegular.Date = DateTime.Now;
+                    db.CashCards.Add(cashout);
+                    //CashOut.Date = DateTime.Now;
                     cashout.CutOffId = cutOff.Id;
                     cashout.UserId = usr;
 
@@ -349,7 +349,7 @@ namespace CashCard.Controllers
                 db.SaveChanges();
 
 
-                return Json(new {Success = 1, CashOutId = cashoutRegular.Id, ex = ""});
+                return Json(new {Success = 1, CashOutId = cashout.Id, ex = ""});
             }
             catch (Exception ex)
             {
@@ -360,7 +360,7 @@ namespace CashCard.Controllers
         }
 
         [HttpPost]
-        public JsonResult CreateCashoutRegularFinal(CashOutRegular cashflow, string log)
+        public JsonResult CreateCashoutRegularFinal(CashOut cashflow, string log)
         {
             try
             {
@@ -374,15 +374,15 @@ namespace CashCard.Controllers
 
                 if (cashflow.Id != 0)
                 {
-                   cashout = db.CashFlows.OfType<CashOutRegular>().First(p => p.Id == cashflow.Id);
+                   cashout = db.CashCards.OfType<CashOut>().First(p => p.Id == cashflow.Id);
 
                     Subtitution(cashout, cashflow);
       
                 }
                 else
                 {
-                    db.CashFlows.Add(cashout);
-                    //cashoutRegular.Date = DateTime.Now;
+                    db.CashCards.Add(cashout);
+                    //CashOut.Date = DateTime.Now;
                     cashout.CutOffId = cutOff.Id;
                     cashout.UserId = usr;
                  
@@ -427,7 +427,7 @@ namespace CashCard.Controllers
 
                 if (cashoutIregular.Id != 0)
                 {
-                    cashout = db.CashFlows.OfType<CashOutIrregular>().First(p => p.Id == cashoutIregular.Id);
+                    cashout = db.CashCards.OfType<CashOutIrregular>().First(p => p.Id == cashoutIregular.Id);
 
                     Subtitution(cashout, cashoutIregular);
 
@@ -437,8 +437,8 @@ namespace CashCard.Controllers
                 }
                 else
                 {
-                    db.CashFlows.Add(cashout);
-                    //cashoutRegular.Date = DateTime.Now;
+                    db.CashCards.Add(cashout);
+                    //CashOut.Date = DateTime.Now;
                     cashout.CutOffId = cutOff.Id;
                     cashout.UserId = usr;
 
@@ -478,15 +478,15 @@ namespace CashCard.Controllers
 
                 if (cashflow.Id != 0)
                 {
-                    cashout = db.CashFlows.OfType<CashOutIrregular>().First(p => p.Id == cashflow.Id);
+                    cashout = db.CashCards.OfType<CashOutIrregular>().First(p => p.Id == cashflow.Id);
 
                     Subtitution(cashout, cashflow);
 
                 }
                 else
                 {
-                    db.CashFlows.Add(cashout);
-                    //cashoutRegular.Date = DateTime.Now;
+                    db.CashCards.Add(cashout);
+                    //CashOut.Date = DateTime.Now;
                     cashout.CutOffId = cutOff.Id;
                     cashout.UserId = usr;
 
@@ -521,21 +521,20 @@ namespace CashCard.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            CashFlow cashflow = db.CashFlows.Find(id);
+            Models.CashCard cashflow = db.CashCards.Find(id);
             if (cashflow == null)
             {
                 return HttpNotFound();
             }
-            //ViewBag.CutOffId = new SelectList(db.CutOffs, "Id", "Note", cashflow.CutOffId);
-            //ViewBag.UserId = new SelectList(db.Users, "Id", "UserName", cashflow.UserId);
+          
 
-            var cashOutRegular = cashflow as CashOutRegular;
+            var cashOutRegular = cashflow as CashOut;
             if (cashOutRegular != null)
             {
-                if (cashOutRegular.State == StateCashFlow.Draft || cashOutRegular.State == StateCashFlow.Revision)
+                if (cashOutRegular.State == StateCashCard.Draft || cashOutRegular.State == StateCashCard.Revision)
                 {
-                    ViewBag.RegularQuiz = new SelectList(db.RegularQuizs, "Id", "Quiz");
-                    ViewBag.RegularQuizInfo = from x in db.RegularQuizs select new {Id = x.Id, Info = x.Info};
+                    ViewBag.RegularQuiz = new SelectList(db.Quizs, "Id", "Quiz");
+                    ViewBag.RegularQuizInfo = from x in db.Quizs select new { Id = x.Id, label1 = x.Note1Label, label2 = x.Note2Label };
                     return View("CashoutRegular", cashOutRegular);
                 }
                 return View("CashoutRegularInfo", cashOutRegular);
@@ -543,7 +542,7 @@ namespace CashCard.Controllers
             var cashIn = cashflow as CashIn;
             if (cashIn != null)
             {
-                if (cashIn.State == StateCashFlow.Draft || cashIn.State == StateCashFlow.Revision)
+                if (cashIn.State == StateCashCard.Draft || cashIn.State == StateCashCard.Revision)
                 {
                     return View("CashIn", cashIn);
                 }
@@ -553,7 +552,7 @@ namespace CashCard.Controllers
             var cashOutIrregular = cashflow as CashOutIrregular;
             if (cashOutIrregular != null)
             {
-                if (cashOutIrregular.State == StateCashFlow.Draft || cashOutIrregular.State == StateCashFlow.Revision)
+                if (cashOutIrregular.State == StateCashCard.Draft || cashOutIrregular.State == StateCashCard.Revision)
                 {
                     var y = new SelectList(Enum.GetValues(typeof(IrregularType)));
                     ViewBag.IrregularTypes = y;

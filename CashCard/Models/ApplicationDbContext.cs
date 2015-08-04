@@ -14,18 +14,18 @@ namespace CashCard.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<CashFlow>()
+            modelBuilder.Entity<CashCard>()
                 .Map<CashIn>(m => m.Requires("CashType").HasValue("CashIn"))
-                .Map<CashOutRegular>(m => m.Requires("CashType").HasValue("CastOutRegular"))
+                .Map<CashOut>(m => m.Requires("CashType").HasValue("CastOut"))
                 .Map<CashOutIrregular>(m => m.Requires("CashType").HasValue("CastOutIregular"));
             
         }
-        public DbSet<CashFlow> CashFlows { get; set; }
+        public DbSet<CashCard> CashCards { get; set; }
         public DbSet<Branch> Branches { get; set; }
-        public DbSet<RegularQuiz> RegularQuizs { get; set; }
-        //public DbSet<RegularDetail> RegularDetails { get; set; }
+        public DbSet<Quiz> Quizs { get; set; }
+        //public DbSet<CashOutDetail> RegularDetails { get; set; }
         public DbSet<CutOff> CutOffs { get; set; }
-        public DbSet<RegularGroup> RegularGroup { get; set; }
+        public DbSet<QuizGroup> RegularGroup { get; set; }
 
       
     }

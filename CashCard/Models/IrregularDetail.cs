@@ -10,8 +10,8 @@ namespace CashCard.Models
         public IrregularType IrregularType { get; set; }
         public string FlightNo { get; set; }
          [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        public string FromTo { get; set; } 
         public DateTime FlightDate { get; set; }
-        public string FromTo { get; set; }
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int Amount { get; set; }
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]

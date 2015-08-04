@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CashCard.Models
 {
-    public abstract class CashFlow
+    public abstract class CashCard
     {
-        protected CashFlow()
+        protected CashCard()
         {
             Date = DateTime.Now.Date;
         }
@@ -15,7 +15,7 @@ namespace CashCard.Models
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime Date { get; set; }
         public string Note { get; set; }
-        public StateCashFlow State { get; protected set; }
+        public StateCashCard State { get; protected set; }
         public string LogNote { get; set; }
         [ForeignKey("CutOffId")]
         public virtual CutOff CutOff { get; set; }
@@ -33,9 +33,9 @@ namespace CashCard.Models
 
         public void SetToDraft()
         {
-            if (State == StateCashFlow.Revision || State == StateCashFlow.Draft)
+            if (State == StateCashCard.Revision || State == StateCashCard.Draft)
             {
-                State = StateCashFlow.Draft;
+                State = StateCashCard.Draft;
             }
             else
             {
@@ -44,9 +44,9 @@ namespace CashCard.Models
         }
         public void SetToFinal()
         {
-            if (State == StateCashFlow.Draft || State == StateCashFlow.Revision )
+            if (State == StateCashCard.Draft || State == StateCashCard.Revision )
             {
-                State = StateCashFlow.Final;
+                State = StateCashCard.Final;
             }
             else
             {
@@ -55,9 +55,9 @@ namespace CashCard.Models
         }
         public void SetToApprove()
         {
-            if (State == StateCashFlow.Final )
+            if (State == StateCashCard.Final )
             {
-                State = StateCashFlow.Approve;
+                State = StateCashCard.Approve;
             }
             else
             {
@@ -66,9 +66,9 @@ namespace CashCard.Models
         }
         public void SetToReject()
         {
-            if (State == StateCashFlow.Final)
+            if (State == StateCashCard.Final)
             {
-                State = StateCashFlow.Reject;
+                State = StateCashCard.Reject;
             }
             else
             {
@@ -78,9 +78,9 @@ namespace CashCard.Models
 
         public void SetToRevision()
         {
-            if (State == StateCashFlow.Final)
+            if (State == StateCashCard.Final)
             {
-                State = StateCashFlow.Revision;
+                State = StateCashCard.Revision;
             }
             else
             {

@@ -9,9 +9,9 @@ namespace CashCard.Models
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int Amount { get; set; }
         public string Note { get; set; }
-        [ForeignKey("CashFlowId")]
+        [ForeignKey("CashInId")]
         public CashIn CashIn { get; set; }
-        public int? CashFlowId { get; set; }
+        public int? CashInId { get; set; }
 
     }
 }

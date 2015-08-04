@@ -26,7 +26,7 @@ namespace CashCard.Models
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int EndBallance { get; protected set; }
         public string Note { get; set; }
-        public virtual ICollection<CashFlow> CashFlows { get; set; }
+        public virtual ICollection<CashCard> CashCards { get; set; }
 
         public void SetEndState()
         {
@@ -38,9 +38,9 @@ namespace CashCard.Models
         public void SetEndBallance()
         {
             int total = PreviousBallance;
-            foreach (var c in CashFlows)
+            foreach (var c in CashCards)
             {
-                if (c.State == StateCashFlow.Approve)
+                if (c.State == StateCashCard.Approve)
                 {
                     if (c is CashIn)
                         total += c.Total;
