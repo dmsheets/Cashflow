@@ -22,6 +22,10 @@ namespace CashCard
 
             bundles.Add(new ScriptBundle("~/bundles/numeral").Include(
               "~/Scripts/numeral/numeral.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/fileupload").Include(
+              "~/Scripts/jQuery.FileUpload/jquery.fileupload.js"));
+
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
@@ -37,16 +41,17 @@ namespace CashCard
                 "~/Content/bootstrap.min.css",
                 "~/Content/bootstrap-select.min.css",
                 "~/Content/sb-admin.css",
-                "~/Content/font-awesome.css"));
+                "~/Content/font-awesome.css", 
+                "~/Content/jquery.fileupload.css"));
 
             //bundles.Add(new StyleBundle("~/content/css").
             //          Include("~/Content/font-awesome.css", new CssRewriteUrlTransform()));
 
             bundles.Add(new StyleBundle("~/content/themes/base/jui").Include(
                                 "~/Content/themes/base/accordion.css",
-                                "~/Content/themes/base/all.css",
+                                //"~/Content/themes/base/all.css",
                                 "~/Content/themes/base/autocomplete.css",
-                                "~/Content/themes/base/base.css",
+                                //"~/Content/themes/base/base.css",
                                 "~/Content/themes/base/button.css",
                                 "~/Content/themes/base/core.css",
                                 "~/Content/themes/base/datepicker.css",
