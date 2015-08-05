@@ -163,7 +163,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BranchController.cs" />
     <Compile Include="Controllers\CashCardController.cs" />
-    <Compile Include="Controllers\CashflowController.cs" />
     <Compile Include="Controllers\CutoffController.cs" />
     <Compile Include="Controllers\CutOffPerBranchReportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -187,16 +186,11 @@
     <Compile Include="Models\CashCard.cs" />
     <Compile Include="Models\CashIn.cs" />
     <Compile Include="Models\CashInDetail.cs" />
-    <Compile Include="Models\CashOutIrregular.cs" />
     <Compile Include="Models\CashOut.cs" />
     <Compile Include="Models\CutOff.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\DataTablesJson.cs" />
     <Compile Include="Models\GroupType.cs" />
-    <Compile Include="Models\IrregularDetail.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Models\IrregularType.cs" />
     <Compile Include="Models\CashOutDetail.cs" />
     <Compile Include="Models\Quiz.cs" />
     <Compile Include="Models\QuizGroup.cs" />
@@ -422,7 +416,6 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Cashflow\CashoutRegularInfo.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -456,10 +449,6 @@
     <Content Include="Views\Branch\Index.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
-    <Content Include="Views\Cashflow\CashoutRegular.cshtml" />
-    <Content Include="Views\Cashflow\Delete.cshtml" />
-    <Content Include="Views\Cashflow\Edit.cshtml" />
-    <Content Include="Views\Cashflow\Index.cshtml" />
     <Content Include="Views\RegularQuiz\Create.cshtml" />
     <Content Include="Views\RegularQuiz\Delete.cshtml" />
     <Content Include="Views\RegularQuiz\Details.cshtml" />
@@ -481,17 +470,15 @@
     <Content Include="Views\CashflowValidation\Index.cshtml" />
     <Content Include="Views\Cutoff\Details.cshtml" />
     <Content Include="Views\Cutoff\Index.cshtml" />
-    <Content Include="Views\Cashflow\CashIn.cshtml" />
-    <Content Include="Views\Cashflow\CashInInfo.cshtml" />
-    <Content Include="Views\Cashflow\CashoutIrregular.cshtml" />
-    <Content Include="Views\Cashflow\CashoutIrregularInfo.cshtml" />
-    <Content Include="Views\CashflowValidation\CashoutIrregular.cshtml" />
     <Content Include="Views\CashflowValidation\Cashin.cshtml" />
     <Content Include="Views\CutOffPerBranchReport\Index.cshtml" />
     <Content Include="Views\CutOffPerBranchReport\GetReport.cshtml" />
     <Content Include="Views\ReportSummary\Index.cshtml" />
     <Content Include="Views\CashCard\Index.cshtml" />
-    <Content Include="Views\CashCard\CreateCashOutRegular.cshtml" />
+    <Content Include="Views\CashCard\CashOut.cshtml" />
+    <Content Include="Views\CashCard\CashIn.cshtml" />
+    <Content Include="Views\CashCard\CashOutInfo.cshtml" />
+    <Content Include="Views\CashCard\CashInInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

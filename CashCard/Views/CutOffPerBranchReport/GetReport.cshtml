@@ -20,7 +20,7 @@
             <td class="text-right">@Html.DisplayFor(p => p.PreviousBallance)</td>
         </tr>
 
-        @if (Model.CashFlows.OfType<CashIn>().Any())
+        @if (Model.CashCards.OfType<CashIn>().Any())
         {
             <tr>
                 <td colspan="3"><h3>Cash In</h3></td>
@@ -28,7 +28,7 @@
 
 
 
-            foreach (var b in Model.CashFlows.OfType<global::CashCard.Models.CashIn>())
+            foreach (var b in Model.CashCards.OfType<CashIn>())
             {
 
                 <tr>
@@ -48,13 +48,13 @@
             </tr>
         }
 
-        @if (Model.CashFlows.OfType<CashOut>().Any())
+        @if (Model.CashCards.OfType<CashOut>().Any(p => p.TypeOut==TypeOut.Regular))
         {
             <tr>
                 <td colspan="3"><h3>Cash Out Regular</h3></td>
             </tr>
 
-            foreach (var b in Model.CashFlows.OfType<global::CashCard.Models.CashOut>())
+            foreach (var b in Model.CashCards.OfType<CashOut>().Where(p => p.TypeOut == TypeOut.Regular))
             {
                 <tr>
                     <td>
@@ -72,7 +72,7 @@
             </tr>
         }
 
-        @if (Model.CashFlows.OfType<CashOutIrregular>().Any())
+        @if (Model.CashCards.OfType<CashOut>().Any(p=>p.TypeOut ==TypeOut.Irregular))
         {
 
 
@@ -80,7 +80,7 @@
                 <td colspan="3"><h3>Cash Out Irregular</h3></td>
             </tr>
 
-            foreach (var b in Model.CashFlows.OfType<global::CashCard.Models.CashOutIrregular>())
+            foreach (var b in Model.CashCards.OfType<CashOut>().Where(p => p.TypeOut == TypeOut.Irregular))
             {
                 <tr>
                     <td>

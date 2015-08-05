@@ -48,11 +48,7 @@ namespace CashCard.Controllers
             {
                  return View("CashoutRegular",cashoutRegular);
             }
-            var cashoutIrregular = cashflow as CashOutIrregular;
-            if (cashoutIrregular != null)
-            {
-                return View("CashoutIrregular", cashoutIrregular);
-            }
+         
             var cashin = cashflow as CashIn;
             if (cashin != null)
             {

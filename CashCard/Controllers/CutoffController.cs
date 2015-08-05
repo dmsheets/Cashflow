@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CashCard.Models;
+using WebGrease.Css.Extensions;
 
 namespace CashCard.Controllers
 
@@ -27,9 +28,11 @@ namespace CashCard.Controllers
             var startDate = new DateTime(now.Year, now.Month, 1);
             var endDate = new DateTime(now.Year, now.Month + 1, 1);
             var cutoffs =
-                db.CutOffs.Include(c => c.Branch)
+                db.CutOffs.Include(c => c.Branch).Include(p=>p.CashCards)
                     .Where(p => p.State == StateCutOff.Start || (startDate <= p.DateStart && p.DateStart <= endDate));
-            return View(cutoffs.ToList());
+            var list = cutoffs.ToList();
+            cutoffs.ForEach(p=>p.SetEndBallance());
+            return View(list);
         }
 
         // GET: /Cutoff/Details/5

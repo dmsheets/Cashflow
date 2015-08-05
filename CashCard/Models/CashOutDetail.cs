@@ -13,7 +13,7 @@ namespace CashCard.Models
         public string Note1 { get; set; }
         public string Note2 { get; set; }
          [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
-        public DateTime DateInfo { get; set; }
+        public DateTime? DateInfo { get; set; }
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int Amount { get; set; }
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]

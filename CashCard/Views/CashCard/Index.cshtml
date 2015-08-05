@@ -44,7 +44,7 @@
 
 <p>
    
-    @Html.ActionLink("New Cash In", "CashoutRegular") |
+    @Html.ActionLink("New Cash In", "CashIn") |
     <a href="#" data-toggle="modal" data-target="#myModal">New Cash Out</a>
    
 </p>
@@ -108,7 +108,7 @@
 
                     }
                 </td>
-                <td>
+                <td class="text-right">
                     @Html.DisplayFor(modelItem => item.Total)
                 </td>
                 <td>
@@ -137,7 +137,8 @@
                 <td>
                     @if (item is CashOut)
                     {
-                        <span>Regular</span>
+                        var oo = item as CashOut;
+                        <span> @oo.TypeOut</span>
 
                     }
                     else if (item is CashIn)
@@ -172,6 +173,7 @@
         {
             "searching": true,
             "lengthChange": false
+           
         });
 
 
