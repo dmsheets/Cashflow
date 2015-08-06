@@ -180,6 +180,10 @@
     <Compile Include="Migrations\201508041614078_inisialize.Designer.cs">
       <DependentUpon>201508041614078_inisialize.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201508060746270_testing.cs" />
+    <Compile Include="Migrations\201508060746270_testing.Designer.cs">
+      <DependentUpon>201508060746270_testing.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -204,6 +208,13 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\blueimp\blueimp-gallery-indicator.css" />
+    <Content Include="Content\blueimp\blueimp-gallery-video.css" />
+    <Content Include="Content\blueimp\blueimp-gallery.css" />
+    <Content Include="Content\blueimp\blueimp-gallery.min.css" />
+    <Content Include="Content\blueimp\demo.css" />
+    <Content Include="Content\bootstrap-image-gallery.css" />
+    <Content Include="Content\bootstrap-image-gallery.min.css" />
     <Content Include="Content\bootstrap-rtl.css" />
     <Content Include="Content\bootstrap-rtl.min.css" />
     <Content Include="Content\bootstrap-select.css" />
@@ -265,8 +276,13 @@
     <Content Include="Content\DataTables\images\xls_hover.png" />
     <Content Include="Content\DataTables\swf\copy_csv_xls.swf" />
     <Content Include="Content\DataTables\swf\copy_csv_xls_pdf.swf" />
+    <Content Include="Content\demo.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\img\error.png" />
+    <Content Include="Content\img\loading.gif" />
+    <Content Include="Content\img\play-pause.png" />
+    <Content Include="Content\img\video-play.png" />
     <Content Include="Content\jquery.fileupload.css" />
     <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-noscript.css" />
     <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-ui-noscript.css" />
@@ -314,8 +330,21 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />
+    <Content Include="Scripts\blueimp\blueimp-gallery-fullscreen.js" />
+    <Content Include="Scripts\blueimp\blueimp-gallery-indicator.js" />
+    <Content Include="Scripts\blueimp\blueimp-gallery-video.js" />
+    <Content Include="Scripts\blueimp\blueimp-gallery-vimeo.js" />
+    <Content Include="Scripts\blueimp\blueimp-gallery-youtube.js" />
+    <Content Include="Scripts\blueimp\blueimp-gallery.js" />
+    <Content Include="Scripts\blueimp\blueimp-gallery.min.js" />
+    <Content Include="Scripts\blueimp\blueimp-helper.js" />
+    <Content Include="Scripts\blueimp\demo.js" />
+    <Content Include="Scripts\blueimp\jquery.blueimp-gallery.js" />
+    <Content Include="Scripts\blueimp\jquery.blueimp-gallery.min.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\bootstrap-image-gallery.js" />
+    <Content Include="Scripts\bootstrap-image-gallery.min.js" />
     <Content Include="Scripts\bootstrap-select.js" />
     <Content Include="Scripts\bootstrap-select.js.map" />
     <Content Include="Content\bootstrap-select.css.map" />
@@ -330,6 +359,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\img\error.svg" />
+    <Content Include="Content\img\play-pause.svg" />
+    <Content Include="Content\img\video-play.svg" />
     <None Include="Properties\PublishProfiles\tofile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
@@ -358,6 +390,7 @@
     <Content Include="Scripts\DataTables\dataTables.tableTools.min.js" />
     <Content Include="Scripts\DataTables\jquery.dataTables.js" />
     <Content Include="Scripts\DataTables\jquery.dataTables.min.js" />
+    <Content Include="Scripts\demo.js" />
     <Content Include="Scripts\i18n\defaults-bg_BG.js" />
     <Content Include="Scripts\i18n\defaults-bg_BG.min.js" />
     <Content Include="Scripts\i18n\defaults-cs_CZ.js" />
@@ -500,10 +533,11 @@
     <Content Include="Views\CashCard\CashIn.cshtml" />
     <Content Include="Views\CashCard\CashOutInfo.cshtml" />
     <Content Include="Views\CashCard\CashInInfo.cshtml" />
+    <Content Include="Views\CashCard\CashOutImage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="images\" />
+    <Folder Include="images\thumbnails\" />
     <Folder Include="Views\FileUpload\" />
   </ItemGroup>
   <ItemGroup>
@@ -513,6 +547,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201508041614078_inisialize.resx">
       <DependentUpon>201508041614078_inisialize.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201508060746270_testing.resx">
+      <DependentUpon>201508060746270_testing.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -66,7 +66,7 @@ namespace CashCard.Controllers
                     select new {x.Id, label1 = x.Note1Label, label2 = x.Note2Label};
             }
 
-            return View("CashOut", cash);
+            return View("CashOutImage", cash);
         }
 
         public ActionResult CashIn()
