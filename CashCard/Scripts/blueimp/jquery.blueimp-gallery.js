@@ -60,6 +60,9 @@
                     container
                         .trigger('closed')
                         .removeData('gallery');
+                },
+                ondelete:function() {
+                    container.triger('delete');
                 }
             },
             options = $.extend(

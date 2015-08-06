@@ -336,7 +336,6 @@
     <Content Include="Scripts\blueimp\blueimp-gallery-vimeo.js" />
     <Content Include="Scripts\blueimp\blueimp-gallery-youtube.js" />
     <Content Include="Scripts\blueimp\blueimp-gallery.js" />
-    <Content Include="Scripts\blueimp\blueimp-gallery.min.js" />
     <Content Include="Scripts\blueimp\blueimp-helper.js" />
     <Content Include="Scripts\blueimp\demo.js" />
     <Content Include="Scripts\blueimp\jquery.blueimp-gallery.js" />

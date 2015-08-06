@@ -57,66 +57,66 @@
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
             <div class="modal-body">
-               
-                    <form id="detail">
 
-                        <input id="regularDetailId" type="hidden" />
+                <form id="detail">
+
+                    <input id="regularDetailId" type="hidden" />
 
 
-                        <div class="form-group">
-                            <label>Name</label>
-                            <div >
-                                @Html.DropDownList("Quiz", (SelectList)ViewBag.Quiz, new { @class = "form-control", data_live_search = "true" })
-                            </div>
-
+                    <div class="form-group">
+                        <label>Name</label>
+                        <div>
+                            @Html.DropDownList("Quiz", (SelectList)ViewBag.Quiz, new { @class = "form-control", data_live_search = "true" })
                         </div>
 
+                    </div>
 
-                        <div class="form-group">
-                            <label id="Label1">Note1</label>
-                            <div>
-                                <input id="Note1" class="form-control" />
-                            </div>
+
+                    <div class="form-group">
+                        <label id="Label1">Note1</label>
+                        <div>
+                            <input id="Note1" class="form-control" />
                         </div>
+                    </div>
 
 
 
-                        <div class="form-group ">
-                            <label id="Label2">Note2</label>
-                            <div>
-                                <input id="Note2" class="form-control" />
-                            </div>
+                    <div class="form-group ">
+                        <label id="Label2">Note2</label>
+                        <div>
+                            <input id="Note2" class="form-control" />
                         </div>
-                        <div class="form-group ">
-                            <label >Flight No</label>
-                            <div>
-                                <input id="DateInfo" class="form-control" />
-                            </div>
+                    </div>
+                    <div class="form-group ">
+                        <label>Flight No</label>
+                        <div>
+                            <input id="DateInfo" class="form-control" />
                         </div>
+                    </div>
 
-                        <div class="form-group ">
-                            <label>Amount</label>
-                            <div>
-                                <input id="Amount" name="Amount" type="text" class="form-control" required number="true" />
-                            </div>
+                    <div class="form-group ">
+                        <label>Amount</label>
+                        <div>
+                            <input id="Amount" name="Amount" type="text" class="form-control" required number="true" />
                         </div>
+                    </div>
 
 
-                        <div class="form-group ">
-                            <label>Qty</label>
-                            <div>
-                                <input id="Qty" name="Qty" type="text" class="form-control" required number="true" />
-                            </div>
+                    <div class="form-group ">
+                        <label>Qty</label>
+                        <div>
+                            <input id="Qty" name="Qty" type="text" class="form-control" required number="true" />
                         </div>
+                    </div>
 
-                        <div class="form-group ">
-                            <button type="button" id="addToTbl" class="btn btn-primary">Add</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
-                
-          
+                    <div class="form-group ">
+                        <button type="button" id="addToTbl" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+
+
         </div>
     </div>
 </div>
@@ -129,7 +129,8 @@
     <a class="prev">‹</a>
     <a class="next">›</a>
     <a class="close">×</a>
-    <a class="play-pause"></a>
+    @*<a class="play-pause"></a>*@
+    <a class="delete">Delete</a>
     <ol class="indicator"></ol>
 </div>
 
@@ -154,7 +155,7 @@
                             @*@Html.EditorFor(model => model.Date)*@
                             @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
                             @Html.ValidationMessageFor(model => model.Date)
-                           
+
                         </div>
 
 
@@ -168,7 +169,7 @@
 
 
                     </div>
-                    
+
                     <div class="form-group">
 
                         <label class="col-md-2 control-label"></label>
@@ -177,7 +178,7 @@
                             <button type="button" class="btn btn-warning " data-toggle="modal" data-target="#myModal">
                                 Add Detail
                             </button>
-                            
+
                             <span class="btn btn-success fileinput-button">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 <span>Add files...</span>
@@ -187,7 +188,7 @@
                         </div>
 
                     </div>
-                   
+
 
                     <div class="form-group">
 
@@ -206,40 +207,40 @@
 
                 </fieldset>
 
+                Image Upload:
+                <div id="links">
+                    <a href='@Url.Content("~/images/tulips.jpg")' title="ooooo" data-gallery="">
+                        <img src='@Url.Content("~/images/thumbnails/tulips.jpg")'>
 
+                    </a>
+
+                    <a href='@Url.Content("~/images/chrysanthemum.jpg")' title="ooooo" data-gallery="">
+                        <img src='@Url.Content("~/images/thumbnails/chrysanthemum.jpg")'>
+                    </a>
+
+                    <a href='@Url.Content("~/images/jellyfish.jpg")' title="ooooo" data-gallery="">
+                        <img src='@Url.Content("~/images/thumbnails/jellyfish.jpg")'>
+                    </a>
+
+                    <a href='@Url.Content("~/images/koala.jpg")' title="ooooo" data-gallery="">
+                        <img src='@Url.Content("~/images/thumbnails/koala.jpg")'>
+                    </a>
+
+                    <a href='@Url.Content("~/images/lighthouse.jpg")' title="ooooo" data-gallery="">
+                        <img src='@Url.Content("~/images/thumbnails/lighthouse.jpg")'>
+                    </a>
+
+                    <a href='@Url.Content("~/images/penguins.jpg")' title="ooooo" data-gallery="">
+                        <img src='@Url.Content("~/images/thumbnails/penguins.jpg")'>
+                    </a>
+                </div>
 
 
             </div>
 
 
         }
-        Image Upload: 
-        <div id="links">
-            <a href='@Url.Content("~/images/tulips.jpg")' title="ooooo" data-gallery="">
-                <img src='@Url.Content("~/images/thumbnails/tulips.jpg")'>
-                <a href="#">Delete</a>
-            </a>
 
-            <a href='@Url.Content("~/images/chrysanthemum.jpg")' title="ooooo" data-gallery="">
-                <img src='@Url.Content("~/images/thumbnails/chrysanthemum.jpg")'>
-            </a>
-
-            <a href='@Url.Content("~/images/jellyfish.jpg")' title="ooooo" data-gallery="">
-                <img src='@Url.Content("~/images/thumbnails/jellyfish.jpg")'>
-            </a>
-
-            <a href='@Url.Content("~/images/koala.jpg")' title="ooooo" data-gallery="">
-                <img src='@Url.Content("~/images/thumbnails/koala.jpg")'>
-            </a>
-
-            <a href='@Url.Content("~/images/lighthouse.jpg")' title="ooooo" data-gallery="">
-                <img src='@Url.Content("~/images/thumbnails/lighthouse.jpg")'>
-            </a>
-
-            <a href='@Url.Content("~/images/penguins.jpg")' title="ooooo" data-gallery="">
-                <img src='@Url.Content("~/images/thumbnails/penguins.jpg")'>
-            </a>
-        </div>
     </div>
     <div class="col-md-6">
 
@@ -247,28 +248,28 @@
             <div class="panel-heading">Info</div>
             <div class="panel-body">
                 <dl class="dl-horizontal infobox">
-                    
-                    <dt >
+
+                    <dt>
                         Status
                     </dt>
 
-                    <dd >
+                    <dd>
                         @switch (Model.State)
                         {
                             case StateCashCard.Draft:
                                 <span class="label label-default">Draft</span>
                                 break;
                             case StateCashCard.Final:
-                                <span class="label label-primary">Final</span>
+                            <span class="label label-primary">Final</span>
                                 break;
                             case StateCashCard.Revision:
-                                <span class="label label-warning">Revision</span>
+                            <span class="label label-warning">Revision</span>
                                 break;
                             case StateCashCard.Approve:
-                                <span class="label label-success">Approve</span>
+                            <span class="label label-success">Approve</span>
                                 break;
                             case StateCashCard.Reject:
-                                <span class="label label-danger">Reject</span>
+                            <span class="label label-danger">Reject</span>
                                 break;
                         }
                     </dd>
@@ -276,25 +277,27 @@
                         Type
                     </dt>
                     <dd>
-                        <span id="TypeOut">@Html.DisplayFor(p=>p.TypeOut)</span>
+                        <span id="TypeOut">@Html.DisplayFor(p => p.TypeOut)</span>
                     </dd>
                     <dt>Cost Center</dt>
-                    <dd><span id="CostCenter">@Html.DisplayFor(p=>p.CostCenter)</span>
+                    <dd>
+                        <span id="CostCenter">@Html.DisplayFor(p => p.CostCenter)</span>
                     </dd>
-                   
+
                     <dt>Log</dt>
-                    <dd><div class="logdiv" >
-                            @Html.DisplayTextFor(p=>p.LogNote)
+                    <dd>
+                        <div class="logdiv">
+                            @Html.DisplayTextFor(p => p.LogNote)
                         </div>
-                        
+
                     </dd>
-                    
+
                 </dl>
-               
-                  
-</div>
+
+
+            </div>
         </div>
-        <div class="well well-sm warning"><b>Total : </b><span id="Total">@Html.DisplayFor(p=>p.Total)</span></div>
+        <div class="well well-sm warning"><b>Total : </b><span id="Total">@Html.DisplayFor(p => p.Total)</span></div>
 
     </div>
 </div>
@@ -345,7 +348,7 @@
                                 @Html.DisplayFor(i => a.Note2)
                             </td>
                             <td>
-                                @Html.DisplayFor(i=>a.DateInfo)
+                                @Html.DisplayFor(i => a.DateInfo)
                             </td>
                             <td>
                                 @Html.DisplayFor(i => a.Amount)
@@ -381,19 +384,17 @@
 
 @section Scripts {
 
-<link href="~/Content/blueimp/blueimp-gallery.min.css" rel="stylesheet" />
+@Scripts.Render("~/bundles/blueimp")
 
     @Scripts.Render("~/bundles/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
     @Scripts.Render("~/bundles/numeral")
     @Scripts.Render("~/bundles/fileupload")
 
-<script src="~/Scripts/blueimp/blueimp-helper.js"></script>
-    <script src="~/Scripts/blueimp/blueimp-gallery.js"></script>
-<script src="~/Scripts/blueimp/blueimp-gallery-fullscreen.js"></script>
-<script src="~/Scripts/blueimp/blueimp-gallery-indicator.js"></script>
-<script src="~/Scripts/blueimp/jquery.blueimp-gallery.js"></script>
-@*<script src="~/Scripts/blueimp/demo.js"></script>*@
+  
+
+
+
     <script type="text/javascript">
         var log;
         var trActive;
@@ -449,9 +450,9 @@
         });
 
 
-    
 
-     
+
+
         var tbl = $("#tbl").DataTable(
         {
             "searching": false,
@@ -480,7 +481,7 @@
 
         });
 
-      
+
 
         function showErrorInfo(error) {
 
@@ -495,7 +496,7 @@
             if ($("#detail").valid()) {
 
                 var total = numeral().unformat($("#Total").text());
-             
+
 
 
                 var subTotal = numeral().unformat($("#Amount").val())*numeral().unformat($("#Qty").val());
@@ -541,7 +542,7 @@
             $("#regularDetailId").val(rowData[0]);
             $("#Quiz").selectpicker('val', rowData[1]);
 
-         
+
 
             $('#myModal').modal('show');
             trActive = tr;
@@ -574,7 +575,7 @@
             $("#Label2").text(element[0].label2);
         });
 
-      
+
 
 
         //get cashflow
@@ -662,6 +663,17 @@
                 $('.file_type').html(data.result.type);
                 $('.file_size').html(data.result.size);
                 $("#progressPersen").text('');
+
+
+                var linksContainer = $("#links"),
+                    baseUrlThumbnail = '@Url.Content("~/images/thumbnails/")',
+                    baseUrlImage = '@Url.Content("~/images/")';
+                $('<a/>')
+                    .append($('<img>').prop('src', baseUrlThumbnail + data.result.name))
+                    .prop('href', baseUrlImage + data.result.name)
+                    .prop('title', data.result.name)
+                    .attr('data-gallery', '')
+                    .appendTo(linksContainer);
                 @*tblImg.row.add([
                   '<img src="@Url.Content("~/images/")' + data.result.name + '" alt="xxx" style="width:50px;height:50px;">', data.result.type
                 ]).draw();*@
@@ -674,25 +686,39 @@
         }).on('fileuploadprogressall', function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $("#progressPersen").text(progress + '%');
-           
-               
-            //$('.progress .progress-bar').css('width', progress + '%');
+
+
         });
-      
+
+
     </script>
     <style>
-
         .dl-horizontal.infobox dt {
             width: 90px;
         }
+
         .dl-horizontal dd {
             margin-left: 110px;
         }
+
         .logdiv {
             height: 80px;
             width: inherit;
             overflow: auto;
             overflow-x: hidden;
+        }
+
+        .blueimp-gallery > .delete {
+            padding: 15px;
+            right: 15px;
+            left: auto;
+            margin: -15px;
+            font-size: 30px;
+            text-decoration: none;
+            cursor: pointer;
+            position: absolute;
+            bottom: 15px;
+            color: #fff;
         }
     </style>
 
