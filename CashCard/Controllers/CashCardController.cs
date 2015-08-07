@@ -38,14 +38,10 @@ namespace CashCard.Controllers
 
         public ActionResult CreateCashOut(TypeOut? typeOut, CostCenter? userType)
         {
-            CashOut cash = null;
-
-            if (typeOut != null && userType != null)
-            {
-                cash = new CashOut();
-                cash.CostCenter = userType.Value;
-                cash.TypeOut = typeOut.Value;
-            }
+            var cash = new CashOut();
+            cash.TypeOut = typeOut == null ? TypeOut.Regular : typeOut.Value;
+            cash.CostCenter = userType == null ? CostCenter.Other : userType.Value;
+           
 
 
             if (cash.TypeOut == TypeOut.Irregular)
@@ -66,7 +62,7 @@ namespace CashCard.Controllers
                     select new {x.Id, label1 = x.Note1Label, label2 = x.Note2Label};
             }
 
-            return View("CashOutImage", cash);
+            return View("CashOut", cash);
         }
 
         public ActionResult CashIn()
@@ -113,7 +109,7 @@ namespace CashCard.Controllers
                             where x.CostCenter == cashOutRegular.CostCenter
                             select new {x.Id, label1 = x.Note1Label, label2 = x.Note2Label};
                     }
-                    return View("CashOutImage", cashOutRegular);
+                    return View("CashOut", cashOutRegular);
                 }
                 return View("CashOutInfo", cashOutRegular);
             }

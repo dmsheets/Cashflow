@@ -180,10 +180,6 @@
     <Compile Include="Migrations\201508041614078_inisialize.Designer.cs">
       <DependentUpon>201508041614078_inisialize.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201508060746270_testing.cs" />
-    <Compile Include="Migrations\201508060746270_testing.Designer.cs">
-      <DependentUpon>201508060746270_testing.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -279,6 +275,7 @@
     <Content Include="Content\demo.css" />
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
+    <Content Include="Content\img\citilink_logo.png" />
     <Content Include="Content\img\error.png" />
     <Content Include="Content\img\loading.gif" />
     <Content Include="Content\img\play-pause.png" />
@@ -532,7 +529,8 @@
     <Content Include="Views\CashCard\CashIn.cshtml" />
     <Content Include="Views\CashCard\CashOutInfo.cshtml" />
     <Content Include="Views\CashCard\CashInInfo.cshtml" />
-    <Content Include="Views\CashCard\CashOutImage.cshtml" />
+    <Content Include="Views\Cutoff\CashInInfo.cshtml" />
+    <Content Include="Views\Cutoff\CashOutInfo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -546,9 +544,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201508041614078_inisialize.resx">
       <DependentUpon>201508041614078_inisialize.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201508060746270_testing.resx">
-      <DependentUpon>201508060746270_testing.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

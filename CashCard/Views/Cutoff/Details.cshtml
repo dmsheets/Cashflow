@@ -92,6 +92,7 @@
                     <th>
                         Type
                     </th>
+                    <th>Action</th>
                     
                 </tr>
             </thead>
@@ -169,6 +170,12 @@
                             }
 
 
+                        </td>
+                        <td>
+                       
+                            @Html.ActionLink("View", "View", new { id = item.Id })
+
+                       
                         </td>
                        
                     </tr>

@@ -175,6 +175,14 @@
             "lengthChange": false
            
         });
+        $("#TypeOut").change(function() {
+            if ($(this).val() == 'Irregular') {
+                $('#UserType').val('Other');
+                $('#UserType').prop('disabled', true);
+            } else {
+                $('#UserType').prop('disabled', false);
+            }
+        });
 
 
 

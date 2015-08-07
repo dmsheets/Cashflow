@@ -51,6 +51,27 @@ namespace CashCard.Controllers
             return View(cutoff);
         }
 
+        public ActionResult View(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var cashCard = db.CashCards.Find(id);
+            if (cashCard == null)
+            {
+                return HttpNotFound();
+            }
+
+            var cOut = cashCard as CashOut;
+            if (cOut != null)
+                return View("CashOutInfo",cOut);
+            var cIn = cashCard as CashIn;
+            if (cIn != null)
+                return View("CashInInfo",cIn);
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+
 
         [HttpPost]
         public JsonResult CutOff(int id)

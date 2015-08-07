@@ -1,5 +1,5 @@
 ﻿@using CashCard.Models
-@model global::CashCard.Models.CashOut
+@model CashOut
 @{
     ViewBag.Title = Model.Id == 0 ? "Create" : "Update";
     Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
@@ -57,68 +57,81 @@
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
             </div>
             <div class="modal-body">
-               
-                    <form id="detail">
 
-                        <input id="regularDetailId" type="hidden" />
+                <form id="detail">
+
+                    <input id="regularDetailId" type="hidden" />
 
 
-                        <div class="form-group">
-                            <label>Name</label>
-                            <div >
-                                @Html.DropDownList("Quiz", (SelectList)ViewBag.Quiz, new { @class = "form-control", data_live_search = "true" })
-                            </div>
-
+                    <div class="form-group">
+                        <label>Name</label>
+                        <div>
+                            @Html.DropDownList("Quiz", (SelectList)ViewBag.Quiz, new { @class = "form-control", data_live_search = "true" })
                         </div>
 
+                    </div>
 
-                        <div class="form-group">
-                            <label id="Label1">Note1</label>
-                            <div>
-                                <input id="Note1" class="form-control" />
-                            </div>
+
+                    <div class="form-group">
+                        <label id="Label1">Note1</label>
+                        <div>
+                            <input id="Note1" class="form-control" />
                         </div>
+                    </div>
 
 
 
-                        <div class="form-group ">
-                            <label id="Label2">Note2</label>
-                            <div>
-                                <input id="Note2" class="form-control" />
-                            </div>
+                    <div class="form-group ">
+                        <label id="Label2">Note2</label>
+                        <div>
+                            <input id="Note2" class="form-control" />
                         </div>
-                        <div class="form-group ">
-                            <label >Flight No</label>
-                            <div>
-                                <input id="DateInfo" class="form-control" />
-                            </div>
+                    </div>
+                    <div class="form-group ">
+                        <label>Date Info</label>
+                        <div>
+                            <input id="DateInfo" class="form-control" />
                         </div>
+                    </div>
 
-                        <div class="form-group ">
-                            <label>Amount</label>
-                            <div>
-                                <input id="Amount" name="Amount" type="text" class="form-control" required number="true" />
-                            </div>
+                    <div class="form-group ">
+                        <label>Amount</label>
+                        <div>
+                            <input id="Amount" name="Amount" type="text" class="form-control" required number="true" />
                         </div>
+                    </div>
 
 
-                        <div class="form-group ">
-                            <label>Qty</label>
-                            <div>
-                                <input id="Qty" name="Qty" type="text" class="form-control" required number="true" />
-                            </div>
+                    <div class="form-group ">
+                        <label>Qty</label>
+                        <div>
+                            <input id="Qty" name="Qty" type="text" class="form-control" required number="true" />
                         </div>
+                    </div>
 
-                        <div class="form-group ">
-                            <button type="button" id="addToTbl" class="btn btn-primary">Add</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
-                
-          
+                    <div class="form-group ">
+                        <button type="button" id="addToTbl" class="btn btn-primary">Add</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </form>
+            </div>
+
+
         </div>
     </div>
+</div>
+
+
+<!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    @*<a class="play-pause"></a>*@
+
+    <ol class="indicator"></ol>
 </div>
 
 <div class="row">
@@ -142,7 +155,7 @@
                             @*@Html.EditorFor(model => model.Date)*@
                             @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
                             @Html.ValidationMessageFor(model => model.Date)
-                           
+
                         </div>
 
 
@@ -156,7 +169,7 @@
 
 
                     </div>
-                    
+
                     <div class="form-group">
 
                         <label class="col-md-2 control-label"></label>
@@ -165,7 +178,7 @@
                             <button type="button" class="btn btn-warning " data-toggle="modal" data-target="#myModal">
                                 Add Detail
                             </button>
-                            
+
                             <span class="btn btn-success fileinput-button">
                                 <i class="glyphicon glyphicon-plus"></i>
                                 <span>Add files...</span>
@@ -175,7 +188,29 @@
                         </div>
 
                     </div>
-                   
+                    <div class="form-group">
+
+                        @Html.Label("Image", new { @class = "control-label col-md-2" })
+                        <div id="links" class="col-md-10">
+                            @if (Model != null)
+                            {
+                                foreach (var bx in Model.ImageDatas)
+                                {
+
+
+                                    <div class="linksDiv" filename='@bx.FileName' iddetailimage='@bx.Id'>
+                                        <a href='@Url.Content("~/images/"+ bx.FileName)' title='@bx.FileName' data-gallery="">
+                                            <img src='@Url.Content("~/images/thumbnails/" + bx.FileName)'>
+                                        </a>
+
+                                        <button type="button" class="linksButton button btn-danger"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                }
+
+                            }
+
+                        </div>
+                    </div>
 
                     <div class="form-group">
 
@@ -196,7 +231,6 @@
 
 
 
-
             </div>
 
 
@@ -209,28 +243,29 @@
             <div class="panel-heading">Info</div>
             <div class="panel-body">
                 <dl class="dl-horizontal infobox">
-                    
-                    <dt >
+
+                    <dt>
                         Status
                     </dt>
 
-                    <dd >
+                    <dd>
                         @switch (Model.State)
                         {
+
                             case StateCashCard.Draft:
                                 <span class="label label-default">Draft</span>
                                 break;
                             case StateCashCard.Final:
-                                <span class="label label-primary">Final</span>
+                            <span class="label label-primary">Final</span>
                                 break;
                             case StateCashCard.Revision:
-                                <span class="label label-warning">Revision</span>
+                            <span class="label label-warning">Revision</span>
                                 break;
                             case StateCashCard.Approve:
-                                <span class="label label-success">Approve</span>
+                            <span class="label label-success">Approve</span>
                                 break;
                             case StateCashCard.Reject:
-                                <span class="label label-danger">Reject</span>
+                            <span class="label label-danger">Reject</span>
                                 break;
                         }
                     </dd>
@@ -238,25 +273,27 @@
                         Type
                     </dt>
                     <dd>
-                        <span id="TypeOut">@Html.DisplayFor(p=>p.TypeOut)</span>
+                        <span id="TypeOut">@Html.DisplayFor(p => p.TypeOut)</span>
                     </dd>
                     <dt>Cost Center</dt>
-                    <dd><span id="CostCenter">@Html.DisplayFor(p=>p.CostCenter)</span>
+                    <dd>
+                        <span id="CostCenter">@Html.DisplayFor(p => p.CostCenter)</span>
                     </dd>
-                   
+
                     <dt>Log</dt>
-                    <dd><div class="logdiv" >
-                            @Html.DisplayTextFor(p=>p.LogNote)
+                    <dd>
+                        <div class="logdiv">
+                            @Html.DisplayTextFor(p => p.LogNote)
                         </div>
-                        
+
                     </dd>
-                    
+
                 </dl>
-               
-                  
-</div>
+
+
+            </div>
         </div>
-        <div class="well well-sm warning"><b>Total : </b><span id="Total">@Html.DisplayFor(p=>p.Total)</span></div>
+        <div class="well well-sm warning"><b>Total : </b><span id="Total">@Html.DisplayFor(p => p.Total)</span></div>
 
     </div>
 </div>
@@ -290,6 +327,7 @@
                 {
                     foreach (var a in Model.RegularDetails)
                     {
+
                         <tr>
                             <td>
                                 @Html.DisplayTextFor(i => a.Id)
@@ -307,7 +345,7 @@
                                 @Html.DisplayFor(i => a.Note2)
                             </td>
                             <td>
-                                @Html.DisplayFor(i=>a.DateInfo)
+                                @Html.DisplayFor(i => a.DateInfo)
                             </td>
                             <td>
                                 @Html.DisplayFor(i => a.Amount)
@@ -332,19 +370,7 @@
 
     </div>
 </div>
-<div class="row">
-<div class="col-lg-12">
-    <table id="tblImage" class="table table-striped table-bordered table-hover">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
-</div>
+
 
 <div>
     @Html.ActionLink("Back to List", "Index")
@@ -354,10 +380,18 @@
 
 
 @section Scripts {
+
+    @Scripts.Render("~/bundles/blueimp")
+
     @Scripts.Render("~/bundles/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
     @Scripts.Render("~/bundles/numeral")
-@Scripts.Render("~/bundles/fileupload")
+    @Scripts.Render("~/bundles/fileupload")
+
+
+
+
+
     <script type="text/javascript">
         var log;
         var trActive;
@@ -413,17 +447,9 @@
         });
 
 
-       var tblImg= $("#tblImage").DataTable({
-            "searching": false,
-            "lengthChange": false,
-            //"scrollY": "200px",
-            //"scrollCollapse": true,
-            "paging": false,
-            "ordering": false
-        });
 
 
-     
+
         var tbl = $("#tbl").DataTable(
         {
             "searching": false,
@@ -452,7 +478,7 @@
 
         });
 
-      
+
 
         function showErrorInfo(error) {
 
@@ -467,7 +493,7 @@
             if ($("#detail").valid()) {
 
                 var total = numeral().unformat($("#Total").text());
-             
+
 
 
                 var subTotal = numeral().unformat($("#Amount").val())*numeral().unformat($("#Qty").val());
@@ -513,7 +539,7 @@
             $("#regularDetailId").val(rowData[0]);
             $("#Quiz").selectpicker('val', rowData[1]);
 
-         
+
 
             $('#myModal').modal('show');
             trActive = tr;
@@ -546,12 +572,12 @@
             $("#Label2").text(element[0].label2);
         });
 
-      
+
 
 
         //get cashflow
         function getCashFlow() {
-            var cashFlow = { "Id": 0, "Date": "", "Note": "","CostCenter":"", "TypeOut":"", "RegularDetails": [] };
+            var cashFlow = { "Id": 0, "Date": "", "Note": "","CostCenter":"", "TypeOut":"", "RegularDetails": [], "ImageDatas":[] };
             // var regularDetail = { "Id": 0, "RegularQuidId": 0, "Note1": "", "Note2": "", "Amount": 0, "Qty": 0 };
             cashFlow.Id = $("#Id").val();
             cashFlow.Date = $("#Date").val();
@@ -571,6 +597,14 @@
                 regularDetail.Qty = numeral().unformat(dt[7]);
                 cashFlow.RegularDetails.push(regularDetail);
             }
+
+            $(".linksDiv").each(function(index, element){
+                var imageDetail = {"Id":0, "Info":'', "FileName":''}
+                imageDetail.Id= $(this).attr('idDetailImage');
+                imageDetail.FileName=$(this).attr('fileName');
+                cashFlow.ImageDatas.push(imageDetail);
+            });
+
             return cashFlow;
         }
 
@@ -630,37 +664,69 @@
             url: '@Url.Action("UploadFiles", "FileUpload")',//'/Home/UploadFiles',
             autoUpload: true,
             done: function (e, data) {
-                $('.file_name').html(data.result.name);
-                $('.file_type').html(data.result.type);
-                $('.file_size').html(data.result.size);
+                //$('.file_name').html(data.result.name);
+                //$('.file_type').html(data.result.type);
+                //$('.file_size').html(data.result.size);
                 $("#progressPersen").text('');
-                tblImg.row.add([
-                  '<img src="@Url.Content("~/images/")' + data.result.name + '" alt="xxx" style="width:50px;height:50px;">', data.result.type
-                ]).draw();
+
+                AddDetailImage(data.result.name);
+
+
+            },
+            fail:function(e, data)
+            {
+                $("#progressPersen").text('');
+                alert(data.reponseText);
             }
         }).on('fileuploadprogressall', function (e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $("#progressPersen").text(progress + '%');
-           
-               
-            //$('.progress .progress-bar').css('width', progress + '%');
-        });
-      
-    </script>
-    <style>
 
-        .dl-horizontal.infobox dt {
-            width: 90px;
+
+        });
+
+        $('#links').on('click', '.linksButton', function() {
+
+            var parent = $(this).closest("div");
+            $.ajax({
+                url: '@Url.Action("DeleteFile", "FileUpload")',
+                data: JSON.stringify({ fileName:parent.attr('fileName') }),
+                type: 'POST',
+                contentType: 'application/json;',
+                dataType: 'json',
+                success: function(result) {
+
+                    if (result.Error) {
+                        showErrorInfo(result.Error);
+                        return;
+                    }
+                    parent.remove();
+                }
+
+            });
+        });
+
+        function AddDetailImage(fileName)
+        {
+            var linksContainer = $("#links");
+            var div = $('<div/>').attr('fileName', fileName).attr('class','linksDiv').attr('idDetailImage','0');
+
+            var a = $('<a/>').append($('<img>').attr('src', '@Url.Content("~/images/thumbnails/")' + fileName))
+                  .attr('href', '@Url.Content("~/images/")' + fileName)
+                  .attr('title', fileName)
+                  .attr('data-gallery', '')
+            var button = $('<button/>').append($('<i/>').attr('class','fa fa-trash')).attr('class','linksButton button btn-danger').attr('type', 'button');
+
+
+            div.append(a).append(button);
+            div.appendTo(linksContainer);
+
+
+
         }
-        .dl-horizontal dd {
-            margin-left: 110px;
-        }
-        .logdiv {
-            height: 80px;
-            width: inherit;
-            overflow: auto;
-            overflow-x: hidden;
-        }
-    </style>
+
+
+    </script>
+ 
 
 }

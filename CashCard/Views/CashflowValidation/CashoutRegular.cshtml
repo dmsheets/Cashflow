@@ -47,101 +47,157 @@
     </div>
 </div>
 
+<!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    @*<a class="play-pause"></a>*@
 
-<div>
-   
-   
-    <div class="row">
-        <div class="col-md-6">
-            <h4>Cashout</h4>
-            <dl class="dl-horizontal">
-                @Html.HiddenFor(p => p.Id)
+    <ol class="indicator"></ol>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        @using (Html.BeginForm())
+        {
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.User.UserName)
-                </dt>
+            @Html.AntiForgeryToken()
+            <div class="form-horizontal">
+                <fieldset>
+                    <legend> Cash Out</legend>
+                    @Html.HiddenFor(p=>p.Id)
 
-                <dd>
-                    @Html.DisplayFor(model => model.User.UserName)
-                </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Date)
-                </dt>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <span class="form-control">@Html.DisplayFor(p => p.Date)</span>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Date)
-                </dd>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.Note)
-                </dt>
 
-                <dd>
-                    @Html.DisplayFor(model => model.Note)
-                </dd>
-                <dt>
-                    State
-                </dt>
-                <dd>
-                    @switch (Model.State)
-                    {
-                        case StateCashCard.Draft:
-                            <span class="label label-default">Draft</span>
-                            break;
-                        case StateCashCard.Final:
-                            <span class="label label-primary">Final</span>
-                            break;
-                        case StateCashCard.Revision:
-                            <span class="label label-warning">Revision</span>
-                            break;
-                        case StateCashCard.Approve:
-                            <span class="label label-success">Approve</span>
-                            break;
-                        case StateCashCard.Reject:
-                            <span class="label label-danger">Reject</span>
-                            break;
-                    }
-                </dd>
+                        </div>
 
-              
 
-              
-                <dt>
-                    @Html.DisplayNameFor(model => model.Total)
-                </dt>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            <span class="form-control">@Html.DisplayFor(p => p.Note)</span>
+                        </div>
 
-                <dd>
-                    <span id="spanTotal">@Html.DisplayFor(model => model.Total)</span>
 
-                </dd>
+                    </div>
 
-                <dd>
-                   
-                    @if (Model.State == StateCashCard.Final)
-                    {
+                    <div class="form-group">
+                        @Html.Label("Image", new { @class = "control-label col-md-2" })
+                        <div id="links" class="col-md-10">
+                            @if (Model != null)
+                            {
+                                foreach (var bx in Model.ImageDatas)
+                                {
 
-                        <input type="button" id="btnRevision" state="Revision" value="Revision" class="btn-ajax btn btn-warning " data-toggle="modal" data-target="#ModalAddInfo" />
-                        <input type="button" id="btnReject" state="Reject" value="Reject" class="btn-ajax btn btn-danger " data-toggle="modal" data-target="#ModalAddInfo" />
-                        <input type="button" id="btnApprove" state="Approve" value="Approve" class="btn-ajax btn btn-success" data-toggle="modal" data-target="#ModalAddInfo" />
-                    }
 
-                </dd>
+                                    <div class="linksDiv" filename='@bx.FileName' iddetailimage='@bx.Id'>
+                                        <a href='@Url.Content("~/images/"+ bx.FileName)' title='@bx.FileName' data-gallery="">
+                                            <img src='@Url.Content("~/images/thumbnails/" + bx.FileName)'>
+                                        </a>
 
-            </dl>
-        </div>
-        
-        <div class="col-md-6">
 
-            <div class="panel panel-primary">
-                <div class="panel-heading">Log</div>
-                <div class="panel-body">
-                    @Html.DisplayTextFor(model => model.LogNote)
-                </div>
+                                    </div>
+                                }
+
+                            }
+
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-md-2"></label>
+                        <div class="col-md-10">
+                            @if (Model.State == StateCashCard.Final)
+                            {
+
+                                <input type="button" id="btnRevision" state="Revision" value="Revision" class="btn-ajax btn btn-warning " data-toggle="modal" data-target="#ModalAddInfo" />
+                                <input type="button" id="btnReject" state="Reject" value="Reject" class="btn-ajax btn btn-danger " data-toggle="modal" data-target="#ModalAddInfo" />
+                                <input type="button" id="btnApprove" state="Approve" value="Approve" class="btn-ajax btn btn-success" data-toggle="modal" data-target="#ModalAddInfo" />
+                            }
+                        </div>
+                    </div>
+
+
+
+
+
+
+                </fieldset>
+
+
+
             </div>
 
+        }
 
+
+    </div>
+    <div class="col-md-6">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">Info</div>
+            <div class="panel-body">
+                <dl class="dl-horizontal infobox">
+
+                    <dt>
+                        Status
+                    </dt>
+
+                    <dd>
+                        @switch (Model.State)
+                        {
+                            case StateCashCard.Draft:
+                                <span class="label label-default">Draft</span>
+                                break;
+                            case StateCashCard.Final:
+                            <span class="label label-primary">Final</span>
+                                break;
+                            case StateCashCard.Revision:
+                            <span class="label label-warning">Revision</span>
+                                break;
+                            case StateCashCard.Approve:
+                            <span class="label label-success">Approve</span>
+                                break;
+                            case StateCashCard.Reject:
+                            <span class="label label-danger">Reject</span>
+                                break;
+                        }
+                    </dd>
+                    <dt>
+                        Type
+                    </dt>
+                    <dd>
+                        <span id="TypeOut">@Html.DisplayFor(p => p.TypeOut)</span>
+                    </dd>
+                    <dt>Cost Center</dt>
+                    <dd>
+                        <span id="CostCenter">@Html.DisplayFor(p => p.CostCenter)</span>
+                    </dd>
+
+                    <dt>Log</dt>
+                    <dd>
+                        <div class="logdiv">
+                            @Html.DisplayTextFor(p => p.LogNote)
+                        </div>
+
+                    </dd>
+
+                </dl>
+
+
+            </div>
         </div>
+        <div class="well well-sm warning"><b>Total : </b><span id="Total">@Html.DisplayFor(p => p.Total)</span></div>
+
     </div>
 </div>
 
@@ -209,6 +265,7 @@
 
 
 @section Scripts {
+@Scripts.Render("~/bundles/blueimp")
     @Scripts.Render("~/bundles/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
 
@@ -268,8 +325,7 @@
 
             });
         });
-        </script>
-   
+    </script>
 
 }
 
