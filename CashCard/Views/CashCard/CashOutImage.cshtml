@@ -130,7 +130,7 @@
     <a class="next">›</a>
     <a class="close">×</a>
     @*<a class="play-pause"></a>*@
-    <a class="delete">Delete</a>
+  
     <ol class="indicator"></ol>
 </div>
 
@@ -209,11 +209,13 @@
 
                 Image Upload:
                 <div id="links">
-                    <a href='@Url.Content("~/images/tulips.jpg")' title="ooooo" data-gallery="">
-                        <img src='@Url.Content("~/images/thumbnails/tulips.jpg")'>
-
-                    </a>
-
+                    <div style="position:relative; display:inline-block">
+                        <a href='@Url.Content("~/images/tulips.jpg")' title="ooooo" data-gallery="">
+                            <img src='@Url.Content("~/images/thumbnails/tulips.jpg")'>
+                        </a>
+                      
+                        <button type="button" style="position:absolute;right:0;bottom:0;"><i class="fa fa-trash"></i></button>
+                    </div>
                     <a href='@Url.Content("~/images/chrysanthemum.jpg")' title="ooooo" data-gallery="">
                         <img src='@Url.Content("~/images/thumbnails/chrysanthemum.jpg")'>
                     </a>

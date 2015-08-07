@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,9 +7,12 @@ namespace CashCard.Models
 {
     public abstract class CashCard
     {
+        private IList<ImageData> _imageDatas;
+
         protected CashCard()
         {
             Date = DateTime.Now.Date;
+            _imageDatas = new List<ImageData>();
         }
         public int Id { get; set; }
         [Required]
@@ -29,6 +33,8 @@ namespace CashCard.Models
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
         public int Total { get; protected set; }
 
+      
+        public IList<ImageData> ImageDatas { get { return _imageDatas; } set { _imageDatas = value; } }
         public abstract void SetTotal();
 
         public void SetToDraft()
@@ -87,5 +93,16 @@ namespace CashCard.Models
                 throw new Exception("Operation not permited");
             }
         }
+    }
+    public class ImageData
+    {
+        public int Id { get; set; }
+        public string Info { get; set; }
+        public string FileName { get; set; }
+        [ForeignKey("CashCardId")]
+        public virtual CashCard CashCard { get; set; }
+        public int CashCardId { get; set; }
+       
+
     }
 }

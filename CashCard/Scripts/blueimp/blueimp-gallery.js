@@ -89,8 +89,6 @@
             nextClass: 'next',
             // The class for the "close" control:
             closeClass: 'close',
-            // the class for the "delete" control
-            deleteClass: 'delete',
             // The class for the "play-pause" toggle control:
             playPauseClass: 'play-pause',
             // The list object property (or data attribute) with the object type:
@@ -181,9 +179,8 @@
             // Callback function executed when the Gallery has been closed
             // and the closing transition has been completed.
             // Is called with the gallery instance as "this" object:
-            onclosed: undefined,
-            //test add delete
-            ondelete:undefined
+            onclosed: undefined
+          
         },
 
         carouselOptions: {
@@ -867,15 +864,10 @@
             } else if (isTarget(options.closeClass)) {
                 // Click on "close" control
                 this.preventDefault(event);
-                alert("oookkkk");
+               
                 this.close();
             }
-            else if (isTarget(options.deleteClass)) {
-                // Click on "close" control
-                this.preventDefault(event);
-                //this.list[this.getIndex()].remove();
-                this.close();
-            }
+            
             else if (isTarget(options.playPauseClass)) {
                 // Click on "play-pause" control
                 this.preventDefault(event);
