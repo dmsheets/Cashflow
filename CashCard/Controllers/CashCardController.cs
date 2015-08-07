@@ -82,7 +82,8 @@ namespace CashCard.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Models.CashCard cash = db.CashCards.Find(id);
+            Models.CashCard cash = db.CashCards.Include(p => p.ImageDatas).FirstOrDefault(p => p.Id == id);
+            
             if (cash == null)
             {
                 return HttpNotFound();
@@ -112,7 +113,7 @@ namespace CashCard.Controllers
                             where x.CostCenter == cashOutRegular.CostCenter
                             select new {x.Id, label1 = x.Note1Label, label2 = x.Note2Label};
                     }
-                    return View("CashOut", cashOutRegular);
+                    return View("CashOutImage", cashOutRegular);
                 }
                 return View("CashOutInfo", cashOutRegular);
             }
@@ -256,6 +257,31 @@ namespace CashCard.Controllers
                     detail.Amount = regDetail.Amount;
                 }
             }
+
+            //image list
+            //delete detail
+            for (int i = cashoutDb.ImageDatas.Count - 1; i >= 0; i--)
+            {
+                int idImg = cashoutDb.ImageDatas[i].Id;
+
+                var img = cashoutView.ImageDatas.FirstOrDefault(p => p.Id == idImg);
+                if (img == null)
+                {
+                    db.Entry(cashoutDb.ImageDatas[i]).State = EntityState.Deleted;
+                   
+                }
+            }
+            //add or update detail
+            for (int i = 0; i < cashoutView.ImageDatas.Count; i++)
+            {
+                if (cashoutView.ImageDatas[i].Id == 0)
+                {
+                    cashoutDb.ImageDatas.Add(cashoutView.ImageDatas[i]);
+                }
+               
+            }
+
+
         }
 
         public CutOff SetCutOff(int branchId)
@@ -353,6 +379,29 @@ namespace CashCard.Controllers
                     detail.Note = regDetail.Note;
                     detail.Amount = regDetail.Amount;
                 }
+            }
+
+            //image list
+            //delete detail
+            for (int i = cashInDb.ImageDatas.Count - 1; i >= 0; i--)
+            {
+                int idImg = cashInDb.ImageDatas[i].Id;
+
+                var img = cashInView.ImageDatas.FirstOrDefault(p => p.Id == idImg);
+                if (img == null)
+                {
+                    db.Entry(cashInDb.ImageDatas[i]).State = EntityState.Deleted;
+
+                }
+            }
+            //add or update detail
+            for (int i = 0; i < cashInView.ImageDatas.Count; i++)
+            {
+                if (cashInView.ImageDatas[i].Id == 0)
+                {
+                    cashInDb.ImageDatas.Add(cashInView.ImageDatas[i]);
+                }
+
             }
         }
 

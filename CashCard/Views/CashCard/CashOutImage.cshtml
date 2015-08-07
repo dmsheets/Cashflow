@@ -1,5 +1,5 @@
 ﻿@using CashCard.Models
-@model global::CashCard.Models.CashOut
+@model CashOut
 @{
     ViewBag.Title = Model.Id == 0 ? "Create" : "Update";
     Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
@@ -130,7 +130,7 @@
     <a class="next">›</a>
     <a class="close">×</a>
     @*<a class="play-pause"></a>*@
-  
+
     <ol class="indicator"></ol>
 </div>
 
@@ -209,32 +209,23 @@
 
                 Image Upload:
                 <div id="links">
-                    <div style="position:relative; display:inline-block">
-                        <a href='@Url.Content("~/images/tulips.jpg")' title="ooooo" data-gallery="">
-                            <img src='@Url.Content("~/images/thumbnails/tulips.jpg")'>
-                        </a>
-                      
-                        <button type="button" style="position:absolute;right:0;bottom:0;"><i class="fa fa-trash"></i></button>
-                    </div>
-                    <a href='@Url.Content("~/images/chrysanthemum.jpg")' title="ooooo" data-gallery="">
-                        <img src='@Url.Content("~/images/thumbnails/chrysanthemum.jpg")'>
-                    </a>
+                    @if (Model != null)
+                    {
+                        foreach (var bx in Model.ImageDatas)
+                        {
+                           
+                            
+                            <div class="linksDiv" fileName='@bx.FileName' idDetailImage='@bx.Id'>
+                                <a href='@Url.Content("~/images/"+ bx.FileName)' title='@bx.FileName' data-gallery="">
+                                    <img src='@Url.Content("~/images/thumbnails/" + bx.FileName)'>
+                                </a>
 
-                    <a href='@Url.Content("~/images/jellyfish.jpg")' title="ooooo" data-gallery="">
-                        <img src='@Url.Content("~/images/thumbnails/jellyfish.jpg")'>
-                    </a>
+                                <button type="button" class="linksButton button btn-danger"><i class="fa fa-trash"></i></button>
+                            </div>
+                        }
 
-                    <a href='@Url.Content("~/images/koala.jpg")' title="ooooo" data-gallery="">
-                        <img src='@Url.Content("~/images/thumbnails/koala.jpg")'>
-                    </a>
+                    }
 
-                    <a href='@Url.Content("~/images/lighthouse.jpg")' title="ooooo" data-gallery="">
-                        <img src='@Url.Content("~/images/thumbnails/lighthouse.jpg")'>
-                    </a>
-
-                    <a href='@Url.Content("~/images/penguins.jpg")' title="ooooo" data-gallery="">
-                        <img src='@Url.Content("~/images/thumbnails/penguins.jpg")'>
-                    </a>
                 </div>
 
 
@@ -258,6 +249,7 @@
                     <dd>
                         @switch (Model.State)
                         {
+
                             case StateCashCard.Draft:
                                 <span class="label label-default">Draft</span>
                                 break;
@@ -333,6 +325,7 @@
                 {
                     foreach (var a in Model.RegularDetails)
                     {
+
                         <tr>
                             <td>
                                 @Html.DisplayTextFor(i => a.Id)
@@ -386,14 +379,14 @@
 
 @section Scripts {
 
-@Scripts.Render("~/bundles/blueimp")
+    @Scripts.Render("~/bundles/blueimp")
 
     @Scripts.Render("~/bundles/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
     @Scripts.Render("~/bundles/numeral")
     @Scripts.Render("~/bundles/fileupload")
 
-  
+
 
 
 
@@ -582,7 +575,7 @@
 
         //get cashflow
         function getCashFlow() {
-            var cashFlow = { "Id": 0, "Date": "", "Note": "","CostCenter":"", "TypeOut":"", "RegularDetails": [] };
+            var cashFlow = { "Id": 0, "Date": "", "Note": "","CostCenter":"", "TypeOut":"", "RegularDetails": [], "ImageDatas":[] };
             // var regularDetail = { "Id": 0, "RegularQuidId": 0, "Note1": "", "Note2": "", "Amount": 0, "Qty": 0 };
             cashFlow.Id = $("#Id").val();
             cashFlow.Date = $("#Date").val();
@@ -602,6 +595,14 @@
                 regularDetail.Qty = numeral().unformat(dt[7]);
                 cashFlow.RegularDetails.push(regularDetail);
             }
+
+            $(".linksDiv").each(function(index, element){
+                var imageDetail = {"Id":0, "Info":'', "FileName":''}
+                imageDetail.Id= $(this).attr('idDetailImage');
+                imageDetail.FileName=$(this).attr('fileName');
+                cashFlow.ImageDatas.push(imageDetail);
+            });
+            
             return cashFlow;
         }
 
@@ -661,24 +662,14 @@
             url: '@Url.Action("UploadFiles", "FileUpload")',//'/Home/UploadFiles',
             autoUpload: true,
             done: function (e, data) {
-                $('.file_name').html(data.result.name);
-                $('.file_type').html(data.result.type);
-                $('.file_size').html(data.result.size);
+                //$('.file_name').html(data.result.name);
+                //$('.file_type').html(data.result.type);
+                //$('.file_size').html(data.result.size);
                 $("#progressPersen").text('');
 
+                AddDetailImage(data.result.name);
 
-                var linksContainer = $("#links"),
-                    baseUrlThumbnail = '@Url.Content("~/images/thumbnails/")',
-                    baseUrlImage = '@Url.Content("~/images/")';
-                $('<a/>')
-                    .append($('<img>').prop('src', baseUrlThumbnail + data.result.name))
-                    .prop('href', baseUrlImage + data.result.name)
-                    .prop('title', data.result.name)
-                    .attr('data-gallery', '')
-                    .appendTo(linksContainer);
-                @*tblImg.row.add([
-                  '<img src="@Url.Content("~/images/")' + data.result.name + '" alt="xxx" style="width:50px;height:50px;">', data.result.type
-                ]).draw();*@
+          
             },
             fail:function(e, data)
             {
@@ -691,6 +682,46 @@
 
 
         });
+
+        $('#links').on('click', '.linksButton', function() {
+
+            var parent = $(this).closest("div");
+            $.ajax({
+                url: '@Url.Action("DeleteFile", "FileUpload")',
+                data: JSON.stringify({ fileName:parent.attr('fileName') }),
+                type: 'POST',
+                contentType: 'application/json;',
+                dataType: 'json',
+                success: function(result) {
+
+                    if (result.Error) {
+                        showErrorInfo(result.Error);
+                        return;
+                    } 
+                    parent.remove();
+                }
+
+            });
+        });
+
+        function AddDetailImage(fileName)
+        {
+            var linksContainer = $("#links");
+            var div = $('<div/>').attr('fileName', fileName).attr('class','linksDiv').attr('idDetailImage','0');
+
+            var a = $('<a/>').append($('<img>').attr('src', '@Url.Content("~/images/thumbnails/")' + fileName))
+                  .attr('href', '@Url.Content("~/images/")' + fileName)
+                  .attr('title', fileName)
+                  .attr('data-gallery', '')
+            var button = $('<button/>').append($('<i/>').attr('class','fa fa-trash')).attr('class','linksButton button btn-danger').attr('type', 'button');
+
+            
+            div.append(a).append(button);
+            div.appendTo(linksContainer);
+
+                
+
+        }
 
 
     </script>
@@ -710,17 +741,15 @@
             overflow-x: hidden;
         }
 
-        .blueimp-gallery > .delete {
-            padding: 15px;
-            right: 15px;
-            left: auto;
-            margin: -15px;
-            font-size: 30px;
-            text-decoration: none;
-            cursor: pointer;
+        .linksDiv {
+            position: relative;
+            display: inline-block;
+        }
+
+        .linksButton {
             position: absolute;
-            bottom: 15px;
-            color: #fff;
+            right: 0;
+            bottom: 0;
         }
     </style>
 

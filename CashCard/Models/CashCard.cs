@@ -34,7 +34,7 @@ namespace CashCard.Models
         public int Total { get; protected set; }
 
       
-        public IList<ImageData> ImageDatas { get { return _imageDatas; } set { _imageDatas = value; } }
+        public virtual IList<ImageData> ImageDatas { get { return _imageDatas; } set { _imageDatas = value; } }
         public abstract void SetTotal();
 
         public void SetToDraft()

@@ -46,9 +46,10 @@ namespace CashCard.Controllers
 
                     if (hpf.ContentLength == 0)
                         continue;
+                    string fileName = DateTime.Now.Ticks.ToString() + "_" + Path.GetFileName(hpf.FileName);
 
-                    string savedFileName = Path.Combine(Server.MapPath("~/images"), Path.GetFileName(hpf.FileName));
-                    string savedFileNameThumbnail = Path.Combine(Server.MapPath("~/images/thumbnails"), Path.GetFileName(hpf.FileName));
+                    string savedFileName = Path.Combine(Server.MapPath("~/images"), fileName);
+                    string savedFileNameThumbnail = Path.Combine(Server.MapPath("~/images/thumbnails"),fileName);
                     hpf.SaveAs(savedFileName);
 
                     //Read image back from file and create thumbnail from it
@@ -72,7 +73,7 @@ namespace CashCard.Controllers
 
                     r.Add(new UploadFilesResult()
                     {
-                        Name = hpf.FileName,
+                        Name = fileName,
                         Length = hpf.ContentLength,
                         Type = hpf.ContentType
                     });
@@ -88,5 +89,32 @@ namespace CashCard.Controllers
 
 
         }
+        [HttpPost]
+        public JsonResult DeleteFile(string fileName)
+        {
+            string error = "";
+            try
+            {
+                string savedFileName = Path.Combine(Server.MapPath("~/images"), fileName);
+                string savedFileNameThumbnail = Path.Combine(Server.MapPath("~/images/thumbnails"), fileName);
+                if (System.IO.File.Exists(savedFileName))
+                {
+                    System.IO.File.Delete(savedFileName);
+                }
+
+                if (System.IO.File.Exists(savedFileNameThumbnail))
+                {
+                    System.IO.File.Delete(savedFileNameThumbnail);
+                }
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            return Json(new { Error = error });
+
+        }
+
 	}
 }

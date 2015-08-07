@@ -8,7 +8,7 @@
 
 body {
     margin-top: 100px;
-    background-color: #222;
+    /*background-color: #222; edit by tanto*/ 
 }
 
 @media(min-width:768px) {
@@ -122,7 +122,7 @@ ul.alert-dropdown {
         border: none;
         border-radius: 0;
         overflow-y: auto;
-        background-color: #205F2B;/*#222;*/
+        background-color: #205F2B;/*#222; edit by tanto*/
         bottom: 0;
         overflow-x: hidden;
         padding-bottom: 40px;
@@ -254,4 +254,15 @@ input[type="checkbox"].input-validation-error {
 .error {
       font-size: 11px;
   color:  #b94a48;
+}
+
+/*add by tanto*/
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: #58BD3B;
+}
+
+.navbar-inverse {
+    background-color: #1A4C19;
+    border-color: #080808;
 }

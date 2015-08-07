@@ -14,9 +14,9 @@
             <th>
                 Role
             </th>
-            <th>
+            @*<th>
                 Action
-            </th>
+            </th>*@
 
         </tr>
     </thead>
@@ -30,10 +30,10 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
 
-                <td>
+                @*<td>
 
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                </td>
+                </td>*@
             </tr>
         }
     </tbody>
