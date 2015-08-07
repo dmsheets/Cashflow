@@ -188,7 +188,29 @@
                         </div>
 
                     </div>
+                    <div class="form-group">
 
+                        @Html.Label("Image", new { @class = "control-label col-md-2" })
+                        <div id="links" class="col-md-10">
+                            @if (Model != null)
+                            {
+                                foreach (var bx in Model.ImageDatas)
+                                {
+
+
+                                    <div class="linksDiv" filename='@bx.FileName' iddetailimage='@bx.Id'>
+                                        <a href='@Url.Content("~/images/"+ bx.FileName)' title='@bx.FileName' data-gallery="">
+                                            <img src='@Url.Content("~/images/thumbnails/" + bx.FileName)'>
+                                        </a>
+
+                                        <button type="button" class="linksButton button btn-danger"><i class="fa fa-trash"></i></button>
+                                    </div>
+                                }
+
+                            }
+
+                        </div>
+                    </div>
 
                     <div class="form-group">
 
@@ -207,27 +229,7 @@
 
                 </fieldset>
 
-                Image Upload:
-                <div id="links">
-                    @if (Model != null)
-                    {
-                        foreach (var bx in Model.ImageDatas)
-                        {
-                           
-                            
-                            <div class="linksDiv" fileName='@bx.FileName' idDetailImage='@bx.Id'>
-                                <a href='@Url.Content("~/images/"+ bx.FileName)' title='@bx.FileName' data-gallery="">
-                                    <img src='@Url.Content("~/images/thumbnails/" + bx.FileName)'>
-                                </a>
-
-                                <button type="button" class="linksButton button btn-danger"><i class="fa fa-trash"></i></button>
-                            </div>
-                        }
-
-                    }
-
-                </div>
-
+              
 
             </div>
 

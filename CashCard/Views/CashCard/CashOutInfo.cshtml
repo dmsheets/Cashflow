@@ -6,6 +6,17 @@
 }
 
 
+<!-- The Gallery as lightbox dialog, should be a child element of the document body -->
+<div id="blueimp-gallery" class="blueimp-gallery">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">‹</a>
+    <a class="next">›</a>
+    <a class="close">×</a>
+    @*<a class="play-pause"></a>*@
+
+    <ol class="indicator"></ol>
+</div>
 
 <div class="row">
     <div class="col-md-6">
@@ -38,8 +49,30 @@
 
 
                     </div>
-                    
-                    
+                  
+                    <div class="form-group">
+                        @Html.Label("Image", new { @class = "control-label col-md-2" })
+                        <div id="links" class="col-md-10">
+                            @if (Model != null)
+                            {
+                                foreach (var bx in Model.ImageDatas)
+                                {
+
+
+                                    <div class="linksDiv" filename='@bx.FileName' iddetailimage='@bx.Id'>
+                                        <a href='@Url.Content("~/images/"+ bx.FileName)' title='@bx.FileName' data-gallery="">
+                                            <img src='@Url.Content("~/images/thumbnails/" + bx.FileName)'>
+                                        </a>
+
+
+                                    </div>
+                                }
+
+                            }
+
+
+                        </div>
+                    </div>
                    
 
                     
@@ -48,11 +81,9 @@
 
                 </fieldset>
 
-
-
-
-            </div>
-
+           
+                
+                </div>
 
         }
      
@@ -118,7 +149,6 @@
 
 
 
-<hr />
 
 
 
@@ -194,13 +224,13 @@
 
 
 @section Scripts {
+
+    @Scripts.Render("~/bundles/blueimp")
     @Scripts.Render("~/bundles/datatable")
     @Scripts.Render("~/bundles/jquerynumber")
     @Scripts.Render("~/bundles/numeral")
     <script type="text/javascript">
-        var log;
-        var trActive;
-
+       
   
 
         $("#Qty").number(true, 0);
@@ -255,6 +285,17 @@
             width: inherit;
             overflow: auto;
             overflow-x: hidden;
+        }
+
+        .linksDiv {
+            position: relative;
+            display: inline-block;
+        }
+
+        .linksButton {
+            position: absolute;
+            right: 0;
+            bottom: 0;
         }
     </style>
 
