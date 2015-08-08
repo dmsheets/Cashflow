@@ -251,6 +251,7 @@ namespace CashCard.Controllers
                     detail.Note2 = regDetail.Note2;
                     detail.Qty = regDetail.Qty;
                     detail.Amount = regDetail.Amount;
+                    detail.DateInfo = regDetail.DateInfo;
                 }
             }
 

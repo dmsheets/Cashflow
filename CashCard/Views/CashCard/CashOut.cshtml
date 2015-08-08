@@ -105,7 +105,7 @@
                     <div class="form-group ">
                         <label>Qty</label>
                         <div>
-                            <input id="Qty" name="Qty" type="text" class="form-control" required number="true" />
+                            <input id="Qty" name="Qty" type="text" class="form-control" required number="true" value="1" />
                         </div>
                     </div>
 
@@ -315,7 +315,7 @@
                     <th>Name</th>
                     <th>Note1</th>
                     <th>Note2</th>
-                    <th>Date</th>
+                    <th>Date Info</th>
                     <th>Amount</th>
                     <th>Qty</th>
                     <th>Subtotal</th>
@@ -447,9 +447,6 @@
         });
 
 
-
-
-
         var tbl = $("#tbl").DataTable(
         {
             "searching": false,
@@ -457,7 +454,7 @@
             //"scrollY": "200px",
             //"scrollCollapse": true,
             "paging": false,
-            "ordering":false,
+            "ordering": false,
             "columnDefs": [
                 {
                     "targets": [0],
@@ -466,6 +463,13 @@
                 },
                 {
                     "targets": [1],
+                    "visible": false
+                },
+                {
+                    "targets": [7], //Qty
+                    "visible": false
+                }, {
+                    "targets": [8], //Subtotal 
                     "visible": false
                 },
                 {
@@ -516,7 +520,7 @@
                 $("#Note2").val('');
                 $("#DateInfo").val('');
                 $("#Amount").val('');
-                $("#Qty").val('');
+                $("#Qty").val('1');
                 $("#regularDetailId").val("0");
 
                 if(trActive)//edit mode
@@ -539,9 +543,10 @@
             $("#regularDetailId").val(rowData[0]);
             $("#Quiz").selectpicker('val', rowData[1]);
 
-
+            
 
             $('#myModal').modal('show');
+            $("#addToTbl").html("Save");
             trActive = tr;
         });
 
@@ -598,8 +603,8 @@
                 cashFlow.RegularDetails.push(regularDetail);
             }
 
-            $(".linksDiv").each(function(index, element){
-                var imageDetail = {"Id":0, "Info":'', "FileName":''}
+            $(".linksDiv").each(function(index, element) {
+                var imageDetail = { "Id": 0, "Info": '', "FileName": '' };
                 imageDetail.Id= $(this).attr('idDetailImage');
                 imageDetail.FileName=$(this).attr('fileName');
                 cashFlow.ImageDatas.push(imageDetail);
@@ -650,12 +655,14 @@
             $("#Note1").val('');
             $("#Note2").val('');
             $("#Amount").val('');
-            $("#Qty").val('');
+            $("#Qty").val('1');
             $("#DateInfo").val('');
             $("#regularDetailId").val("0");
         });
 
-
+        $("#myModal").on('show.bs.modal', function(e) {
+            $("#addToTbl").html("Add");
+        });
 
         /* File Upload Need */
 
@@ -712,9 +719,9 @@
             var div = $('<div/>').attr('fileName', fileName).attr('class','linksDiv').attr('idDetailImage','0');
 
             var a = $('<a/>').append($('<img>').attr('src', '@Url.Content("~/images/thumbnails/")' + fileName))
-                  .attr('href', '@Url.Content("~/images/")' + fileName)
-                  .attr('title', fileName)
-                  .attr('data-gallery', '')
+                .attr('href', '@Url.Content("~/images/")' + fileName)
+                .attr('title', fileName)
+                .attr('data-gallery', '');
             var button = $('<button/>').append($('<i/>').attr('class','fa fa-trash')).attr('class','linksButton button btn-danger').attr('type', 'button');
 
 
@@ -724,6 +731,17 @@
 
 
         }
+
+        //hide Dateinfo for regular
+       
+        if ('@Model.TypeOut' == 'Regular') {
+            $("#DateInfo").closest("div .form-group").hide();
+            tbl.column(5).visible(false);
+            
+        }
+        //hide Qty n subtotal
+        $("#Qty").closest("div .form-group").hide();
+        
 
 
     </script>
