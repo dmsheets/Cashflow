@@ -117,7 +117,17 @@ namespace CashCard.Controllers
                 if (user != null)
                 {
                     await SignInAsync(user, model.RememberMe);
+                  
+                      
+                    if (await UserManager.IsInRoleAsync(user.Id, "User"))
+                    {
+                         return RedirectToAction("Index", "CashCard");
+                    }
+
+                  
+                   
                     return RedirectToLocal(returnUrl);
+                   
                 }
                 else
                 {
@@ -510,14 +520,13 @@ namespace CashCard.Controllers
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
+           
+      
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
+            return RedirectToAction("Index", "Home");
         }
 
         private class ChallengeResult : HttpUnauthorizedResult

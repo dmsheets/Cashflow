@@ -11,7 +11,7 @@ using CashCard.Models;
 
 namespace CashCard.Controllers
 {
-   
+     [Authorize]
     public class ReportSummaryController : Controller
     {
         //

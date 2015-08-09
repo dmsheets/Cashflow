@@ -55,11 +55,16 @@ namespace CashCard.Controllers
             }
             else
             {
-                ViewBag.Quiz = new SelectList(db.Quizs.Where(p => p.CostCenter == cash.CostCenter), "Id",
-                    "Info");
-                ViewBag.QuizInfo = from x in db.Quizs
-                    where x.CostCenter == cash.CostCenter
-                    select new {x.Id, label1 = x.Note1Label, label2 = x.Note2Label};
+                ViewBag.Quiz =
+                    new SelectList(
+                        db.Quizs.Where(
+                            p => p.CostCenter == cash.CostCenter && p.QuizGroup.GroupType != GroupType.Irregularaties),
+                        "Id",
+                        "Info");
+
+                ViewBag.QuizInfo = from quiz in db.Quizs  join groups in db.RegularGroup on quiz.QuizGroupId equals groups.Id 
+                    where quiz.CostCenter == cash.CostCenter && groups.GroupType!=GroupType.Irregularaties
+                    select new {quiz.Id, label1 = quiz.Note1Label, label2 = quiz.Note2Label};
             }
 
             return View("CashOut", cash);
