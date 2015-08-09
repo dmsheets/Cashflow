@@ -48,123 +48,126 @@
     <a href="#" data-toggle="modal" data-target="#myModal">New Cash Out</a>
    
 </p>
+<div class="row">
+    <div class="col-md-12">
+       
+        <table class="table table table-striped table-bordered table-hover table-condensed">
+            <thead>
+                <tr>
+
+                    <th>
+                        Owner
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Date)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Note)
+                    </th>
+                    <th>
+                        Cost Center
+                    </th>
+                    <th>
+                        Total
+                    </th>
+                    <th>
+                        Status
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th> Action </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var xclas = item is CashIn ? "success" : "warning";
+                    <tr class='@xclas'>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+                        <td>
+                            @if (item is CashOut)
+                            {
+                                var xx = item as CashOut;
+                                <span>@xx.CostCenter</span>
+
+                            }
+
+                            else
+                            {
+                                <span>-</span>
 
 
-<table class="table table table-striped table-bordered table-hover">
-    <thead>
-        <tr>
+                            }
+                        </td>
+                        <td class="text-right">
+                            @Html.DisplayFor(modelItem => item.Total)
+                        </td>
+                        <td>
 
-            <th>
-                Owner
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Note)
-            </th>
-            <th>
-                Cost Center
-            </th>
-            <th>
-                Total
-            </th>
-            <th>
-               Status
-            </th>
-            <th>
-                Type
-            </th>
-            <th> Action </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            var xclas = item is CashIn ? "success" : "warning";
-            <tr class='@xclas'>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.User.UserName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Note)
-                </td>
-                <td>
-                    @if (item is CashOut)
-                    {
-                        var xx = item as CashOut;
-                        <span>@xx.CostCenter</span>
-
-                    }
-
-                    else
-                    {
-                        <span>-</span>
+                            @switch (item.State)
+                            {
+                                case StateCashCard.Draft:
+                                    <span class="label label-default">Draft</span>
+                                    break;
+                                case StateCashCard.Final:
+                                <span class="label label-primary">Final</span>
+                                    break;
+                                case StateCashCard.Revision:
+                                <span class="label label-warning">Revision</span>
+                                    break;
+                                case StateCashCard.Approve:
+                                <span class="label label-success">Approve</span>
+                                    break;
+                                case StateCashCard.Reject:
+                                <span class="label label-danger">Reject</span>
+                                    break;
+                            }
 
 
-                    }
-                </td>
-                <td class="text-right">
-                    @Html.DisplayFor(modelItem => item.Total)
-                </td>
-                <td>
+                        </td>
+                        <td>
+                            @if (item is CashOut)
+                            {
+                                var oo = item as CashOut;
+                                <span> @oo.TypeOut</span>
 
-                    @switch (item.State)
-                    {
-                        case StateCashCard.Draft:
-                            <span class="label label-default">Draft</span>
-                            break;
-                        case StateCashCard.Final:
-                        <span class="label label-primary">Final</span>
-                            break;
-                        case StateCashCard.Revision:
-                        <span class="label label-warning">Revision</span>
-                            break;
-                        case StateCashCard.Approve:
-                        <span class="label label-success">Approve</span>
-                            break;
-                        case StateCashCard.Reject:
-                        <span class="label label-danger">Reject</span>
-                            break;
-                    }
+                            }
+                            else if (item is CashIn)
+                            {
+                                <span>Cash In</span>
+
+                            }
+                            else
+                            {
+                                <span>Irregular</span>
 
 
-                </td>
-                <td>
-                    @if (item is CashOut)
-                    {
-                        var oo = item as CashOut;
-                        <span> @oo.TypeOut</span>
-
-                    }
-                    else if (item is CashIn)
-                    {
-                        <span>Cash In</span>
-
-                    }
-                    else
-                    {
-                        <span>Irregular</span>
+                            }
 
 
-                    }
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id })
 
+                        </td>
+                    </tr>
+                }
+            </tbody>
 
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-
-                </td>
-            </tr>
-        }
-    </tbody>
-
-</table>
-
+        </table>
+       
+    </div>
+</div>
 @section Scripts {
     @Scripts.Render("~/bundles/datatable")
     <script type="text/javascript">
