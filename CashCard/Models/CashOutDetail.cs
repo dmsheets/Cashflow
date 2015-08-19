@@ -12,6 +12,8 @@ namespace CashCard.Models
         public int? QuizId { get; set; }
         public string Note1 { get; set; }
         public string Note2 { get; set; }
+        public string Note3 { get; set; }
+        public bool RequiredAll { get; set; }
          [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime? DateInfo { get; set; }
         [DisplayFormat(DataFormatString = "{0:N0}", ApplyFormatInEditMode = true)]
