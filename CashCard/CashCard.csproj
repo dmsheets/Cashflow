@@ -167,6 +167,7 @@
     <Compile Include="Controllers\CutOffPerBranchReportController.cs" />
     <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\KendaraanController.cs" />
     <Compile Include="Controllers\RegularGroupController.cs" />
     <Compile Include="Controllers\RegularQuizController.cs" />
     <Compile Include="Controllers\ReportSummaryController.cs" />
@@ -531,6 +532,11 @@
     <Content Include="Views\CashCard\CashInInfo.cshtml" />
     <Content Include="Views\Cutoff\CashInInfo.cshtml" />
     <Content Include="Views\Cutoff\CashOutInfo.cshtml" />
+    <Content Include="Views\Kendaraan\Create.cshtml" />
+    <Content Include="Views\Kendaraan\Delete.cshtml" />
+    <Content Include="Views\Kendaraan\Details.cshtml" />
+    <Content Include="Views\Kendaraan\Edit.cshtml" />
+    <Content Include="Views\Kendaraan\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

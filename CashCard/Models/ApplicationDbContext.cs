@@ -25,6 +25,7 @@ namespace CashCard.Models
         //public DbSet<CashOutDetail> RegularDetails { get; set; }
         public DbSet<CutOff> CutOffs { get; set; }
         public DbSet<QuizGroup> RegularGroup { get; set; }
+        public DbSet<Kendaraan> Kendaraan { get; set; }
 
       
     }

@@ -1,0 +1,112 @@
+﻿@model CashCard.Models.Kendaraan
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Kendaraan</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NoKendaraan, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.NoKendaraan, new { @readonly = "readonly", @data_val = "false", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NoKendaraan)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.JenisKendaraan, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.JenisKendaraan, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.JenisKendaraan)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EffStartDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" id="EffStartDate" name="EffStartDate" class="form-control" value='@if(@Model!=null && @Model.EffStartDate!=null){@Model.EffStartDate.Value.ToString("yyyy/MM/dd")}' />
+                @*@Html.EditorFor(model => model.EffStartDate)*@
+                @Html.ValidationMessageFor(model => model.EffStartDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EffEndDate, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="text" id="EffEndDate" name="EffEndDate" class="form-control" value='@if(@Model!=null && @Model.EffEndDate!=null){@Model.EffEndDate.Value.ToString("yyyy/MM/dd")}' />
+                @*@Html.EditorFor(model => model.EffEndDate)*@
+                @Html.ValidationMessageFor(model => model.EffEndDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Cc, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Cc, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Cc)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MerkKendaraan, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.MerkKendaraan, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MerkKendaraan)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ThnPembuatan, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.ThnPembuatan, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ThnPembuatan)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        $("#EffStartDate").datepicker({
+            dateFormat: "yy/mm/dd",
+            onClose:
+                function (dateText, inst) {
+                    $(this).datepicker('option', 'dateFormat', 'yy/mm/dd');
+                }
+        });
+        $("#EffEndDate").datepicker({
+            dateFormat: "yy/mm/dd",
+            onClose:
+                function (dateText, inst) {
+                    $(this).datepicker('option', 'dateFormat', 'yy/mm/dd');
+                }
+        });
+    </script>
+}
+
+

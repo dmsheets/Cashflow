@@ -1,0 +1,75 @@
+﻿@model CashCard.Models.Kendaraan
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Kendaraan</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NoKendaraan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoKendaraan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JenisKendaraan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JenisKendaraan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EffStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EffStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EffEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EffEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MerkKendaraan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MerkKendaraan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThnPembuatan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThnPembuatan)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,81 @@
+﻿@model CashCard.Models.Kendaraan
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Kendaraan</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NoKendaraan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NoKendaraan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JenisKendaraan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JenisKendaraan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EffStartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EffStartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EffEndDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EffEndDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cc)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cc)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MerkKendaraan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MerkKendaraan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ThnPembuatan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ThnPembuatan)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>
