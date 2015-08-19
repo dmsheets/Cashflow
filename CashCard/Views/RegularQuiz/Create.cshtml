@@ -54,7 +54,21 @@
                 @Html.ValidationMessageFor(model => model.Note2Label)
             </div>
         </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Note3Label, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Note3Label, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Note3Label)
+            </div>
+        </div>
 
+        <div class="form-group">
+            @Html.LabelFor(model => model.RequiredAll, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.RequiredAll)
+               
+            </div>
+        </div>
       
 
         <div class="form-group">

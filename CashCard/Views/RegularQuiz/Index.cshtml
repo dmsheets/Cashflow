@@ -28,6 +28,12 @@
             <th>
                 Note Label 2
             </th>
+            <th>
+                Note Label 3
+            </th>
+            <th>
+               Required All
+            </th>
             <th>Action</th>
         </tr>
     </thead>
@@ -51,6 +57,12 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Note2Label)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note3Label)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RequiredAll)
                 </td>
                 <td>
                     @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

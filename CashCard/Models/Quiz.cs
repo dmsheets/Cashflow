@@ -15,6 +15,8 @@ namespace CashCard.Models
         public CostCenter CostCenter { get; set; }
         public string Note1Label { get; set; }
         public string Note2Label { get; set; }
+        public string Note3Label { get; set; }
+        public bool RequiredAll { get; set; }
         
         
     }
