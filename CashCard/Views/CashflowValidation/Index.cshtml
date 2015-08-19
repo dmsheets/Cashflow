@@ -23,9 +23,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Date)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Note)
-            </th>
+            </th>*@
             <th>
                 Cost Center
             </th>
@@ -53,9 +53,9 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Date)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.Note)
-                </td>
+                </td>*@
                 <td>
                     @if (item is CashOut)
                     {
