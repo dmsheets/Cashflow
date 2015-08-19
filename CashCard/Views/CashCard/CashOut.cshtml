@@ -87,6 +87,14 @@
                             <input id="Note2" class="form-control" />
                         </div>
                     </div>
+
+                    <div class="form-group ">
+                        <label id="Label3">Note3</label>
+                        <div>
+                            <input id="Note3" class="form-control" />
+                        </div>
+                    </div>
+
                     <div class="form-group ">
                         <label>Date Info</label>
                         <div>
@@ -575,6 +583,19 @@
             //$("#info").html(element[0].Info);
             $("#Label1").text(element[0].label1);
             $("#Label2").text(element[0].label2);
+            $("#Label3").text(element[0].label3);
+
+            if(element[0].requiredAll)
+            {
+                $("#Note1").prop("required", true);
+                $("#Note2").prop("required", true);
+                $("#Note3").prop("required", true);
+            }
+            else{
+                $("#Note1").prop("required", false);
+                $("#Note2").prop("required", false);
+                $("#Note3").prop("required", false);
+            }
         });
 
 

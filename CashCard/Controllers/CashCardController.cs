@@ -46,25 +46,24 @@ namespace CashCard.Controllers
 
             if (cash.TypeOut == TypeOut.Irregular)
             {
-                ViewBag.Quiz =
-                    new SelectList(db.Quizs.Where(p => p.QuizGroup.GroupType == GroupType.Irregularaties), "Id",
-                        "Info");
-                ViewBag.QuizInfo = from x in db.Quizs
-                    where x.QuizGroup.GroupType == GroupType.Irregularaties
-                    select new {x.Id, label1 = x.Note1Label, label2 = x.Note2Label};
+                var data = db.Quizs.Where(p => p.QuizGroup.GroupType == GroupType.Irregularaties);
+                ViewBag.Quiz =new SelectList(data, "Id", "Info");
+                   
+                ViewBag.QuizInfo = from dt in data select new { dt.Id, label1 = dt.Note1Label, label2 = dt.Note2Label, label3 = dt.Note3Label, requiredAll = dt.RequiredAll };
+                  
             }
             else
             {
-                ViewBag.Quiz =
-                    new SelectList(
-                        db.Quizs.Where(
-                            p => p.CostCenter == cash.CostCenter && p.QuizGroup.GroupType != GroupType.Irregularaties),
-                        "Id",
-                        "Info");
+                var data = db.Quizs.Where(
+                            p => p.CostCenter == cash.CostCenter && p.QuizGroup.GroupType != GroupType.Irregularaties).ToList();
 
-                ViewBag.QuizInfo = from quiz in db.Quizs  join groups in db.RegularGroup on quiz.QuizGroupId equals groups.Id 
-                    where quiz.CostCenter == cash.CostCenter && groups.GroupType!=GroupType.Irregularaties
-                    select new {quiz.Id, label1 = quiz.Note1Label, label2 = quiz.Note2Label};
+                ViewBag.Quiz = new SelectList(data, "Id", "Info");
+                 
+
+                ViewBag.QuizInfo = from dt in data select new { dt.Id, label1 = dt.Note1Label, label2 = dt.Note2Label, label3 = dt.Note3Label, requiredAll = dt.RequiredAll };
+                    //from quiz in db.Quizs  join groups in db.RegularGroup on quiz.QuizGroupId equals groups.Id 
+                    //where quiz.CostCenter == cash.CostCenter && groups.GroupType!=GroupType.Irregularaties
+                    //               select new { quiz.Id, label1 = quiz.Note1Label, label2 = quiz.Note2Label, label3 = quiz.Note3Label, requiredAll = quiz.RequiredAll };
             }
 
             return View("CashOut", cash);
@@ -98,12 +97,11 @@ namespace CashCard.Controllers
                 {
                     if (cashOutRegular.TypeOut == TypeOut.Irregular)
                     {
-                        ViewBag.Quiz =
-                            new SelectList(db.Quizs.Where(p => p.QuizGroup.GroupType == GroupType.Irregularaties), "Id",
-                                "Info");
-                        ViewBag.QuizInfo = from x in db.Quizs
-                            where x.QuizGroup.GroupType == GroupType.Irregularaties
-                            select new {x.Id, label1 = x.Note1Label, label2 = x.Note2Label};
+                        var data = db.Quizs.Where(p => p.QuizGroup.GroupType == GroupType.Irregularaties);
+                        ViewBag.Quiz = new SelectList(data, "Id", "Info");
+                     
+                        ViewBag.QuizInfo = from dt in data select new { dt.Id, label1 = dt.Note1Label, label2 = dt.Note2Label, label3 = dt.Note3Label, requiredAll = dt.RequiredAll };
+                       
                     }
                     else
                     {
