@@ -63,6 +63,7 @@ namespace CashCard.Controllers
         {
             try
             {
+                
                 var ch = db.CashCards.Find(id);
                 switch (state)
                 {

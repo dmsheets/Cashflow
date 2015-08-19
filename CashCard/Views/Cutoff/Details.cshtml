@@ -36,7 +36,7 @@
 
 
         <dt>
-            @Html.DisplayNameFor(model => model.PreviousBallance)
+            Previous Ballance
         </dt>
 
         <dd>
@@ -44,20 +44,14 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.EndBallance)
+           End Ballance
         </dt>
 
         <dd>
             @Html.DisplayFor(model => model.EndBallance)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Note)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Note)
-        </dd>
+       
         <dd>
             @if (Model.State == StateCutOff.Start)
             {
@@ -92,6 +86,7 @@
                     <th>
                         Type
                     </th>
+                    <th>Action</th>
                     
                 </tr>
             </thead>
@@ -169,6 +164,12 @@
                             }
 
 
+                        </td>
+                        <td>
+                       
+                            @Html.ActionLink("View", "View", new { id = item.Id })
+
+                       
                         </td>
                        
                     </tr>

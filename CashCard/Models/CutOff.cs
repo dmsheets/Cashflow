@@ -12,12 +12,14 @@ namespace CashCard.Models
         public CutOff()
         {
             DateStart = DateTime.Now;
-            DateEnd = DateTime.Now;
+            //DateEnd = DateTime.Now;
         }
         public int Id { get; set; }
         public StateCutOff State { get;protected set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
         public DateTime DateStart { get; protected set; }
-        public DateTime DateEnd { get; protected set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy/MM/dd}")]
+        public DateTime? DateEnd { get; protected set; }
         [ForeignKey("BranchId")]
         public virtual Branch Branch { get; set; }
         public int? BranchId { get; set; }

@@ -1,7 +1,7 @@
 ﻿@using CashCard.Models
 @model global::CashCard.Models.CashIn
 @{
-    ViewBag.Title = Model.Id == 0 ? "Create" : "Update";
+    ViewBag.Title = "Info";
 
     Layout = "~/Views/Shared/_LayoutBootstrap.cshtml";
 }
@@ -158,7 +158,7 @@
 
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Back to CutOff","Details",new{Id=Model.CutOffId})
 </div>
 
 

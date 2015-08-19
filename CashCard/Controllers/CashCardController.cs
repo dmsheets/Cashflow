@@ -38,14 +38,10 @@ namespace CashCard.Controllers
 
         public ActionResult CreateCashOut(TypeOut? typeOut, CostCenter? userType)
         {
-            CashOut cash = null;
-
-            if (typeOut != null && userType != null)
-            {
-                cash = new CashOut();
-                cash.CostCenter = userType.Value;
-                cash.TypeOut = typeOut.Value;
-            }
+            var cash = new CashOut();
+            cash.TypeOut = typeOut == null ? TypeOut.Regular : typeOut.Value;
+            cash.CostCenter = userType == null ? CostCenter.Other : userType.Value;
+           
 
 
             if (cash.TypeOut == TypeOut.Irregular)
@@ -59,14 +55,19 @@ namespace CashCard.Controllers
             }
             else
             {
-                ViewBag.Quiz = new SelectList(db.Quizs.Where(p => p.CostCenter == cash.CostCenter), "Id",
-                    "Info");
-                ViewBag.QuizInfo = from x in db.Quizs
-                    where x.CostCenter == cash.CostCenter
-                    select new {x.Id, label1 = x.Note1Label, label2 = x.Note2Label};
+                ViewBag.Quiz =
+                    new SelectList(
+                        db.Quizs.Where(
+                            p => p.CostCenter == cash.CostCenter && p.QuizGroup.GroupType != GroupType.Irregularaties),
+                        "Id",
+                        "Info");
+
+                ViewBag.QuizInfo = from quiz in db.Quizs  join groups in db.RegularGroup on quiz.QuizGroupId equals groups.Id 
+                    where quiz.CostCenter == cash.CostCenter && groups.GroupType!=GroupType.Irregularaties
+                    select new {quiz.Id, label1 = quiz.Note1Label, label2 = quiz.Note2Label};
             }
 
-            return View("CashOutImage", cash);
+            return View("CashOut", cash);
         }
 
         public ActionResult CashIn()
@@ -113,7 +114,7 @@ namespace CashCard.Controllers
                             where x.CostCenter == cashOutRegular.CostCenter
                             select new {x.Id, label1 = x.Note1Label, label2 = x.Note2Label};
                     }
-                    return View("CashOutImage", cashOutRegular);
+                    return View("CashOut", cashOutRegular);
                 }
                 return View("CashOutInfo", cashOutRegular);
             }
@@ -255,6 +256,7 @@ namespace CashCard.Controllers
                     detail.Note2 = regDetail.Note2;
                     detail.Qty = regDetail.Qty;
                     detail.Amount = regDetail.Amount;
+                    detail.DateInfo = regDetail.DateInfo;
                 }
             }
 

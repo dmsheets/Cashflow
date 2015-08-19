@@ -395,7 +395,10 @@
            
 
             $('#myModal').modal('show');
+            $("#addToTbl").html("Save");
             trActive = tr;
+
+           
 
 
             //tbl.row(tr).remove().draw();
@@ -490,23 +493,11 @@
             $("#Amount").val('');
             $("#cashInDetailId").val("0");
         });
+        $("#myModal").on('show.bs.modal', function(e) {
+            $("#addToTbl").html("Add");
+        });
     </script>
-   <style>
-    .dl-horizontal.infobox dt {
-        width: 90px;
-    }
-
-    .dl-horizontal dd {
-        margin-left: 110px;
-    }
-
-    .logdiv {
-        height: 80px;
-        width: inherit;
-        overflow: auto;
-        overflow-x: hidden;
-    }
-</style>
+   
 
 
 
