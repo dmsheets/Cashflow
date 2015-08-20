@@ -14,6 +14,11 @@ namespace CashCard.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
+        public KendaraanController()
+        {
+            ViewBag.Menu = "MnKendaraan";
+        }
+          
         // GET: /Kendaraan/
         public ActionResult Index()
         {

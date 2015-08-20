@@ -211,10 +211,10 @@
                     <th>Name</th>
                     <th>Note1</th>
                     <th>Note2</th>
-                    <th>Amount</th>
-                    <th>Qty</th>
-                    <th>Subtotal</th>
-                  
+                    <th>Note3</th>
+                    <th>Date Info</th>
+                    <th>Amount</th> 
+                 
                 </tr>
             </thead>
             <tbody>
@@ -239,14 +239,16 @@
                                 @Html.DisplayTextFor(i => a.Note2)
                             </td>
                             <td>
+                                @Html.DisplayTextFor(i => a.Note3)
+                            </td>
+                            <td>
+                                @Html.DisplayTextFor(i => a.DateInfo)
+                            </td>
+                            <td>
                                 @Html.DisplayFor(i => a.Amount)
                             </td>
-                            <td>
-                                @Html.DisplayFor(i => a.Qty)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(i => a.SubTotal)
-                            </td>
+                           
+                         
                            
                         </tr>
                     }

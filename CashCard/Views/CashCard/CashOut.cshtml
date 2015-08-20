@@ -54,7 +54,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="myModalLabel">Detail</h4>
             </div>
             <div class="modal-body">
 
@@ -70,12 +70,20 @@
                         </div>
 
                     </div>
+                    
+                    <div class="form-group">
+                        <label>Kendaraan</label>
+                        <div>
+                            @Html.DropDownList("Kendaraan", (SelectList)ViewBag.Kendaraan, new { @class = "form-control", data_live_search = "true" })
+                        </div>
+
+                    </div>
 
 
                     <div class="form-group">
                         <label id="Label1">Note1</label>
                         <div>
-                            <input id="Note1" class="form-control" />
+                            <input id="Note1" name="Note1" class="form-control" />
                         </div>
                     </div>
 
@@ -84,14 +92,14 @@
                     <div class="form-group ">
                         <label id="Label2">Note2</label>
                         <div>
-                            <input id="Note2" class="form-control" />
+                            <input id="Note2" name="Note2" class="form-control" />
                         </div>
                     </div>
 
                     <div class="form-group ">
                         <label id="Label3">Note3</label>
                         <div>
-                            <input id="Note3" class="form-control" />
+                            <input id="Note3" name="Note3" class="form-control" />
                         </div>
                     </div>
 
@@ -160,24 +168,14 @@
                         @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             <input type="text" id="Date" name="Date" class="form-control" value='@Model.Date.ToString("yyyy/MM/dd")' required />
-                            @*@Html.EditorFor(model => model.Date)*@
-                            @*@Html.TextBoxFor(model => model.Date, new { @class = "form-control", @Value = Model??DateTime.Now.ToString("yyyy/MM/dd") })*@
+                       
                             @Html.ValidationMessageFor(model => model.Date)
 
                         </div>
 
 
                     </div>
-                    @*<div class="form-group">
-                        @Html.LabelFor(model => model.Note, new { @class = "control-label col-md-2" })
-                        <div class="col-md-10">
-                            @Html.TextBoxFor(model => model.Note, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Note)
-                        </div>
-
-
-                    </div>*@
-
+              
                     <div class="form-group">
 
                         <label class="col-md-2 control-label"></label>
@@ -321,8 +319,9 @@
                     <th>Id</th>
                     <th>IdQuiz</th>
                     <th>Name</th>
-                    <th>Note1</th>
-                    <th>Note2</th>
+                    <th>Note 1</th>
+                    <th>Note 2</th>
+                    <th>Note 3</th>
                     <th>Date Info</th>
                     <th>Amount</th>
                     <th>Qty</th>
@@ -351,6 +350,9 @@
                             </td>
                             <td>
                                 @Html.DisplayFor(i => a.Note2)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(i => a.Note3)
                             </td>
                             <td>
                                 @Html.DisplayFor(i => a.DateInfo)
@@ -404,20 +406,24 @@
         var log;
         var trActive;
 
+        var detailForm = $("#detail").validate();
+
+
         $("#Date").datepicker({
             dateFormat: "yy/mm/dd",
             onClose:
-                function (dateText, inst) {
+                function(dateText, inst) {
                     $(this).datepicker('option', 'dateFormat', 'yy/mm/dd');
                 }
         });
 
         $("#Quiz").selectpicker();
+        $("#Kendaraan").selectpicker();
 
         $("#DateInfo").datepicker({
             dateFormat: "yy/mm/dd",
             onClose:
-                function (dateText, inst) {
+                function(dateText, inst) {
                     $(this).datepicker('option', 'dateFormat', 'yy/mm/dd');
                 }
         });
@@ -427,7 +433,7 @@
         $("#Total").number(true, 0);
 
 
-        $("#btnConfirm").click(function () {
+        $("#btnConfirm").click(function() {
             log = $("#NoteLog").val();
 
             $("#ModalAddInfo").modal('hide');
@@ -474,14 +480,14 @@
                     "visible": false
                 },
                 {
-                    "targets": [7], //Qty
+                    "targets": [8], //Qty
                     "visible": false
                 }, {
-                    "targets": [8], //Subtotal 
+                    "targets": [9], //Subtotal 
                     "visible": false
                 },
                 {
-                    "targets": [9],
+                    "targets": [10],
                     "render": function(data, type, full, meta) {
                         return " <a href='#' class='editDetail'>Edit</a> | <a href='#' class='deleteDetail'>Delete</a>";
                     }
@@ -489,7 +495,6 @@
             ]
 
         });
-
 
 
         function showErrorInfo(error) {
@@ -502,36 +507,45 @@
 
         $("#addToTbl").click(function(e) {
             e.preventDefault();
-            if ($("#detail").valid()) {
+
+            if ($('#detail').valid()) {
 
                 var total = numeral().unformat($("#Total").text());
 
 
-
-                var subTotal = numeral().unformat($("#Amount").val())*numeral().unformat($("#Qty").val());
+                var subTotal = numeral().unformat($("#Amount").val()) * numeral().unformat($("#Qty").val());
                 total = total + subTotal;
 
-                if(trActive)
-                {
+                if (trActive) {
                     var trData = tbl.row(trActive).data();
                     total = total - numeral().unformat(trData[7]);
-                    tbl.row(trActive).remove().draw();
+
+                    var d = tbl.row(trActive);
+                    d.data([
+                        $("#regularDetailId").val(), $("#Quiz").val(), $("#Quiz option:selected").text(), $("#Note1").val(),
+                        $("#Note2").val(), $("#Note3").val(), $("#DateInfo").val(), numeral($("#Amount").val()).format('0,0'), numeral($("#Qty").val()).format('0,0'), numeral(subTotal).format('0,0')
+                    ]).draw();
+                    //tbl.row(trActive).remove().draw();
+                } else {
+                    tbl.row.add([
+                        $("#regularDetailId").val(), $("#Quiz").val(), $("#Quiz option:selected").text(), $("#Note1").val(),
+                        $("#Note2").val(), $("#Note3").val(), $("#DateInfo").val(), numeral($("#Amount").val()).format('0,0'), numeral($("#Qty").val()).format('0,0'), numeral(subTotal).format('0,0')
+                    ]).draw();
                 }
+
                 $("#Total").text(numeral(total).format('0,0'));
 
-                tbl.row.add([
-                     $("#regularDetailId").val(), $("#Quiz").val(), $("#Quiz option:selected").text(), $("#Note1").val(),
-                    $("#Note2").val(),$("#DateInfo").val(), numeral($("#Amount").val()).format('0,0'),numeral( $("#Qty").val()).format('0,0'), numeral(subTotal).format('0,0')
-                ]).draw();
+
                 $('[data-id="Quiz"]')[0].focus();
                 $("#Note1").val('');
                 $("#Note2").val('');
+                $("#Note3").val('');
                 $("#DateInfo").val('');
                 $("#Amount").val('');
                 $("#Qty").val('1');
                 $("#regularDetailId").val("0");
 
-                if(trActive)//edit mode
+                if (trActive) //edit mode
                 {
                     $("#myModal").modal('hide');
                 }
@@ -541,17 +555,17 @@
 
 
         $('#rowTable').on('click', '.editDetail', function() {
-            var tr=  $(this).closest('tr');
+            var tr = $(this).closest('tr');
             var rowData = tbl.row(tr).data();
             $("#Note1").val(rowData[3]);
             $("#Note2").val(rowData[4]);
-            $("#DateInfo").val(rowData[5]);
-            $("#Amount").val(rowData[6]);
-            $("#Qty").val(rowData[7]);
+            $("#Note3").val(rowData[5]);
+            $("#DateInfo").val(rowData[6]);
+            $("#Amount").val(rowData[7]);
+            $("#Qty").val(rowData[8]);
             $("#regularDetailId").val(rowData[0]);
             $("#Quiz").selectpicker('val', rowData[1]);
 
-            
 
             $('#myModal').modal('show');
             $("#addToTbl").html("Save");
@@ -559,15 +573,14 @@
         });
 
         $('#rowTable').on('click', '.deleteDetail', function() {
-            var tr=  $(this).closest('tr');
+            var tr = $(this).closest('tr');
             var rowData = tbl.row(tr).data();
 
             tbl.row(tr).remove().draw();
 
 
-
-            var total =  numeral().unformat($("#Total").val());
-            total = total - numeral().unformat(rowData[8]);
+            var total = numeral().unformat($("#Total").val());
+            total = total - numeral().unformat(rowData[9]);
             $("#Total").text(numeral(total).format('0,0'));
         });
 
@@ -585,25 +598,25 @@
             $("#Label2").text(element[0].label2);
             $("#Label3").text(element[0].label3);
 
-            if(element[0].requiredAll)
-            {
-                $("#Note1").prop("required", true);
-                $("#Note2").prop("required", true);
-                $("#Note3").prop("required", true);
+            if (element[0].requiredAll) {
+
+                $("#Note1").rules('add', 'required');
+                $("#Note2").rules('add', 'required');
+                $("#Note3").rules('add', 'required');
+
+            } else {
+                $("#Note1").rules('remove', 'required');
+                $("#Note2").rules('remove', 'required');
+                $("#Note3").rules('remove', 'required');
             }
-            else{
-                $("#Note1").prop("required", false);
-                $("#Note2").prop("required", false);
-                $("#Note3").prop("required", false);
-            }
+            detailForm.resetForm();
+
         });
 
 
-
-
-        //get cashflow
+//get cashflow
         function getCashFlow() {
-            var cashFlow = { "Id": 0, "Date": "", "Note": "","CostCenter":"", "TypeOut":"", "RegularDetails": [], "ImageDatas":[] };
+            var cashFlow = { "Id": 0, "Date": "", "Note": "", "CostCenter": "", "TypeOut": "", "RegularDetails": [], "ImageDatas": [] };
             // var regularDetail = { "Id": 0, "RegularQuidId": 0, "Note1": "", "Note2": "", "Amount": 0, "Qty": 0 };
             cashFlow.Id = $("#Id").val();
             cashFlow.Date = $("#Date").val();
@@ -613,21 +626,22 @@
             var datas = tbl.rows().data();
             for (var i = 0; i < datas.length; i++) {
                 var dt = datas[i];
-                var regularDetail = { "Id": 0, "QuizId": 0, "Note1": "", "Note2": "", "Amount": 0, "Qty": 1, "DateInfo":'' };
+                var regularDetail = { "Id": 0, "QuizId": 0, "Note1": "", "Note2": "", "Note3": "", "Amount": 0, "Qty": 1, "DateInfo": '' };
                 regularDetail.Id = dt[0];
                 regularDetail.QuizId = dt[1];
                 regularDetail.Note1 = dt[3];
                 regularDetail.Note2 = dt[4];
-                regularDetail.DateInfo = dt[5];
-                regularDetail.Amount = numeral().unformat(dt[6]);
-                regularDetail.Qty = numeral().unformat(dt[7]);
+                regularDetail.Note3 = dt[5];
+                regularDetail.DateInfo = dt[6];
+                regularDetail.Amount = numeral().unformat(dt[7]);
+                regularDetail.Qty = numeral().unformat(dt[8]);
                 cashFlow.RegularDetails.push(regularDetail);
             }
 
             $(".linksDiv").each(function(index, element) {
                 var imageDetail = { "Id": 0, "Info": '', "FileName": '' };
-                imageDetail.Id= $(this).attr('idDetailImage');
-                imageDetail.FileName=$(this).attr('fileName');
+                imageDetail.Id = $(this).attr('idDetailImage');
+                imageDetail.FileName = $(this).attr('fileName');
                 cashFlow.ImageDatas.push(imageDetail);
             });
 
@@ -669,16 +683,18 @@
                 $("#ModalAddInfo").modal('show');
             }
         });
-        $("#detail").validate();
 
-        $("#myModal").on('hide.bs.modal', function (e) {
+
+        $("#myModal").on('hide.bs.modal', function(e) {
             trActive = null;
             $("#Note1").val('');
             $("#Note2").val('');
+            $("#Note3").val('');
             $("#Amount").val('');
             $("#Qty").val('1');
             $("#DateInfo").val('');
             $("#regularDetailId").val("0");
+            detailForm.resetForm();
         });
 
         $("#myModal").on('show.bs.modal', function(e) {
@@ -689,24 +705,21 @@
 
         $('#fileupload').fileupload({
             dataType: 'json',
-            url: '@Url.Action("UploadFiles", "FileUpload")',//'/Home/UploadFiles',
+            url: '@Url.Action("UploadFiles", "FileUpload")', //'/Home/UploadFiles',
             autoUpload: true,
-            done: function (e, data) {
-                //$('.file_name').html(data.result.name);
-                //$('.file_type').html(data.result.type);
-                //$('.file_size').html(data.result.size);
+            done: function(e, data) {
+             
                 $("#progressPersen").text('');
 
                 AddDetailImage(data.result.name);
 
 
             },
-            fail:function(e, data)
-            {
+            fail: function(e, data) {
                 $("#progressPersen").text('');
                 alert(data.reponseText);
             }
-        }).on('fileuploadprogressall', function (e, data) {
+        }).on('fileuploadprogressall', function(e, data) {
             var progress = parseInt(data.loaded / data.total * 100, 10);
             $("#progressPersen").text(progress + '%');
 
@@ -718,7 +731,7 @@
             var parent = $(this).closest("div");
             $.ajax({
                 url: '@Url.Action("DeleteFile", "FileUpload")',
-                data: JSON.stringify({ fileName:parent.attr('fileName') }),
+                data: JSON.stringify({ fileName: parent.attr('fileName') }),
                 type: 'POST',
                 contentType: 'application/json;',
                 dataType: 'json',
@@ -734,35 +747,32 @@
             });
         });
 
-        function AddDetailImage(fileName)
-        {
+        function AddDetailImage(fileName) {
             var linksContainer = $("#links");
-            var div = $('<div/>').attr('fileName', fileName).attr('class','linksDiv').attr('idDetailImage','0');
+            var div = $('<div/>').attr('fileName', fileName).attr('class', 'linksDiv').attr('idDetailImage', '0');
 
             var a = $('<a/>').append($('<img>').attr('src', '@Url.Content("~/images/thumbnails/")' + fileName))
                 .attr('href', '@Url.Content("~/images/")' + fileName)
                 .attr('title', fileName)
                 .attr('data-gallery', '');
-            var button = $('<button/>').append($('<i/>').attr('class','fa fa-trash')).attr('class','linksButton button btn-danger').attr('type', 'button');
+            var button = $('<button/>').append($('<i/>').attr('class', 'fa fa-trash')).attr('class', 'linksButton button btn-danger').attr('type', 'button');
 
 
             div.append(a).append(button);
             div.appendTo(linksContainer);
 
 
-
         }
 
         //hide Dateinfo for regular
-       
+
         if ('@Model.TypeOut' == 'Regular') {
             $("#DateInfo").closest("div .form-group").hide();
-            tbl.column(5).visible(false);
-            
+            tbl.column(6).visible(false);
+
         }
         //hide Qty n subtotal
         $("#Qty").closest("div .form-group").hide();
-        
 
 
     </script>

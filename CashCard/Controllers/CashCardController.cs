@@ -41,8 +41,8 @@ namespace CashCard.Controllers
             var cash = new CashOut();
             cash.TypeOut = typeOut == null ? TypeOut.Regular : typeOut.Value;
             cash.CostCenter = userType == null ? CostCenter.Other : userType.Value;
-           
 
+            ViewBag.Kendaraan = new SelectList(db.Kendaraan, "NoKendaraan", "NoKendaraan");
 
             if (cash.TypeOut == TypeOut.Irregular)
             {
@@ -55,15 +55,13 @@ namespace CashCard.Controllers
             else
             {
                 var data = db.Quizs.Where(
-                            p => p.CostCenter == cash.CostCenter && p.QuizGroup.GroupType != GroupType.Irregularaties).ToList();
+                    p => p.CostCenter == cash.CostCenter && p.QuizGroup.GroupType != GroupType.Irregularaties);
 
                 ViewBag.Quiz = new SelectList(data, "Id", "Info");
                  
 
                 ViewBag.QuizInfo = from dt in data select new { dt.Id, label1 = dt.Note1Label, label2 = dt.Note2Label, label3 = dt.Note3Label, requiredAll = dt.RequiredAll };
-                    //from quiz in db.Quizs  join groups in db.RegularGroup on quiz.QuizGroupId equals groups.Id 
-                    //where quiz.CostCenter == cash.CostCenter && groups.GroupType!=GroupType.Irregularaties
-                    //               select new { quiz.Id, label1 = quiz.Note1Label, label2 = quiz.Note2Label, label3 = quiz.Note3Label, requiredAll = quiz.RequiredAll };
+                   
             }
 
             return View("CashOut", cash);
@@ -88,7 +86,7 @@ namespace CashCard.Controllers
             {
                 return HttpNotFound();
             }
-
+            ViewBag.Kendaraan = new SelectList(db.Kendaraan, "NoKendaraan", "NoKendaraan");
 
             var cashOutRegular = cash as CashOut;
             if (cashOutRegular != null)
@@ -105,12 +103,9 @@ namespace CashCard.Controllers
                     }
                     else
                     {
-                        ViewBag.Quiz = new SelectList(db.Quizs.Where(p => p.CostCenter == cashOutRegular.CostCenter),
-                            "Id",
-                            "Info");
-                        ViewBag.QuizInfo = from x in db.Quizs
-                            where x.CostCenter == cashOutRegular.CostCenter
-                            select new {x.Id, label1 = x.Note1Label, label2 = x.Note2Label};
+                        var data = db.Quizs.Where(p => p.CostCenter == cashOutRegular.CostCenter);
+                        ViewBag.Quiz = new SelectList(data, "Id", "Info");
+                        ViewBag.QuizInfo = from dt in data select new { dt.Id, label1 = dt.Note1Label, label2 = dt.Note2Label, label3 = dt.Note3Label, requiredAll = dt.RequiredAll };
                     }
                     return View("CashOut", cashOutRegular);
                 }
@@ -252,6 +247,9 @@ namespace CashCard.Controllers
                     detail.Quiz = null;
                     detail.Note1 = regDetail.Note1;
                     detail.Note2 = regDetail.Note2;
+                    detail.Note3 = regDetail.Note3;
+                    detail.DateInfo = regDetail.DateInfo;
+                    
                     detail.Qty = regDetail.Qty;
                     detail.Amount = regDetail.Amount;
                     detail.DateInfo = regDetail.DateInfo;
