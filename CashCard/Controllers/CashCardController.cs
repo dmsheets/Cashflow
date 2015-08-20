@@ -27,7 +27,7 @@ namespace CashCard.Controllers
             string userId = User.Identity.GetUserId();
             IQueryable<Models.CashCard> cashflows =
                 db.CashCards.Include(p => p.CutOff)
-                    .Where(p => p.UserId == userId && p.CutOff.State == StateCutOff.Start);
+                    .Where(p => p.UserId == userId && p.CutOff.State == StateCutOff.Open);
             var y = new SelectList(Enum.GetValues(typeof (CostCenter)));
             ViewBag.UserTypes = y;
 
@@ -140,7 +140,7 @@ namespace CashCard.Controllers
                 ApplicationUser xx = db.Users.Find(usr);
 
                 CutOff cutOff =
-                    db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start) ??
+                    db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Open) ??
                     SetCutOff(xx.BranchId.Value);
 
 
@@ -183,7 +183,7 @@ namespace CashCard.Controllers
                 ApplicationUser xx = db.Users.Find(usr);
 
                 CutOff cutOff =
-                    db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start) ??
+                    db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Open) ??
                     SetCutOff(xx.BranchId.Value);
 
 
@@ -315,7 +315,7 @@ namespace CashCard.Controllers
                 ApplicationUser xx = db.Users.Find(usr);
 
                 CutOff cutOff =
-                    db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start) ??
+                    db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Open) ??
                     SetCutOff(xx.BranchId.Value);
 
 
@@ -418,7 +418,7 @@ namespace CashCard.Controllers
                 ApplicationUser xx = db.Users.Find(usr);
 
                 CutOff cutOff =
-                    db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Start) ??
+                    db.CutOffs.FirstOrDefault(p => p.BranchId == xx.BranchId && p.State == StateCutOff.Open) ??
                     SetCutOff(xx.BranchId.Value);
 
                 if (cashIn.Id != 0)

@@ -26,11 +26,22 @@
         <dt>End Date</dt>
         <dd>@Html.DisplayFor(p => p.DateEnd)</dd>
         <dt>
-            @Html.DisplayNameFor(model => model.State)
+           Status
+           
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.State)
+            @switch (@Model.State)
+            {
+                case StateCutOff.Close:
+                    <span class="label label-success">Close</span>
+                    break;
+                case StateCutOff.Open:
+                <span class="label label-warning">Open</span>
+                    break;
+
+
+            }
         </dd>
 
 
@@ -53,7 +64,7 @@
 
        
         <dd>
-            @if (Model.State == StateCutOff.Start)
+            @if (Model.State == StateCutOff.Open)
             {
                 <input id="btnCutOff" type="button" value="Cut Off!" class="btn btn-danger " />
             }

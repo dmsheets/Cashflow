@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CashCard.Models.CutOff>
+﻿@using CashCard.Models
+@model IEnumerable<CutOff>
 
 @{
     ViewBag.Title = "Index";
@@ -41,7 +42,18 @@
                     @Html.DisplayFor(modelItem => item.Branch.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.State)
+                    @switch (item.State)
+                    {
+                        case StateCutOff.Close:
+                            <span class="label label-success">Close</span>
+                            break;
+                        case StateCutOff.Open:
+                        <span class="label label-warning">Open</span>
+                            break;
+                        
+                        
+                    }
+                    
                 </td>
 
                 <td>

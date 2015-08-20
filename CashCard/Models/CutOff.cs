@@ -32,9 +32,9 @@ namespace CashCard.Models
 
         public void SetEndState()
         {
-            if (State == StateCutOff.End)
+            if (State == StateCutOff.Close)
                 throw new Exception("This date had been Closed");
-            State = StateCutOff.End;
+            State = StateCutOff.Close;
             DateEnd = DateTime.Now;
         }
         public void SetEndBallance()
