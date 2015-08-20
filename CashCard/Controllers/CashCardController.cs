@@ -42,7 +42,7 @@ namespace CashCard.Controllers
             cash.TypeOut = typeOut == null ? TypeOut.Regular : typeOut.Value;
             cash.CostCenter = userType == null ? CostCenter.Other : userType.Value;
 
-            ViewBag.Kendaraan = new SelectList(db.Kendaraan, "NoKendaraan", "NoKendaraan");
+            ViewBag.Kendaraan = db.Kendaraan.Select(p => p.NoKendaraan).ToList();
 
             if (cash.TypeOut == TypeOut.Irregular)
             {
@@ -88,7 +88,7 @@ namespace CashCard.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.Kendaraan = new SelectList(db.Kendaraan, "NoKendaraan", "NoKendaraan");
+            ViewBag.Kendaraan = db.Kendaraan.Select(p => p.NoKendaraan).ToList();
 
             var cashOutRegular = cash as CashOut;
             if (cashOutRegular != null)

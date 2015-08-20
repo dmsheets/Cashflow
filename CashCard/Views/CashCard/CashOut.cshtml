@@ -70,20 +70,13 @@
                         </div>
 
                     </div>
-                    
-                    <div class="form-group">
-                        <label>Kendaraan</label>
-                        <div>
-                            @Html.DropDownList("Kendaraan", (SelectList)ViewBag.Kendaraan, new { @class = "form-control", data_live_search = "true"})
-                        </div>
 
-                    </div>
-
+                
 
                     <div class="form-group">
                         <label id="Label1">Note1</label>
                         <div>
-                            <input id="Note1" name="Note1" class="form-control" />
+                            <input id="Note1" name="Note1" class="form-control" data-provide="typeahead" />
                         </div>
                     </div>
 
@@ -168,14 +161,14 @@
                         @Html.LabelFor(model => model.Date, new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
                             <input type="text" id="Date" name="Date" class="form-control" value='@Model.Date.ToString("yyyy/MM/dd")' required />
-                       
+
                             @Html.ValidationMessageFor(model => model.Date)
 
                         </div>
 
 
                     </div>
-              
+
                     <div class="form-group">
 
                         <label class="col-md-2 control-label"></label>
@@ -397,7 +390,7 @@
     @Scripts.Render("~/bundles/jquerynumber")
     @Scripts.Render("~/bundles/numeral")
     @Scripts.Render("~/bundles/fileupload")
-
+    <script src="~/Scripts/bootstrap3-typeahead.min.js"></script>
 
 
 
@@ -407,6 +400,7 @@
         var trActive;
 
         var data = @Html.Raw(Json.Encode(ViewBag.QuizInfo));
+        var dtKendaraan = @Html.Raw(Json.Encode(ViewBag.Kendaraan));
 
         var detailForm = $("#detail").validate();
 
@@ -487,7 +481,7 @@
                     "targets": [8], //Qty
                     "visible": false
                 }, {
-                    "targets": [9], //Subtotal 
+                    "targets": [9], //Subtotal
                     "visible": false
                 },
                 {
@@ -590,15 +584,25 @@
         });
 
 
-      
+
 
 
         function evenchangeCombo() {
             var selected = $('#Quiz').find("option:selected").val();
+            var text = $('#Quiz').find("option:selected").text();
+
+            if (text.toLowerCase().indexOf('bensin') >= 0) {
+                $("#Note1").typeahead({ source: dtKendaraan });
+            } else {
+                $('#Note1').typeahead('destroy');
+            }
 
             var element = $.grep(data, function(e) { return e.Id == selected; });
 
             //$("#info").html(element[0].Info);
+            if (!element[0])
+                return;
+
             $("#Label1").text(element[0].label1);
             $("#Label2").text(element[0].label2);
             $("#Label3").text(element[0].label3);
@@ -622,10 +626,10 @@
         });
 
 
-//get cashflow
+
         function getCashFlow() {
             var cashFlow = { "Id": 0, "Date": "", "Note": "", "CostCenter": "", "TypeOut": "", "RegularDetails": [], "ImageDatas": [] };
-            // var regularDetail = { "Id": 0, "RegularQuidId": 0, "Note1": "", "Note2": "", "Amount": 0, "Qty": 0 };
+
             cashFlow.Id = $("#Id").val();
             cashFlow.Date = $("#Date").val();
             cashFlow.Note = $("#Note").val();
@@ -716,7 +720,7 @@
             url: '@Url.Action("UploadFiles", "FileUpload")', //'/Home/UploadFiles',
             autoUpload: true,
             done: function(e, data) {
-             
+
                 $("#progressPersen").text('');
 
                 AddDetailImage(data.result.name);
@@ -784,6 +788,6 @@
 
 
     </script>
- 
+
 
 }

@@ -216,6 +216,8 @@
     <Content Include="Content\bootstrap-rtl.min.css" />
     <Content Include="Content\bootstrap-select.css" />
     <Content Include="Content\bootstrap-select.min.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\DataTables\css\dataTables.autoFill.css" />
@@ -359,11 +361,15 @@
     <Content Include="Content\img\error.svg" />
     <Content Include="Content\img\play-pause.svg" />
     <Content Include="Content\img\video-play.svg" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\tofile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\bootstrap3-typeahead.js" />
+    <Content Include="Scripts\bootstrap3-typeahead.min.js" />
     <Content Include="Scripts\DataTables\dataTables.autoFill.js" />
     <Content Include="Scripts\DataTables\dataTables.autoFill.min.js" />
     <Content Include="Scripts\DataTables\dataTables.bootstrap.js" />
