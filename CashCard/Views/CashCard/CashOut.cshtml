@@ -66,7 +66,7 @@
                     <div class="form-group">
                         <label>Name</label>
                         <div>
-                            @Html.DropDownList("Quiz", (SelectList)ViewBag.Quiz, new { @class = "form-control", data_live_search = "true" })
+                            @Html.DropDownList("Quiz", (SelectList)ViewBag.Quiz, new { @class = "form-control", data_live_search = "true", required = true })
                         </div>
 
                     </div>
@@ -74,7 +74,7 @@
                     <div class="form-group">
                         <label>Kendaraan</label>
                         <div>
-                            @Html.DropDownList("Kendaraan", (SelectList)ViewBag.Kendaraan, new { @class = "form-control", data_live_search = "true" })
+                            @Html.DropDownList("Kendaraan", (SelectList)ViewBag.Kendaraan, new { @class = "form-control", data_live_search = "true"})
                         </div>
 
                     </div>
@@ -406,6 +406,8 @@
         var log;
         var trActive;
 
+        var data = @Html.Raw(Json.Encode(ViewBag.QuizInfo));
+
         var detailForm = $("#detail").validate();
 
 
@@ -432,6 +434,8 @@
         $("#Amount").number(true, 0);
         $("#Total").number(true, 0);
 
+
+        evenchangeCombo();
 
         $("#btnConfirm").click(function() {
             log = $("#NoteLog").val();
@@ -565,6 +569,7 @@
             $("#Qty").val(rowData[8]);
             $("#regularDetailId").val(rowData[0]);
             $("#Quiz").selectpicker('val', rowData[1]);
+            evenchangeCombo();
 
 
             $('#myModal').modal('show');
@@ -585,11 +590,11 @@
         });
 
 
-        var data = @Html.Raw(Json.Encode(ViewBag.QuizInfo));
+      
 
 
-        $("#Quiz").change(function() {
-            var selected = $(this).find("option:selected").val();
+        function evenchangeCombo() {
+            var selected = $('#Quiz').find("option:selected").val();
 
             var element = $.grep(data, function(e) { return e.Id == selected; });
 
@@ -610,7 +615,10 @@
                 $("#Note3").rules('remove', 'required');
             }
             detailForm.resetForm();
+        }
 
+        $("#Quiz").change(function() {
+            evenchangeCombo();
         });
 
 

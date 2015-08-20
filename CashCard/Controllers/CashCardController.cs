@@ -46,7 +46,8 @@ namespace CashCard.Controllers
 
             if (cash.TypeOut == TypeOut.Irregular)
             {
-                var data = db.Quizs.Where(p => p.QuizGroup.GroupType == GroupType.Irregularaties);
+                var data = db.Quizs.Where(p => p.QuizGroup.GroupType == GroupType.Irregularaties).ToList();
+                //data.Insert(0, new Quiz());
                 ViewBag.Quiz =new SelectList(data, "Id", "Info");
                    
                 ViewBag.QuizInfo = from dt in data select new { dt.Id, label1 = dt.Note1Label, label2 = dt.Note2Label, label3 = dt.Note3Label, requiredAll = dt.RequiredAll };
@@ -55,7 +56,8 @@ namespace CashCard.Controllers
             else
             {
                 var data = db.Quizs.Where(
-                    p => p.CostCenter == cash.CostCenter && p.QuizGroup.GroupType != GroupType.Irregularaties);
+                    p => p.CostCenter == cash.CostCenter && p.QuizGroup.GroupType != GroupType.Irregularaties).ToList();
+               // data.Insert(0, new Quiz());
 
                 ViewBag.Quiz = new SelectList(data, "Id", "Info");
                  
@@ -95,7 +97,8 @@ namespace CashCard.Controllers
                 {
                     if (cashOutRegular.TypeOut == TypeOut.Irregular)
                     {
-                        var data = db.Quizs.Where(p => p.QuizGroup.GroupType == GroupType.Irregularaties);
+                        var data = db.Quizs.Where(p => p.QuizGroup.GroupType == GroupType.Irregularaties).ToList();
+                        //data.Insert(0, new Quiz());
                         ViewBag.Quiz = new SelectList(data, "Id", "Info");
                      
                         ViewBag.QuizInfo = from dt in data select new { dt.Id, label1 = dt.Note1Label, label2 = dt.Note2Label, label3 = dt.Note3Label, requiredAll = dt.RequiredAll };
@@ -103,7 +106,8 @@ namespace CashCard.Controllers
                     }
                     else
                     {
-                        var data = db.Quizs.Where(p => p.CostCenter == cashOutRegular.CostCenter);
+                        var data = db.Quizs.Where(p => p.CostCenter == cashOutRegular.CostCenter).ToList();
+                        //data.Insert(0, new Quiz());
                         ViewBag.Quiz = new SelectList(data, "Id", "Info");
                         ViewBag.QuizInfo = from dt in data select new { dt.Id, label1 = dt.Note1Label, label2 = dt.Note2Label, label3 = dt.Note3Label, requiredAll = dt.RequiredAll };
                     }
