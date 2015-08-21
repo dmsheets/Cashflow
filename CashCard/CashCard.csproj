@@ -194,6 +194,7 @@
     <Compile Include="Models\DataTablesJson.cs" />
     <Compile Include="Models\GroupType.cs" />
     <Compile Include="Models\CashOutDetail.cs" />
+    <Compile Include="Models\Kendaraan.cs" />
     <Compile Include="Models\Quiz.cs" />
     <Compile Include="Models\QuizGroup.cs" />
     <Compile Include="Models\CostCenter.cs" />

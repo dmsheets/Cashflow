@@ -76,7 +76,10 @@
                     <div class="form-group">
                         <label id="Label1">Note1</label>
                         <div>
-                            <input id="Note1" name="Note1" class="form-control" data-provide="typeahead" />
+                            <input id="Note1" name="Note1" class="form-control" />
+                            <div id="divKendaraan">
+                            @Html.DropDownList("Kendaraan", (SelectList)ViewBag.Kendaraan, new { @class = "form-control", data_live_search = "true", required = true })
+                            </div>
                         </div>
                     </div>
 
@@ -506,6 +509,15 @@
         $("#addToTbl").click(function(e) {
             e.preventDefault();
 
+            //check bensin apa bukan
+            var text = $('#Quiz').find("option:selected").text();
+            var note1 = '';
+            if (text.toLowerCase().indexOf('bensin') >= 0) {
+                note1 = $("#Kendaraan").val();
+            } else {
+                note1 = $("#Note1").val();
+            }
+
             if ($('#detail').valid()) {
 
                 var total = numeral().unformat($("#Total").text());
@@ -520,13 +532,13 @@
 
                     var d = tbl.row(trActive);
                     d.data([
-                        $("#regularDetailId").val(), $("#Quiz").val(), $("#Quiz option:selected").text(), $("#Note1").val(),
+                        $("#regularDetailId").val(), $("#Quiz").val(), $("#Quiz option:selected").text(), note1,
                         $("#Note2").val(), $("#Note3").val(), $("#DateInfo").val(), numeral($("#Amount").val()).format('0,0'), numeral($("#Qty").val()).format('0,0'), numeral(subTotal).format('0,0')
                     ]).draw();
-                    //tbl.row(trActive).remove().draw();
+
                 } else {
                     tbl.row.add([
-                        $("#regularDetailId").val(), $("#Quiz").val(), $("#Quiz option:selected").text(), $("#Note1").val(),
+                        $("#regularDetailId").val(), $("#Quiz").val(), $("#Quiz option:selected").text(), note1,
                         $("#Note2").val(), $("#Note3").val(), $("#DateInfo").val(), numeral($("#Amount").val()).format('0,0'), numeral($("#Qty").val()).format('0,0'), numeral(subTotal).format('0,0')
                     ]).draw();
                 }
@@ -555,7 +567,7 @@
         $('#rowTable').on('click', '.editDetail', function() {
             var tr = $(this).closest('tr');
             var rowData = tbl.row(tr).data();
-            $("#Note1").val(rowData[3]);
+            
             $("#Note2").val(rowData[4]);
             $("#Note3").val(rowData[5]);
             $("#DateInfo").val(rowData[6]);
@@ -563,6 +575,17 @@
             $("#Qty").val(rowData[8]);
             $("#regularDetailId").val(rowData[0]);
             $("#Quiz").selectpicker('val', rowData[1]);
+
+           
+            if (rowData[2].toLowerCase().indexOf('bensin') >= 0) {
+                $("#Kendaraan").selectpicker('val', rowData[3]);
+                
+            } else {
+                $("#Note1").val(rowData[3]);
+            }
+
+
+
             evenchangeCombo();
 
 
@@ -584,18 +607,10 @@
         });
 
 
-
-
-
         function evenchangeCombo() {
             var selected = $('#Quiz').find("option:selected").val();
             var text = $('#Quiz').find("option:selected").text();
 
-            if (text.toLowerCase().indexOf('bensin') >= 0) {
-                $("#Note1").typeahead({ source: dtKendaraan });
-            } else {
-                $('#Note1').typeahead('destroy');
-            }
 
             var element = $.grep(data, function(e) { return e.Id == selected; });
 
@@ -619,12 +634,22 @@
                 $("#Note3").rules('remove', 'required');
             }
             detailForm.resetForm();
+
+            if (text.toLowerCase().indexOf('bensin') >= 0) {
+
+                $("#Note1").hide();
+                $("#divKendaraan").show();
+
+            } else {
+                $("#Note1").show();
+                $("#divKendaraan").hide();
+
+            }
         }
 
         $("#Quiz").change(function() {
             evenchangeCombo();
         });
-
 
 
         function getCashFlow() {

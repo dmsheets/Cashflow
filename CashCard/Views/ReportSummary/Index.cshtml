@@ -103,7 +103,7 @@
                     <th>
                         Info
                     </th>
-                    <th>
+                    <th >
                         Total
                     </th>
 
@@ -184,38 +184,35 @@
         });
 
         var tbl3 = $("#tbl3").DataTable(
-       {
-           "lengthChange": false,
-           "searching": false,
-           "ordering": false,
-           "paging": false,
-           "info": false,
-           "processing": true,
-           "serverSide": true,
-           "ajax": {
-               "url": '@Url.Action("FindData3")',
-               "data": function (d) {
-                   d.startDate = $("#startDt").val();
-                   d.endDate = $("#endDt").val();
+        {
+            "lengthChange": false,
+            "searching": false,
+            "ordering": false,
+            "paging": false,
+            "info": false,
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": '@Url.Action("FindData3")',
+                "data": function(d) {
+                    d.startDate = $("#startDt").val();
+                    d.endDate = $("#endDt").val();
 
-               }
-           },
-           "dom": 'T<"clear">lfrtip',
-           "tableTools": {
-               "sSwfPath": pathToSWF
-           }
+                }
+            },
+            "dom": 'T<"clear">lfrtip',
+            "tableTools": {
+                "sSwfPath": pathToSWF
+            }
 
-       });
+        });
         $("#btnSearch").click(function() {
             tbl2.ajax.reload();
             tbl1.ajax.reload();
             tbl3.ajax.reload();
         });
 
-        //$(".table").on("click", ".rpt", function (e) {
-        //    e.preventDefault();
-        //    $("#modalx").modal('show');
-        //});
+      
     </script>
 }
 
