@@ -331,6 +331,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Content\DataTables\css\dataTables.responsive.scss" />
     <Content Include="Content\DataTables\css\dataTables.jqueryui.scss" />
+    <Content Include="images\thumbnails\635745657111593867_photo1_0_8.jpg" />
     <Content Include="Scripts\blueimp\blueimp-gallery-fullscreen.js" />
     <Content Include="Scripts\blueimp\blueimp-gallery-indicator.js" />
     <Content Include="Scripts\blueimp\blueimp-gallery-video.js" />
@@ -547,7 +548,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="images\thumbnails\" />
     <Folder Include="Views\FileUpload\" />
   </ItemGroup>
   <ItemGroup>
