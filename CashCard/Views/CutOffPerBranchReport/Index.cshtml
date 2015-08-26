@@ -93,8 +93,10 @@
                 }
             },
             "columnDefs": [
-                {"render":function(data, type, row) {
-                    return "<a class='rpt' idCutoff='" + data + "' href='/CutOffPerBranchReport/GetReport/" + data + "'>Report</a>";
+                {
+                    "render": function (data, type, row) {
+                        var dt = window.location.origin;
+                    return "<a class='rpt' idCutoff='" + data + "' href='" + dt + "/CutOffPerBranchReport/GetReport/" + data + "'>Report</a>";
                     },
                 "targets":5}
             ]

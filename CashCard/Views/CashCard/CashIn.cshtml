@@ -347,29 +347,33 @@
             e.preventDefault();
             if ($("#detail").valid()) {
 
-                var total = numeral().unformat($("#Total").val());
+                var total = numeral().unformat($("#Total").text());
              
 
 
                 var subTotal = numeral().unformat($("#Amount").val());
                 total = total + subTotal;
                 //minus trActive 
-                if (trActive)
-                {
+                if (trActive) {
                     var trData = tbl.row(trActive).data();
                     total = total - numeral().unformat(trData[2]);
-                  
-                    tbl.row(trActive).remove().draw();
-                   
+
+                    var d = tbl.row(trActive);
+                    d.data([
+                        $("#cashInDetailId").val(), $("#Note2").val(), numeral($("#Amount").val()).format('0,0')
+                    ]).draw();
+
+
+                } else {
+                    tbl.row.add([
+                   $("#cashInDetailId").val(), $("#Note2").val(), numeral($("#Amount").val()).format('0,0')
+                    ]).draw();
                 }
                
-                $("#Total").val(total);
+             
+                $("#Total").text(numeral(total).format('0,0'));
 
-              
-
-                tbl.row.add([
-                    $("#cashInDetailId").val(), $("#Note2").val(), numeral($("#Amount").val()).format('0,0')
-                ]).draw();
+               
 
                 $('#Note2').focus();
                 $("#Note2").val('');
