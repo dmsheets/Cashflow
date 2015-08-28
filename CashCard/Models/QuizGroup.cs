@@ -8,7 +8,7 @@ namespace CashCard.Models
         public int Id { get; set; }
         [Required]
         [Remote("CheckName", "RegularGroup")]
-        [Display(Name = "Account")]
+        [Display(Name = "GL Account")]
         public string AccountNo { get; set; }
         [Required]
         [Display(Name = "Description")]

@@ -509,7 +509,7 @@
         $("#addToTbl").click(function(e) {
             e.preventDefault();
 
-            //check bensin apa bukan
+            /*case khusus bensin*/
             var text = $('#Quiz').find("option:selected").text();
             var note1 = '';
             if (text.toLowerCase().indexOf('bensin') >= 0) {
@@ -548,12 +548,22 @@
 
                 $('[data-id="Quiz"]')[0].focus();
                 $("#Note1").val('');
-                $("#Note2").val('');
-                $("#Note3").val('');
-                $("#DateInfo").val('');
-                $("#Amount").val('');
+                
                 $("#Qty").val('1');
-                $("#regularDetailId").val("0");
+                $("#regularDetailId").val("0");  
+                $("#Amount").val('');
+
+                /*case khusus untuk refund*/
+                if (text.toLowerCase().indexOf('refund') >= 0) {
+                   //data note 2, note3, DateInfo dipertahankan  (tidak dihapus)
+                } else {
+                    $("#Note2").val('');
+                    $("#Note3").val('');
+                    $("#DateInfo").val('');
+                  
+                }
+
+
 
                 if (trActive) //edit mode
                 {
@@ -567,7 +577,7 @@
         $('#rowTable').on('click', '.editDetail', function() {
             var tr = $(this).closest('tr');
             var rowData = tbl.row(tr).data();
-            
+
             $("#Note2").val(rowData[4]);
             $("#Note3").val(rowData[5]);
             $("#DateInfo").val(rowData[6]);
@@ -576,14 +586,13 @@
             $("#regularDetailId").val(rowData[0]);
             $("#Quiz").selectpicker('val', rowData[1]);
 
-           
+
             if (rowData[2].toLowerCase().indexOf('bensin') >= 0) {
                 $("#Kendaraan").selectpicker('val', rowData[3]);
-                
+
             } else {
                 $("#Note1").val(rowData[3]);
             }
-
 
 
             evenchangeCombo();

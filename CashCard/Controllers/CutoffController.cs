@@ -31,7 +31,14 @@ namespace CashCard.Controllers
                 db.CutOffs.Include(c => c.Branch).Include(p=>p.CashCards)
                     .Where(p => p.State == StateCutOff.Open || (startDate <= p.DateStart && p.DateStart <= endDate));
             var list = cutoffs.ToList();
-            cutoffs.ForEach(p=>p.SetEndBallance());
+            foreach (var p in list)
+            {
+                if (p.State == StateCutOff.Open)
+                {
+                    p.SetEndBallance();
+                }
+            }
+        
             return View(list);
         }
 
@@ -87,16 +94,16 @@ namespace CashCard.Controllers
                     cutOff.CashCards.Count(p => !(p.State == StateCashCard.Reject || p.State == StateCashCard.Approve));
                 if (count > 0)
                 {
-                    throw new Exception("Make sure all Cash flow have been validated as Approve or Reject");
+                    throw new Exception("Make sure all Cash card have been validated as Approve or Reject");
                 }
 
-                if (cutOff.State == StateCutOff.Close)
+                if (cutOff.State == StateCutOff.Open)
                 {
-                    
+                    cutOff.SetEndBallance();
+                    cutOff.SetEndState();
                 }
-                cutOff.SetEndBallance();
-               cutOff.SetEndState();
-                
+
+
                 db.SaveChanges();
               
               

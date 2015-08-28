@@ -8,6 +8,32 @@
 
 <h2>Details</h2>
 
+
+<!--Confirm Dialog-->
+<!-- Modal -->
+<div class="modal fade" id="modalConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Confirm</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group ">
+                    Are you sure?
+                </div>
+                    <div class="form-group ">
+                        <button type="button" id="btnConfirmOk" class="btn btn-primary">Confirm</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+               
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div>
     @Html.HiddenFor(p=>p.Id)
     <h4>CutOff</h4>
@@ -21,9 +47,9 @@
             @Html.DisplayFor(model => model.Branch.Name)
         </dd>
         
-        <dt>Start Date</dt>
+        <dt>Start Transaction Date</dt>
         <dd>@Html.DisplayFor(p=>p.DateStart)</dd>
-        <dt>End Date</dt>
+        <dt>End Transaction Date</dt>
         <dd>@Html.DisplayFor(p => p.DateEnd)</dd>
         <dt>
            Status
@@ -230,15 +256,24 @@
             dialog.dialog("open");
 
         }
-        $("#btnCutOff").click(function () {
+        $("#btnCutOff").click(function (e) {
+            $('#modalConfirm').modal('show');
+           
+         
+         
+        });
+
+        $("#btnConfirmOk").click(function (e) {
+            $('#modalConfirm').modal('hide');
             var id = $("#Id").val();
+
             $.ajax({
                 url: '@Url.Action("CutOff")',
-                data: JSON.stringify({Id: id}),
+                data: JSON.stringify({ Id: id }),
                 type: 'POST',
                 contentType: 'application/json;',
                 dataType: 'json',
-                success: function (result) {
+                success: function(result) {
 
                     if (result.Success == "1") {
                         window.location.href = '@Url.Action("index")';
