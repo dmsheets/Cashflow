@@ -42,7 +42,7 @@ namespace CashCard.Models
             int total = PreviousBallance;
             foreach (var c in CashCards)
             {
-                if (c.State == StateCashCard.Approve)
+                if (c.State != StateCashCard.Reject)
                 {
                     if (c is CashIn)
                         total += c.Total;

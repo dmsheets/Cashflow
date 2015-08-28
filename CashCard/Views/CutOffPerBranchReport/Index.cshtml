@@ -85,7 +85,7 @@
             "serverSide": true,
             "ajax": {
                 "url": '@Url.Action("FindData")',
-                "data": function (d) {
+                "data": function(d) {
                     d.startDate = $("#startDt").val();
                     d.endDate = $("#endDt").val();
                     d.BranchId = $("#Branch").val();
@@ -94,11 +94,23 @@
             },
             "columnDefs": [
                 {
-                    "render": function (data, type, row) {
-                        var dt = window.location.origin;
-                    return "<a class='rpt' idCutoff='" + data + "' href='" + dt + "/CutOffPerBranchReport/GetReport/" + data + "'>Report</a>";
+                    "render": function(data, type, row) {
+                        if (data == 'Close')
+                            return "<span class='label label-success'>Close</span>";
+
+                        return "<span class='label label-warning'>Open</span>";
+
+
                     },
-                "targets":5}
+                    "targets": 1
+                },
+                {
+                    "render": function(data, type, row) {
+                       
+                        return "<a class='rpt' idCutoff='" + data + "' href='GetReport/" + data + "'>Report</a>";
+                    },
+                    "targets": 5
+                }
             ]
         });
         $("#btnSearch").click(function () {
@@ -107,5 +119,6 @@
 
      
     </script>
+
 }
 
