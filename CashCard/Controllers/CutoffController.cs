@@ -25,11 +25,11 @@ namespace CashCard.Controllers
         public ActionResult Index()
         {
             var now = DateTime.Now.Date;
-            var startDate = new DateTime(now.Year, now.Month, 1);
-            var endDate = new DateTime(now.Year, now.Month + 1, 1);
+            var startDate = DateTime.Now.AddMonths(-2); //new DateTime(now.Year, now.Month, 1);
+            //var endDate = new DateTime(now.Year, now.Month + 1, 1);
             var cutoffs =
-                db.CutOffs.Include(c => c.Branch).Include(p=>p.CashCards)
-                    .Where(p => p.State == StateCutOff.Open || (startDate <= p.DateStart && p.DateStart <= endDate));
+                db.CutOffs.Include(c => c.Branch).Include(p => p.CashCards)
+                    .Where(p => startDate <= p.DateStart).OrderByDescending(p => p.Id);
             var list = cutoffs.ToList();
             foreach (var p in list)
             {
