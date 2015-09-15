@@ -24,12 +24,12 @@ namespace CashCard.Controllers
         // GET: /Cutoff/
         public ActionResult Index()
         {
-            var now = DateTime.Now.Date;
-            var startDate = DateTime.Now.AddMonths(-2); //new DateTime(now.Year, now.Month, 1);
-            //var endDate = new DateTime(now.Year, now.Month + 1, 1);
+            
+            var dt = DateTime.Now.AddMonths(-2); 
+           
             var cutoffs =
                 db.CutOffs.Include(c => c.Branch).Include(p => p.CashCards)
-                    .Where(p => startDate <= p.DateStart).OrderByDescending(p => p.Id);
+                    .Where(p => dt <= p.DateEnd || p.State == StateCutOff.Open).OrderByDescending(p => p.Id);
             var list = cutoffs.ToList();
             foreach (var p in list)
             {
